@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Fundamentos de la minería de datos – Minería de Datos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-43634426a2b20f70ebab780d1f5449e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7ad11678a5bbd983cb93c979fd3d6443.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="1&nbsp; Fundamentos de la minería de datos – Minería de Datos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://example.com/fig/dks.png">
+<meta name="twitter:image-height" content="768">
+<meta name="twitter:image-width" content="1408">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = true;
+    const darkModeDefault = authorPrefersDark;
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./fundamentos.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/data_mining/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Minería-de-Datos.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I: Introducción y Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#qué-es-la-minería-de-datos" id="toc-qué-es-la-minería-de-datos" class="nav-link active" data-scroll-target="#qué-es-la-minería-de-datos"><span class="header-section-number">1.1</span> Qué es la minería de datos</a>
+  <ul class="collapse">
+  <li><a href="#discusión-epistemológica-el-nuevo-inductivismo" id="toc-discusión-epistemológica-el-nuevo-inductivismo" class="nav-link" data-scroll-target="#discusión-epistemológica-el-nuevo-inductivismo"><span class="header-section-number">1.1.1</span> Discusión Epistemológica: El Nuevo Inductivismo</a></li>
+  </ul></li>
+  <li><a href="#flujos-de-trabajo" id="toc-flujos-de-trabajo" class="nav-link" data-scroll-target="#flujos-de-trabajo"><span class="header-section-number">1.2</span> Flujos de trabajo</a>
+  <ul class="collapse">
+  <li><a href="#kdd-knowledge-discovery-in-databases" id="toc-kdd-knowledge-discovery-in-databases" class="nav-link" data-scroll-target="#kdd-knowledge-discovery-in-databases"><span class="header-section-number">1.2.1</span> KDD (Knowledge Discovery in Databases)</a></li>
+  <li><a href="#crisp-dm-cross-industry-standard-process-for-data-mining" id="toc-crisp-dm-cross-industry-standard-process-for-data-mining" class="nav-link" data-scroll-target="#crisp-dm-cross-industry-standard-process-for-data-mining"><span class="header-section-number">1.2.2</span> CRISP-DM (Cross-Industry Standard Process for Data Mining)</a></li>
+  <li><a href="#semma" id="toc-semma" class="nav-link" data-scroll-target="#semma"><span class="header-section-number">1.2.3</span> SEMMA</a></li>
+  <li><a href="#osemn" id="toc-osemn" class="nav-link" data-scroll-target="#osemn"><span class="header-section-number">1.2.4</span> OSEMN</a></li>
+  </ul></li>
+  <li><a href="#analítica-de-datos" id="toc-analítica-de-datos" class="nav-link" data-scroll-target="#analítica-de-datos"><span class="header-section-number">1.3</span> Analítica de datos</a></li>
+  <li><a href="#conceptos-clave-y-estructura-de-datos" id="toc-conceptos-clave-y-estructura-de-datos" class="nav-link" data-scroll-target="#conceptos-clave-y-estructura-de-datos"><span class="header-section-number">1.4</span> Conceptos clave y estructura de datos</a>
+  <ul class="collapse">
+  <li><a href="#estructura-de-la-información" id="toc-estructura-de-la-información" class="nav-link" data-scroll-target="#estructura-de-la-información"><span class="header-section-number">1.4.1</span> Estructura de la Información</a></li>
+  </ul></li>
+  <li><a href="#el-bosque-analítico-visión-holística-de-los-modelos" id="toc-el-bosque-analítico-visión-holística-de-los-modelos" class="nav-link" data-scroll-target="#el-bosque-analítico-visión-holística-de-los-modelos"><span class="header-section-number">1.5</span> El “Bosque Analítico”: Visión Holística de los Modelos</a>
+  <ul class="collapse">
+  <li><a href="#aprendizaje-supervisado-modelos-predictivos" id="toc-aprendizaje-supervisado-modelos-predictivos" class="nav-link" data-scroll-target="#aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.5.1</span> 1. Aprendizaje Supervisado (Modelos Predictivos)</a></li>
+  <li><a href="#aprendizaje-no-supervisado-modelos-descriptivos" id="toc-aprendizaje-no-supervisado-modelos-descriptivos" class="nav-link" data-scroll-target="#aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.5.2</span> 2. Aprendizaje No Supervisado (Modelos Descriptivos)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./fundamentos.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="qué-es-la-minería-de-datos" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="qué-es-la-minería-de-datos"><span class="header-section-number">1.1</span> Qué es la minería de datos</h2>
+<p>La minería de datos (MD) es el proceso de analizar conjuntos de datos, a menudo de gran volumen, para encontrar <strong>relaciones insospechadas</strong> y resumir la información de formas novedosas, comprensibles y útiles para el propietario de los datos. En el ecosistema empresarial, se utiliza el aforismo de que <strong>“los datos son el nuevo oro”</strong>. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.</p>
+<p>A diferencia de la estadística tradicional que a menudo busca confirmar hipótesis predefinidas, la minería de datos es <strong>exploratoria</strong> por naturaleza; busca descubrir patrones que el analista no sabía que existían. El éxito en esta disciplina no solo requiere habilidades técnicas, sino también creatividad, rigor en la experimentación y, sobre todo, mucha paciencia para interactuar con otras áreas y gestionar el pre-procesamiento de la información.</p>
+<section id="discusión-epistemológica-el-nuevo-inductivismo" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="discusión-epistemológica-el-nuevo-inductivismo"><span class="header-section-number">1.1.1</span> Discusión Epistemológica: El Nuevo Inductivismo</h3>
+<p>La minería de datos representa un cambio de paradigma hacia lo que se denomina el <strong>nuevo inductivismo</strong> <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</p>
+<ul>
+<li><strong>Ciencia Fenomenológica:</strong> A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la MD se clasifica como una <strong>ciencia fenomenológica</strong>. Su prioridad es la <strong>predicción y la manipulación</strong> de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</li>
+<li><strong>Inducción Variacional y “Difference-making”:</strong> La práctica analítica moderna busca identificar <strong>“hacedores de diferencia”</strong>. Una relación es relevante si, al variar una circunstancia, el fenómeno de interés cambia <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>. En BI, esto es vital: no basta saber que dos variables se correlacionan, necesitamos saber qué variable (ej. una oferta de descuento) causa un cambio en el comportamiento del cliente (ej. la compra) <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</li>
+</ul>
+<p><img src="fig/dks.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase: Del SQL al Descubrimiento (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Contexto:</strong> Un banco quiere mejorar su rentabilidad. 1. <strong>Tarea:</strong> Proponga una pregunta de consulta tradicional (ej. “¿Cuántos clientes tienen mora mayor a 30 días?”). 2. <strong>Tarea:</strong> Proponga un objetivo de minería de datos (ej. “Descubrir patrones de comportamiento que diferencien a un cliente que pagará de uno que entrará en mora”). 3. <strong>Reflexión:</strong> ¿Cómo ayuda el concepto de <em>difference-making</em> a decidir qué clientes deberían recibir una llamada de cobranza preventiva? <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="flujos-de-trabajo" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="flujos-de-trabajo"><span class="header-section-number">1.2</span> Flujos de trabajo</h2>
+<p>Para garantizar la replicabilidad y evitar que el análisis sea un proceso de “suerte”, se utilizan marcos metodológicos estandarizados.</p>
+<section id="kdd-knowledge-discovery-in-databases" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="kdd-knowledge-discovery-in-databases"><span class="header-section-number">1.2.1</span> KDD (Knowledge Discovery in Databases)</h3>
+<ul>
+<li><strong>Origen</strong>: Propuesto por <span class="citation" data-cites="fayyad1996">Fayyad et al. (<a href="references.html#ref-fayyad1996" role="doc-biblioref">1996</a>)</span> en el ámbito académico para distinguir el proceso global de descubrimiento de la etapa específica de aplicación de algoritmos.</li>
+<li><strong>Fases</strong>: 1. Selección, 2. Preprocesamiento, 3. Transformación, 4. Minería de datos, 5. Interpretación/Evaluación.</li>
+<li><strong>Enfoque</strong>: Científico y centrado en la purificación técnica de los datos.</li>
+</ul>
+</section>
+<section id="crisp-dm-cross-industry-standard-process-for-data-mining" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="crisp-dm-cross-industry-standard-process-for-data-mining"><span class="header-section-number">1.2.2</span> CRISP-DM (Cross-Industry Standard Process for Data Mining)</h3>
+<ul>
+<li><strong>Origen</strong>: Surgió de un consorcio europeo a finales de los 90 (NCR, SPSS, Daimler-Benz) para crear un estándar no propietario adaptado a la industria <span class="citation" data-cites="chapman2000">(<a href="references.html#ref-chapman2000" role="doc-biblioref">Chapman et al. 2000</a>)</span>.</li>
+<li><strong>Fases</strong>: 1. Comprensión del Negocio, 2. Comprensión de los Datos, 3. Preparación de los Datos, 4. Modelado, 5. Evaluación, 6. Despliegue.</li>
+<li><strong>Enfoque</strong>: Cíclico e iterativo, priorizando los objetivos del negocio.</li>
+</ul>
+<p><img src="fig/crisp.png" class="img-fluid"></p>
+</section>
+<section id="semma" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="semma"><span class="header-section-number">1.2.3</span> SEMMA</h3>
+<ul>
+<li><strong>Origen</strong>: Desarrollado por el SAS Institute como metodología operativa para su software Enterprise Miner <span class="citation" data-cites="matignon2007">(<a href="references.html#ref-matignon2007" role="doc-biblioref"><strong>matignon2007?</strong></a>)</span>.</li>
+<li><strong>Fases</strong>: 1. Sample (Muestreo), 2. Explore (Exploración), 3. Modify (Modificación), 4. Model (Modelado), 5. Assess (Evaluación).</li>
+<li><strong>Enfoque</strong>: Técnico-estadístico, orientado a la experimentación en laboratorio.</li>
+</ul>
+</section>
+<section id="osemn" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="osemn"><span class="header-section-number">1.2.4</span> OSEMN</h3>
+<ul>
+<li><strong>Origen</strong>: Acuñado por <span class="citation" data-cites="mason2010">Mason and Wiggins (<a href="references.html#ref-mason2010" role="doc-biblioref">2010</a>)</span> para simplificar el flujo de trabajo en la ciencia de datos moderna basada en scripts (R/Python).</li>
+<li><strong>Fases</strong>: 1. Obtain (Obtener), 2. Scrub (Limpiar), 3. Explore (Explorar), 4. Model (Modelar), 5. iNterpret (Interpretar).</li>
+<li><strong>Enfoque</strong>: Pragmático y ágil, ideal para entornos de desarrollo rápido y programación fluida.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Característica</th>
+<th style="text-align: left;">KDD</th>
+<th style="text-align: left;">CRISP-DM</th>
+<th style="text-align: left;">SEMMA</th>
+<th style="text-align: left;">OSEMN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Autor / Referencia</strong></td>
+<td style="text-align: left;"><span class="citation" data-cites="fayyad1996">Fayyad et al. (<a href="references.html#ref-fayyad1996" role="doc-biblioref">1996</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="chapman2000">Chapman et al. (<a href="references.html#ref-chapman2000" role="doc-biblioref">2000</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="matignon2007">(<a href="references.html#ref-matignon2007" role="doc-biblioref"><strong>matignon2007?</strong></a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="mason2010">Mason and Wiggins (<a href="references.html#ref-mason2010" role="doc-biblioref">2010</a>)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Origen</strong></td>
+<td style="text-align: left;">Academia (Ciencias de la Computación)</td>
+<td style="text-align: left;">Consorcio Industrial (NCR, SPSS, Daimler)</td>
+<td style="text-align: left;">Sector Software (SAS Institute)</td>
+<td style="text-align: left;">Ciencia de Datos Moderna (Agile)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Enfoque Principal</strong></td>
+<td style="text-align: left;">Proceso científico de extracción de conocimiento.</td>
+<td style="text-align: left;">Integración de los objetivos de negocio.</td>
+<td style="text-align: left;">Experimentación técnica y estadística.</td>
+<td style="text-align: left;">Programación ágil y flujo de código.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Fases Clave</strong></td>
+<td style="text-align: left;">Selección, Preprocesamiento, Transformación, Minería, Interpretación.</td>
+<td style="text-align: left;">Negocio, Datos, Preparación, Modelado, Evaluación, Despliegue.</td>
+<td style="text-align: left;">Sample, Explore, Modify, Model, Assess.</td>
+<td style="text-align: left;">Obtain, Scrub, Explore, Model, iNterpret.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Uso Ideal</strong></td>
+<td style="text-align: left;">Investigación y desarrollo (I+D).</td>
+<td style="text-align: left;">Gestión de proyectos corporativos.</td>
+<td style="text-align: left;">Análisis en laboratorios estadísticos.</td>
+<td style="text-align: left;">Prototipado rápido en R o Python.</td>
+</tr>
+</tbody>
+</table>
+<p>El Dilema de la Metodología (Análisis Crítico)</p>
+<p><strong>Instrucción:</strong> Analice los siguientes dos escenarios y asigne la metodología que considere más adecuada. Posteriormente, identifique una “falla o limitación” de esa metodología para ese caso específico.</p>
+<ol type="1">
+<li><strong>Escenario A:</strong> Una institución bancaria requiere un modelo de riesgo crediticio altamente auditable por entes reguladores, donde cada paso de la transformación de datos debe estar documentado estadísticamente.</li>
+<li><strong>Escenario B:</strong> Un equipo de marketing digital necesita probar rápidamente si un nuevo algoritmo de recomendación mejora los clics en una campaña que dura solo 48 horas.</li>
+</ol>
+<blockquote class="blockquote">
+<p>Actividad 2: Ingeniería Inversa de Procesos (Diferenciación)</p>
+</blockquote>
+<p><strong>Instrucción:</strong> Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Acción Realizada</th>
+<th style="text-align: left;">Fase en CRISP-DM</th>
+<th style="text-align: left;">Fase en OSEMN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Definir que el éxito es reducir las quejas en un 20%.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Eliminar emojis y stop-words de los tweets.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ejecutar un análisis exploratorio para ver palabras frecuentes.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Presentar una gráfica de barras con los resultados al director.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pregunta de reflexión:</strong> ¿Por qué el flujo de <span class="citation" data-cites="mason2010">Mason and Wiggins (<a href="references.html#ref-mason2010" role="doc-biblioref">2010</a>)</span> es más natural para un analista que trabaja solo, mientras que el de <span class="citation" data-cites="chapman2000">Chapman et al. (<a href="references.html#ref-chapman2000" role="doc-biblioref">2000</a>)</span> es indispensable para un equipo que trabaja para un cliente externo?</p>
+<blockquote class="blockquote">
+<p>Lectura sugerida: https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04</p>
+</blockquote>
+<p><img src="fig/kdd.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase: El Dilema de la Metodología (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario:</strong> Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas. 1. <strong>Debate:</strong> ¿Usaría <strong>CRISP-DM</strong> u <strong>OSEMN</strong>?. 2. <strong>Riesgo:</strong> ¿Qué peligro corre la <strong>veracidad</strong> de sus resultados si acelera la fase de limpieza?.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="analítica-de-datos" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="analítica-de-datos"><span class="header-section-number">1.3</span> Analítica de datos</h2>
+<p>La analítica de datos se divide según su complejidad y el tipo de pregunta que busca responder:</p>
+<ul>
+<li><strong>Analítica Descriptiva:</strong> Responde a <strong>“¿Qué pasó?”</strong>. Usa estadística e inferencia descriptiva para contextualizar eventos pasados.</li>
+<li><strong>Analítica Diagnóstica:</strong> Responde a <strong>“¿Por qué pasó?”</strong>. Se enfoca en determinar la causa raíz de un fenómeno mediante el análisis de relaciones.</li>
+<li><strong>Analítica Predictiva:</strong> Responde a <strong>“¿Qué pasará?”</strong>. Construye modelos que, basados en el pasado, estiman resultados futuros.</li>
+<li><strong>Analítica Prescriptiva:</strong> Responde a <strong>“¿Qué debemos hacer?”</strong>. Basada en las predicciones, sugiere acciones para mitigar riesgos u obtener ventajas competitivas.</li>
+</ul>
+<p><img src="fig/analitica.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>Actividad de Clase: Clasificando la Demanda (10 min) Clasifique las siguientes solicitudes de una aerolínea: 1. “Queremos saber cuántos asientos se quedaron vacíos el año pasado”. (Descriptiva) 2. “¿Cuál es la probabilidad de que un vuelo a La Paz se cancele por clima mañana?”. (Predictiva) 3. “¿Por qué perdimos el 10% de clientes frecuentes en el último semestre?”. (Diagnóstica) 4. “¿Qué precio debemos fijar hoy para llenar el avión y maximizar la ganancia?”. (Prescriptiva)</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="conceptos-clave-y-estructura-de-datos" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="conceptos-clave-y-estructura-de-datos"><span class="header-section-number">1.4</span> Conceptos clave y estructura de datos</h2>
+<p>El objeto central de nuestro estudio es el <strong>dataset</strong>, una colección de datos que comparten atributos comunes.</p>
+<ul>
+<li><strong>Instancia (Registro):</strong> Una unidad única (un cliente, una transacción).</li>
+<li><strong>Atributo (Variable):</strong> Una propiedad individual (edad, monto de compra).</li>
+<li><strong>Metadata:</strong> Información sobre el origen, precisión y puntualidad de los datos.</li>
+</ul>
+<section id="estructura-de-la-información" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="estructura-de-la-información"><span class="header-section-number">1.4.1</span> Estructura de la Información</h3>
+<ol type="1">
+<li><strong>Estructurados:</strong> Formatos rígidos (tablas SQL).</li>
+<li><strong>No Estructurados:</strong> Texto libre (redes sociales), audios, imágenes. Representan la mayor parte de la data actual.</li>
+<li><strong>Semi-estructurados:</strong> Poseen etiquetas jerárquicas pero no son tabulares (ej. JSON de una API, XML).</li>
+</ol>
+<p><img src="dataset.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="el-bosque-analítico-visión-holística-de-los-modelos" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="el-bosque-analítico-visión-holística-de-los-modelos"><span class="header-section-number">1.5</span> El “Bosque Analítico”: Visión Holística de los Modelos</h2>
+<p>Para aplicar la técnica correcta, debemos entender la intuición detrás de los modelos:</p>
+<section id="aprendizaje-supervisado-modelos-predictivos" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.5.1</span> 1. Aprendizaje Supervisado (Modelos Predictivos)</h3>
+<p>La intuición es: <strong>“Tengo un maestro”</strong> (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\(X\)) a una variable objetivo (\(Y\)). * <strong>Clasificación:</strong> \(Y\) es una clase o etiqueta (ej. “Fraude” o “No Fraude”). * <strong>Regresión:</strong> \(Y\) es un valor numérico (ej. la proyección de ventas).</p>
+</section>
+<section id="aprendizaje-no-supervisado-modelos-descriptivos" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.5.2</span> 2. Aprendizaje No Supervisado (Modelos Descriptivos)</h3>
+<p>La intuición es: <strong>“Busco estructuras naturales”</strong>. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos. * <strong>Clustering (Agrupamiento):</strong> Crear grupos de clientes similares basados en su comportamiento multivariante. * <strong>Asociación:</strong> Identificar qué productos suelen “viajar juntos” en un carrito de compras. * <strong>Reducción de Dimensionalidad (PCA):</strong> Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase: ¿Qué modelo necesito? (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Identifique la intuición (Supervisado o No Supervisado) para: 1. Un sistema de Netflix que sugiere películas similares a las que ya viste. (No supervisado - Asociación/Clustering) 2. Un sistema de correos que identifica si un mensaje es SPAM. (Supervisado - Clasificación) 3. Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos. (No supervisado - Clustering)</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-chapman2000" class="csl-entry" role="listitem">
+Chapman, Pete, Julian Clinton, Randy Kerber, et al. 2000. <em>CRISP-DM 1.0: Step-by-Step Data Mining Guide</em>.
+</div>
+<div id="ref-fayyad1996" class="csl-entry" role="listitem">
+Fayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996. <span>“From Data Mining to Knowledge Discovery in Databases.”</span> <em>AI Magazine</em> 17 (3): 37–37.
+</div>
+<div id="ref-mason2010" class="csl-entry" role="listitem">
+Mason, Hilary, and Chris Wiggins. 2010. <span>“A Taxonomy of Data Science.”</span> <em>Dataists</em> 22.
+</div>
+<div id="ref-pietsch2022" class="csl-entry" role="listitem">
+Pietsch, Wolfgang. 2022. <em>On the Epistemology of Data Science: Conceptual Tools for a New Inductivism</em>. Springer Nature.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/example\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Prefacio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prefacio</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Alvaro Chirino</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/">
+      <i class="bi bi-bluesky" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
