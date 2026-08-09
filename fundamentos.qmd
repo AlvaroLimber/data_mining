@@ -2,11 +2,31 @@
 
 ## Qué es la minería de datos
 
-La minería de datos (MD) es el proceso de analizar conjuntos de datos, a menudo de gran volumen, para encontrar **relaciones insospechadas** y resumir la información de formas novedosas, comprensibles y útiles para el propietario de los datos. En el ecosistema empresarial, se utiliza el aforismo de que **"los datos son el nuevo oro"**. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.
+> Es el análisis de **conjuntos de datos** (a menudo grandes) para encontrar **relaciones insospechadas** (conocimiento) y resumir los datos de **formas novedosas** que sean **comprensibles y útiles** para el propietario/usuario de los datos. (@hand2001principles)
+
+En el ecosistema empresarial, se utiliza el aforismo de que **"los datos son el nuevo oro"**. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.
 
 A diferencia de la estadística tradicional que a menudo busca confirmar hipótesis predefinidas, la minería de datos es **exploratoria** por naturaleza; busca descubrir patrones que el analista no sabía que existían. El éxito en esta disciplina no solo requiere habilidades técnicas, sino también creatividad, rigor en la experimentación y, sobre todo, mucha paciencia para interactuar con otras áreas y gestionar el pre-procesamiento de la información.
 
-### Discusión Epistemológica: El Nuevo Inductivismo
+- Datos:
+  * se refieren a instancias únicas y *primitivas* (single objetos, personas, eventos, puntos en el tiempo, etc.)
+  * describir propiedades individuales
+  * a menudo son fáciles de recolectar u obtener (por ejemplo, cajeros de escáner, internet, etc.)
+  * no nos permiten hacer predicciones o pronósticos
+- Conocimiento:
+  * (*Características*) se refiere a clases de instancias (conjuntos de ...)
+  * (*Forma*) describe patrones generales, estructuras, leyes,
+  * (*Declaración*) consta de la menor cantidad de declaraciones posibles
+  * (*Proceso*) a menudo es difícil y lleva mucho tiempo encontrar u obtener
+  * (*Acciones*) nos permite hacer predicciones y pronósticos
+
+::: {.callout-note}
+### Actividad (10 minutos)
+
+Elija un sector/área y describa los potenciales datos que se tienen disponibles.
+:::
+
+## Discusión Epistemológica: El Nuevo Inductivismo
 
 La minería de datos representa un cambio de paradigma hacia lo que se denomina el **nuevo inductivismo** [@pietsch2022].
 
@@ -16,7 +36,7 @@ La minería de datos representa un cambio de paradigma hacia lo que se denomina 
 ![](fig/dks.png)
 
 ::: {.callout-note}
-### Actividad de Clase (10 min)
+### Actividad (10 minutos)
 
 **Contexto:** Un banco quiere mejorar su rentabilidad.
 
@@ -89,7 +109,7 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 | **Uso Ideal** | Investigación y desarrollo (I+D). | Gestión de proyectos corporativos. | Análisis en laboratorios estadísticos. | Prototipado rápido en R o Python. |
 
 ::: {.callout-note}
-### Actividad de clase (5 minutos)
+### Actividad (5 minutos)
 
 **Instrucción:** Analice los siguientes dos escenarios y asigne la metodología que considere más adecuada. Posteriormente, identifique una "falla o limitación" de esa metodología para ese caso específico.
 
@@ -98,7 +118,7 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 :::
 
 ::: {.callout-note}
-### Actividad de clase 10 (minutos)
+### Actividad (5 minutos)
 
 **Instrucción:** Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.
 
@@ -112,14 +132,14 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 **Pregunta de reflexión:** ¿Por qué el flujo de @mason2010 es más natural para un analista que trabaja solo, mientras que el de @chapman2000 es indispensable para un equipo que trabaja para un cliente externo?
 :::
 
-::: {.callout-note}
-> Lectura sugerida: 
+::: {.callout-tip}
+### Lectura sugerida
 
 https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04
 ::: 
 
 ::: {.callout-important}
-### Actividad de Clase (10 minutos)
+### Actividad (5 minutos)
 **Escenario:** Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.
 
 1.  **Debate:** ¿Usaría **CRISP-DM** u **OSEMN**?.
@@ -138,12 +158,13 @@ La analítica de datos se divide según su complejidad y el tipo de pregunta que
 ![](fig/analitica.png)
 
 ::: {.callout-note}
-> Actividad de Clase: Clasificando la Demanda (10 min)
+### Actividad de paso
 Clasifique las siguientes solicitudes de una aerolínea:
-1.  "Queremos saber cuántos asientos se quedaron vacíos el año pasado". (Descriptiva)
-2.  "¿Cuál es la probabilidad de que un vuelo a La Paz se cancele por clima mañana?". (Predictiva)
-3.  "¿Por qué perdimos el 10% de clientes frecuentes en el último semestre?". (Diagnóstica)
-4.  "¿Qué precio debemos fijar hoy para llenar el avión y maximizar la ganancia?". (Prescriptiva)
+
+1.  "Queremos saber cuántos asientos se quedaron vacíos el año pasado". 
+2.  "¿Cuál es la probabilidad de que un vuelo a La Paz se cancele por clima mañana?". 
+3.  "¿Por qué perdimos el 10% de clientes frecuentes en el último semestre?". 
+4.  "¿Qué precio debemos fijar hoy para llenar el avión y maximizar la ganancia?". 
 :::
 
 ## Conceptos clave y estructura de datos
@@ -161,7 +182,7 @@ El objeto central de nuestro estudio es el **dataset**, una colección de datos 
 2.  **No Estructurados:** Texto libre (redes sociales), audios, imágenes. Representan la mayor parte de la data actual.
 3.  **Semi-estructurados:** Poseen etiquetas jerárquicas pero no son tabulares (ej. JSON de una API, XML).
 
-![](dataset.png)
+![](fig/dataset.png)
 
 ## El "Bosque Analítico": Visión Holística de los Modelos
 
@@ -169,6 +190,7 @@ Para aplicar la técnica correcta, debemos entender la intuición detrás de los
 
 ### 1. Aprendizaje Supervisado (Modelos Predictivos)
 La intuición es: **"Tengo un maestro"** (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\\(X\\)) a una variable objetivo (\\(Y\\)).
+
 *   **Clasificación:** \\(Y\\) es una clase o etiqueta (ej. "Fraude" o "No Fraude").
 *   **Regresión:** \\(Y\\) es un valor numérico (ej. la proyección de ventas).
 
