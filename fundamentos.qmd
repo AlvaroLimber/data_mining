@@ -202,8 +202,9 @@ La intuición es: **"Busco estructuras naturales"**. No hay una respuesta previa
 
 ::: {.callout-important}
 
-### Actividad de Clase: ¿Qué modelo necesito? (10 min)
+### Actividad (10 minutos)
 Identifique la intuición (Supervisado o No Supervisado) para:
+
 1.  Un sistema de Netflix que sugiere películas similares a las que ya viste. (No supervisado - Asociación/Clustering)
 2.  Un sistema de correos que identifica si un mensaje es SPAM. (Supervisado - Clasificación)
 3.  Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos. (No supervisado - Clustering)
