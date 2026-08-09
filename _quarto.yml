@@ -1,12 +1,11 @@
 project:
   type: book
 
-title: "Minería de Datos"
-author: "Alvaro Chirino Gutierrez"
-date: "2026-01-01"
-date-format: "YYYY"
-
 book:
+  title: "Minería de Datos"
+  author: "Alvaro Chirino Gutierrez"
+  date: "2026-01-01"
+  date-format: "YYYY"
   #favicon: logo.png
   twitter-card: true
   site-url: https://example.com
