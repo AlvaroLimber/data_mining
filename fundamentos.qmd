@@ -16,11 +16,13 @@ La minería de datos representa un cambio de paradigma hacia lo que se denomina 
 ![](fig/dks.png)
 
 ::: {.callout-note}
-### Actividad de Clase: Del SQL al Descubrimiento (10 min)
+### Actividad de Clase (10 min)
+
 **Contexto:** Un banco quiere mejorar su rentabilidad.
+
 1.  **Tarea:** Proponga una pregunta de consulta tradicional (ej. "¿Cuántos clientes tienen mora mayor a 30 días?").
 2.  **Tarea:** Proponga un objetivo de minería de datos (ej. "Descubrir patrones de comportamiento que diferencien a un cliente que pagará de uno que entrará en mora").
-3.  **Reflexión:** ¿Cómo ayuda el concepto de *difference-making* a decidir qué clientes deberían recibir una llamada de cobranza preventiva? [@pietsch2022].
+3.  **Reflexión:** ¿Cómo ayuda el concepto de *difference-making* a decidir qué clientes deberían recibir una llamada de cobranza preventiva? 
 :::
 
 ## Flujos de trabajo
