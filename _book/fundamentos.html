@@ -97,9 +97,9 @@ div.csl-indent {
 
 <meta name="twitter:title" content="1&nbsp; Fundamentos de la minería de datos – Minería de Datos">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://example.com/fig/dks.png">
-<meta name="twitter:image-height" content="768">
-<meta name="twitter:image-width" content="1408">
+<meta name="twitter:image" content="https://example.com/fig/data1.png">
+<meta name="twitter:image-height" content="672">
+<meta name="twitter:image-width" content="1543">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -368,15 +368,21 @@ div.csl-indent {
   <li><a href="#osemn" id="toc-osemn" class="nav-link" data-scroll-target="#osemn"><span class="header-section-number">1.3.4</span> OSEMN</a></li>
   <li><a href="#comparación-de-flujos-de-trabajo" id="toc-comparación-de-flujos-de-trabajo" class="nav-link" data-scroll-target="#comparación-de-flujos-de-trabajo"><span class="header-section-number">1.3.5</span> Comparación de flujos de trabajo</a></li>
   </ul></li>
-  <li><a href="#analítica-de-datos" id="toc-analítica-de-datos" class="nav-link" data-scroll-target="#analítica-de-datos"><span class="header-section-number">1.4</span> Analítica de datos</a></li>
+  <li><a href="#analítica-de-datos" id="toc-analítica-de-datos" class="nav-link" data-scroll-target="#analítica-de-datos"><span class="header-section-number">1.4</span> Analítica de datos</a>
+  <ul class="collapse">
+  <li><a href="#analítica-descriptiva-qué-pasó" id="toc-analítica-descriptiva-qué-pasó" class="nav-link" data-scroll-target="#analítica-descriptiva-qué-pasó"><span class="header-section-number">1.4.1</span> Analítica Descriptiva: ¿Qué pasó?</a></li>
+  <li><a href="#analítica-diagnóstica-por-qué-pasó" id="toc-analítica-diagnóstica-por-qué-pasó" class="nav-link" data-scroll-target="#analítica-diagnóstica-por-qué-pasó"><span class="header-section-number">1.4.2</span> Analítica Diagnóstica: ¿Por qué pasó?</a></li>
+  <li><a href="#analítica-predictiva-qué-pasará" id="toc-analítica-predictiva-qué-pasará" class="nav-link" data-scroll-target="#analítica-predictiva-qué-pasará"><span class="header-section-number">1.4.3</span> Analítica Predictiva: ¿Qué pasará?</a></li>
+  <li><a href="#analítica-prescriptiva-qué-debemos-hacer" id="toc-analítica-prescriptiva-qué-debemos-hacer" class="nav-link" data-scroll-target="#analítica-prescriptiva-qué-debemos-hacer"><span class="header-section-number">1.4.4</span> Analítica Prescriptiva: ¿Qué debemos hacer?</a></li>
+  </ul></li>
   <li><a href="#conceptos-clave-y-estructura-de-datos" id="toc-conceptos-clave-y-estructura-de-datos" class="nav-link" data-scroll-target="#conceptos-clave-y-estructura-de-datos"><span class="header-section-number">1.5</span> Conceptos clave y estructura de datos</a>
   <ul class="collapse">
   <li><a href="#estructura-de-la-información" id="toc-estructura-de-la-información" class="nav-link" data-scroll-target="#estructura-de-la-información"><span class="header-section-number">1.5.1</span> Estructura de la Información</a></li>
   </ul></li>
-  <li><a href="#el-bosque-analítico-visión-holística-de-los-modelos" id="toc-el-bosque-analítico-visión-holística-de-los-modelos" class="nav-link" data-scroll-target="#el-bosque-analítico-visión-holística-de-los-modelos"><span class="header-section-number">1.6</span> El “Bosque Analítico”: Visión Holística de los Modelos</a>
+  <li><a href="#modelos-en-minería-de-datos" id="toc-modelos-en-minería-de-datos" class="nav-link" data-scroll-target="#modelos-en-minería-de-datos"><span class="header-section-number">1.6</span> Modelos en minería de datos</a>
   <ul class="collapse">
-  <li><a href="#aprendizaje-supervisado-modelos-predictivos" id="toc-aprendizaje-supervisado-modelos-predictivos" class="nav-link" data-scroll-target="#aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.6.1</span> 1. Aprendizaje Supervisado (Modelos Predictivos)</a></li>
-  <li><a href="#aprendizaje-no-supervisado-modelos-descriptivos" id="toc-aprendizaje-no-supervisado-modelos-descriptivos" class="nav-link" data-scroll-target="#aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.6.2</span> 2. Aprendizaje No Supervisado (Modelos Descriptivos)</a></li>
+  <li><a href="#aprendizaje-no-supervisado-modelos-descriptivos" id="toc-aprendizaje-no-supervisado-modelos-descriptivos" class="nav-link" data-scroll-target="#aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.6.1</span> Aprendizaje No Supervisado (Modelos Descriptivos)</a></li>
+  <li><a href="#aprendizaje-supervisado-modelos-predictivos" id="toc-aprendizaje-supervisado-modelos-predictivos" class="nav-link" data-scroll-target="#aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.6.2</span> Aprendizaje Supervisado (Modelos Predictivos)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -407,25 +413,25 @@ div.csl-indent {
 <section id="qué-es-la-minería-de-datos" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="qué-es-la-minería-de-datos"><span class="header-section-number">1.1</span> Qué es la minería de datos</h2>
 <blockquote class="blockquote">
-<p>Es el análisis de <strong>conjuntos de datos</strong> (a menudo grandes) para encontrar <strong>relaciones insospechadas</strong> (conocimiento) y resumir los datos de <strong>formas novedosas</strong> que sean <strong>comprensibles y útiles</strong> para el propietario/usuario de los datos. (<span class="citation" data-cites="hand2001principles">Hand et al. (<a href="references.html#ref-hand2001principles" role="doc-biblioref">2001</a>)</span>)</p>
+<p>Es el análisis de <strong>conjuntos de datos</strong> (a menudo grandes) para encontrar <strong>relaciones insospechadas</strong> (conocimiento) y resumir los datos de <strong>formas novedosas</strong> que sean <strong>comprensibles y útiles</strong> para el propietario/usuario de los datos. <span class="citation" data-cites="hand2001principles">Hand et al. (<a href="references.html#ref-hand2001principles" role="doc-biblioref">2001</a>)</span></p>
 </blockquote>
 <p>En el ecosistema empresarial, se utiliza el aforismo de que <strong>“los datos son el nuevo oro”</strong>. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.</p>
 <p>A diferencia de la estadística tradicional que a menudo busca confirmar hipótesis predefinidas, la minería de datos es <strong>exploratoria</strong> por naturaleza; busca descubrir patrones que el analista no sabía que existían. El éxito en esta disciplina no solo requiere habilidades técnicas, sino también creatividad, rigor en la experimentación y, sobre todo, mucha paciencia para interactuar con otras áreas y gestionar el pre-procesamiento de la información.</p>
 <ul>
-<li>Datos:
+<li><strong>Datos:</strong>
 <ul>
-<li>se refieren a instancias únicas y <em>primitivas</em> (single objetos, personas, eventos, puntos en el tiempo, etc.)</li>
-<li>describir propiedades individuales</li>
+<li>se refieren a instancias únicas y <em>primitivas</em> (simples objetos, personas, eventos, puntos en el tiempo, etc.)</li>
+<li>describen propiedades individuales</li>
 <li>a menudo son fáciles de recolectar u obtener (por ejemplo, cajeros de escáner, internet, etc.)</li>
 <li>no nos permiten hacer predicciones o pronósticos</li>
 </ul></li>
-<li>Conocimiento:
+<li><strong>Conocimiento:</strong>
 <ul>
-<li>(<em>Características</em>) se refiere a clases de instancias (conjuntos de …)</li>
-<li>(<em>Forma</em>) describe patrones generales, estructuras, leyes,</li>
-<li>(<em>Declaración</em>) consta de la menor cantidad de declaraciones posibles</li>
-<li>(<em>Proceso</em>) a menudo es difícil y lleva mucho tiempo encontrar u obtener</li>
-<li>(<em>Acciones</em>) nos permite hacer predicciones y pronósticos</li>
+<li><em>(Características)</em>: Define clases de instancias; es decir, agrupa conjuntos de observaciones o entidades que comparten propiedades comunes.</li>
+<li><em>(Forma)</em>: Se manifiesta revelando patrones generales, estructuras ocultas o reglas de comportamiento subyacentes en los datos.</li>
+<li><em>(Declaración)</em>: Busca la parsimonia; se expresa de la manera más concisa posible, utilizando la menor cantidad de reglas o afirmaciones para explicar un fenómeno.</li>
+<li><em>(Proceso)</em>: Su descubrimiento es una tarea analítica compleja, que habitualmente demanda un esfuerzo computacional y de tiempo considerable.</li>
+<li><em>(Acciones)</em>: Es accionable y útil; nos otorga la capacidad de fundamentar decisiones, realizar predicciones confiables y proyectar escenarios futuros.</li>
 </ul></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -438,15 +444,15 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Elija un sector/área y describa los potenciales datos que se tienen disponibles.</p>
+<p>Elija un sector o área, describa los potenciales datos disponibles y plantee una pregunta de investigación.</p>
 </div>
 </div>
 </section>
 <section id="discusión-epistemológica-el-nuevo-inductivismo" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="discusión-epistemológica-el-nuevo-inductivismo"><span class="header-section-number">1.2</span> Discusión Epistemológica: El Nuevo Inductivismo</h2>
-<p>La minería de datos representa un cambio de paradigma hacia lo que se denomina el <strong>nuevo inductivismo</strong> <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</p>
+<p><img src="fig/data1.png" class="img-fluid"> La ciencia de datos representa un cambio de paradigma hacia lo que se denomina el <strong>nuevo inductivismo</strong> <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</p>
 <ul>
-<li><strong>Ciencia Fenomenológica:</strong> A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la MD se clasifica como una <strong>ciencia fenomenológica</strong>. Su prioridad es la <strong>predicción y la manipulación</strong> de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</li>
+<li><strong>Ciencia Fenomenológica:</strong> A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la CD se clasifica como una <strong>ciencia fenomenológica</strong>. Su prioridad es la <strong>predicción y la manipulación</strong> de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</li>
 <li><strong>Inducción Variacional y “Difference-making”:</strong> La práctica analítica moderna busca identificar <strong>“hacedores de diferencia”</strong>. Una relación es relevante si, al variar una circunstancia, el fenómeno de interés cambia <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>. En BI, esto es vital: no basta saber que dos variables se correlacionan, necesitamos saber qué variable (ej. una oferta de descuento) causa un cambio en el comportamiento del cliente (ej. la compra) <span class="citation" data-cites="pietsch2022">(<a href="references.html#ref-pietsch2022" role="doc-biblioref">Pietsch 2022</a>)</span>.</li>
 </ul>
 <p><img src="fig/dks.png" class="img-fluid"></p>
@@ -462,9 +468,9 @@ div.csl-indent {
 <div class="callout-body-container callout-body">
 <p><strong>Contexto:</strong> Un banco quiere mejorar su rentabilidad.</p>
 <ol type="1">
-<li><strong>Tarea:</strong> Proponga una pregunta de consulta tradicional (ej. “¿Cuántos clientes tienen mora mayor a 30 días?”).</li>
-<li><strong>Tarea:</strong> Proponga un objetivo de minería de datos (ej. “Descubrir patrones de comportamiento que diferencien a un cliente que pagará de uno que entrará en mora”).</li>
-<li><strong>Reflexión:</strong> ¿Cómo ayuda el concepto de <em>difference-making</em> a decidir qué clientes deberían recibir una llamada de cobranza preventiva?</li>
+<li>Proponga una pregunta de consulta tradicional.</li>
+<li>Proponga un objetivo de minería de datos.</li>
+<li>¿Cómo ayuda el concepto de <em>difference-making</em> a decidir qué clientes deberían recibir una llamada de cobranza preventiva?</li>
 </ol>
 </div>
 </div>
@@ -508,7 +514,7 @@ div.csl-indent {
 </ol></li>
 <li><strong>Enfoque</strong>: Cíclico e iterativo, priorizando los objetivos del negocio.</li>
 </ul>
-<p><img src="fig/crisp.png" class="img-fluid"></p>
+<p><img src="fig/crisp2.png" class="img-fluid"></p>
 </section>
 <section id="semma" class="level3" data-number="1.3.3">
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="semma"><span class="header-section-number">1.3.3</span> SEMMA</h3>
@@ -603,7 +609,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Actividad (5 minutos)
+<span class="screen-reader-only">Note</span>Actividad al paso
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -624,8 +630,13 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Instrucción:</strong> Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.</p>
+<p>Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Acción Realizada</th>
@@ -650,7 +661,7 @@ div.csl-indent {
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Presentar una gráfica de barras con los resultados al director.</td>
+<td style="text-align: left;">Presentar una gráfica de barras con los resultados al directorio.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -672,17 +683,17 @@ div.csl-indent {
 <p>https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Actividad (5 minutos)
+<span class="screen-reader-only">Note</span>Actividad para su casa
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Escenario:</strong> Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.</p>
+<p>Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.</p>
 <ol type="1">
 <li><strong>Debate:</strong> ¿Usaría <strong>CRISP-DM</strong> u <strong>OSEMN</strong>?.</li>
 <li><strong>Riesgo:</strong> ¿Qué peligro corre la <strong>veracidad</strong> de sus resultados si acelera la fase de limpieza?.</li>
@@ -693,12 +704,38 @@ div.csl-indent {
 </section>
 <section id="analítica-de-datos" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="analítica-de-datos"><span class="header-section-number">1.4</span> Analítica de datos</h2>
-<p>La analítica de datos se divide según su complejidad y el tipo de pregunta que busca responder:</p>
+<p>La analítica de datos es un marco amplio que gestiona el ciclo de vida completo de los datos. En la disciplina de la Minería de Datos (MD), estos niveles se distinguen por la complejidad de la tarea analítica y la naturaleza del conocimiento que se busca extraer.</p>
+<p>A medida que se escala en la taxonomía, el analista transita de un rol observacional a uno de <strong>descubrimiento y modelado</strong>, aumentando proporcionalmente el valor estratégico para la toma de decisiones.</p>
+<section id="analítica-descriptiva-qué-pasó" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="analítica-descriptiva-qué-pasó"><span class="header-section-number">1.4.1</span> Analítica Descriptiva: ¿Qué pasó?</h3>
+<p>Representa la base del proceso analítico y busca <strong>contextualizar eventos que ya ocurrieron</strong>. En minería de datos, esta etapa se asocia con las fases iniciales de <strong>Comprensión de Datos</strong> y <strong>Estadística Descriptiva</strong>, donde el objetivo es resumir las propiedades del dataset de forma comprensible.</p>
 <ul>
-<li><strong>Analítica Descriptiva:</strong> Responde a <strong>“¿Qué pasó?”</strong>. Usa estadística e inferencia descriptiva para contextualizar eventos pasados.</li>
-<li><strong>Analítica Diagnóstica:</strong> Responde a <strong>“¿Por qué pasó?”</strong>. Se enfoca en determinar la causa raíz de un fenómeno mediante el análisis de relaciones.</li>
-<li><strong>Analítica Predictiva:</strong> Responde a <strong>“¿Qué pasará?”</strong>. Construye modelos que, basados en el pasado, estiman resultados futuros.</li>
-<li><strong>Analítica Prescriptiva:</strong> Responde a <strong>“¿Qué debemos hacer?”</strong>. Basada en las predicciones, sugiere acciones para mitigar riesgos u obtener ventajas competitivas.</li>
+<li><strong>En MD:</strong> Se centra en la inferencia descriptiva y la identificación de frecuencias o distribuciones de los atributos (EDA).</li>
+<li><strong>Valor:</strong> Proporciona una “comprensión en retrospectiva” (<em>hindsight</em>).</li>
+</ul>
+</section>
+<section id="analítica-diagnóstica-por-qué-pasó" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="analítica-diagnóstica-por-qué-pasó"><span class="header-section-number">1.4.2</span> Analítica Diagnóstica: ¿Por qué pasó?</h3>
+<p>Su objetivo es determinar la <strong>causa raíz</strong> de un fenómeno pasado. A diferencia de la simple visualización, en minería de datos el enfoque es la <strong>exploración de dependencias</strong>. Se busca identificar qué variables específicas actúan como “hacedores de diferencia” (<em>difference-making</em>), influyendo directamente en el fenómeno estudiado.</p>
+<ul>
+<li><strong>En MD:</strong> Implica el descubrimiento de relaciones insospechadas y asociaciones entre variables que expliquen las variaciones en los datos.</li>
+<li><strong>Valor:</strong> Aporta conocimiento y percepción profunda (<em>insight</em>).</li>
+</ul>
+</section>
+<section id="analítica-predictiva-qué-pasará" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="analítica-predictiva-qué-pasará"><span class="header-section-number">1.4.3</span> Analítica Predictiva: ¿Qué pasará?</h3>
+<p>Es el núcleo del <strong>Aprendizaje Supervisado</strong>. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida (\(f\)) que mapee las variables predictoras (\(X\)) hacia una variable objetivo (\(Y\)).</p>
+<ul>
+<li><strong>En MD:</strong> Incluye tareas de <strong>Clasificación</strong> (metas categóricas) y <strong>Regresión</strong> (metas numéricas).</li>
+<li><strong>Valor:</strong> Genera previsión (<em>foresight</em>) y permite la identificación proactiva de riesgos y oportunidades.</li>
+</ul>
+</section>
+<section id="analítica-prescriptiva-qué-debemos-hacer" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="analítica-prescriptiva-qué-debemos-hacer"><span class="header-section-number">1.4.4</span> Analítica Prescriptiva: ¿Qué debemos hacer?</h3>
+<p>Es el nivel más avanzado y se construye sobre los resultados de la analítica predictiva. El enfoque no es solo predecir, sino <strong>prescribir acciones</strong> basadas en una comprensión situacional profunda de los modelos generados.</p>
+<ul>
+<li><strong>En MD:</strong> Se vincula con la fase de <strong>Despliegue</strong> (<em>Deployment</em>) y la utilización de los resultados de la minería para optimizar procesos o mitigar riesgos operativos.</li>
+<li><strong>Valor:</strong> Transforma el conocimiento en <strong>sabiduría estratégica</strong>, permitiendo razonar sobre cuál es la mejor opción a seguir.</li>
 </ul>
 <p><img src="fig/analitica.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -721,6 +758,7 @@ div.csl-indent {
 </div>
 </div>
 </section>
+</section>
 <section id="conceptos-clave-y-estructura-de-datos" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="conceptos-clave-y-estructura-de-datos"><span class="header-section-number">1.5</span> Conceptos clave y estructura de datos</h2>
 <p>El objeto central de nuestro estudio es el <strong>dataset</strong>, una colección de datos que comparten atributos comunes.</p>
@@ -739,35 +777,40 @@ div.csl-indent {
 <p><img src="fig/dataset.png" class="img-fluid"></p>
 </section>
 </section>
-<section id="el-bosque-analítico-visión-holística-de-los-modelos" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="el-bosque-analítico-visión-holística-de-los-modelos"><span class="header-section-number">1.6</span> El “Bosque Analítico”: Visión Holística de los Modelos</h2>
+<section id="modelos-en-minería-de-datos" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="modelos-en-minería-de-datos"><span class="header-section-number">1.6</span> Modelos en minería de datos</h2>
 <p>Para aplicar la técnica correcta, debemos entender la intuición detrás de los modelos:</p>
-<section id="aprendizaje-supervisado-modelos-predictivos" class="level3" data-number="1.6.1">
-<h3 data-number="1.6.1" class="anchored" data-anchor-id="aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.6.1</span> 1. Aprendizaje Supervisado (Modelos Predictivos)</h3>
+<section id="aprendizaje-no-supervisado-modelos-descriptivos" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.6.1</span> Aprendizaje No Supervisado (Modelos Descriptivos)</h3>
+<p>La intuición es: <strong>“Busco estructuras naturales”</strong>. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos.</p>
+<ul>
+<li><strong>Clustering (Agrupamiento):</strong> Crear grupos de clientes similares basados en su comportamiento multivariante.</li>
+<li><strong>Asociación:</strong> Identificar qué productos suelen “viajar juntos” en un carrito de compras.</li>
+<li><strong>Reducción de Dimensionalidad (PCA):</strong> Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.</li>
+</ul>
+</section>
+<section id="aprendizaje-supervisado-modelos-predictivos" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.6.2</span> Aprendizaje Supervisado (Modelos Predictivos)</h3>
 <p>La intuición es: <strong>“Tengo un maestro”</strong> (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\(X\)) a una variable objetivo (\(Y\)).</p>
 <ul>
 <li><strong>Clasificación:</strong> \(Y\) es una clase o etiqueta (ej. “Fraude” o “No Fraude”).</li>
 <li><strong>Regresión:</strong> \(Y\) es un valor numérico (ej. la proyección de ventas).</li>
 </ul>
-</section>
-<section id="aprendizaje-no-supervisado-modelos-descriptivos" class="level3" data-number="1.6.2">
-<h3 data-number="1.6.2" class="anchored" data-anchor-id="aprendizaje-no-supervisado-modelos-descriptivos"><span class="header-section-number">1.6.2</span> 2. Aprendizaje No Supervisado (Modelos Descriptivos)</h3>
-<p>La intuición es: <strong>“Busco estructuras naturales”</strong>. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos. * <strong>Clustering (Agrupamiento):</strong> Crear grupos de clientes similares basados en su comportamiento multivariante. * <strong>Asociación:</strong> Identificar qué productos suelen “viajar juntos” en un carrito de compras. * <strong>Reducción de Dimensionalidad (PCA):</strong> Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Actividad (10 minutos)
+<span class="screen-reader-only">Note</span>Actividad (10 minutos)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Identifique la intuición (Supervisado o No Supervisado) para:</p>
 <ol type="1">
-<li>Un sistema de Netflix que sugiere películas similares a las que ya viste. (No supervisado - Asociación/Clustering)</li>
-<li>Un sistema de correos que identifica si un mensaje es SPAM. (Supervisado - Clasificación)</li>
-<li>Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos. (No supervisado - Clustering)</li>
+<li>Un sistema de Netflix que sugiere películas similares a las que ya viste.</li>
+<li>Un sistema de correos que identifica si un mensaje es SPAM.</li>
+<li>Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos.</li>
 </ol>
 </div>
 </div>

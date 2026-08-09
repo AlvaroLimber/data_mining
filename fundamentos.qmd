@@ -2,35 +2,37 @@
 
 ## Qué es la minería de datos
 
-> Es el análisis de **conjuntos de datos** (a menudo grandes) para encontrar **relaciones insospechadas** (conocimiento) y resumir los datos de **formas novedosas** que sean **comprensibles y útiles** para el propietario/usuario de los datos. (@hand2001principles)
+> Es el análisis de **conjuntos de datos** (a menudo grandes) para encontrar **relaciones insospechadas** (conocimiento) y resumir los datos de **formas novedosas** que sean **comprensibles y útiles** para el propietario/usuario de los datos. @hand2001principles
 
 En el ecosistema empresarial, se utiliza el aforismo de que **"los datos son el nuevo oro"**. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.
 
 A diferencia de la estadística tradicional que a menudo busca confirmar hipótesis predefinidas, la minería de datos es **exploratoria** por naturaleza; busca descubrir patrones que el analista no sabía que existían. El éxito en esta disciplina no solo requiere habilidades técnicas, sino también creatividad, rigor en la experimentación y, sobre todo, mucha paciencia para interactuar con otras áreas y gestionar el pre-procesamiento de la información.
 
-- Datos:
-  * se refieren a instancias únicas y *primitivas* (single objetos, personas, eventos, puntos en el tiempo, etc.)
-  * describir propiedades individuales
+- **Datos:**
+  * se refieren a instancias únicas y *primitivas* (simples objetos, personas, eventos, puntos en el tiempo, etc.)
+  * describen propiedades individuales
   * a menudo son fáciles de recolectar u obtener (por ejemplo, cajeros de escáner, internet, etc.)
   * no nos permiten hacer predicciones o pronósticos
-- Conocimiento:
-  * (*Características*) se refiere a clases de instancias (conjuntos de ...)
-  * (*Forma*) describe patrones generales, estructuras, leyes,
-  * (*Declaración*) consta de la menor cantidad de declaraciones posibles
-  * (*Proceso*) a menudo es difícil y lleva mucho tiempo encontrar u obtener
-  * (*Acciones*) nos permite hacer predicciones y pronósticos
+- **Conocimiento:**
+  * *(Características)*: Define clases de instancias; es decir, agrupa conjuntos de observaciones o entidades que comparten propiedades comunes.
+  * *(Forma)*: Se manifiesta revelando patrones generales, estructuras ocultas o reglas de comportamiento subyacentes en los datos.
+  * *(Declaración)*: Busca la parsimonia; se expresa de la manera más concisa posible, utilizando la menor cantidad de reglas o afirmaciones para explicar un fenómeno.
+  * *(Proceso)*: Su descubrimiento es una tarea analítica compleja, que habitualmente demanda un esfuerzo computacional y de tiempo considerable.
+  * *(Acciones)*: Es accionable y útil; nos otorga la capacidad de fundamentar decisiones, realizar predicciones confiables y proyectar escenarios futuros.
 
 ::: {.callout-note}
 ### Actividad (10 minutos)
 
-Elija un sector/área y describa los potenciales datos que se tienen disponibles.
+Elija un sector o área, describa los potenciales datos disponibles y plantee una pregunta de investigación.
 :::
 
 ## Discusión Epistemológica: El Nuevo Inductivismo
 
-La minería de datos representa un cambio de paradigma hacia lo que se denomina el **nuevo inductivismo** [@pietsch2022].
 
-*   **Ciencia Fenomenológica:** A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la MD se clasifica como una **ciencia fenomenológica**. Su prioridad es la **predicción y la manipulación** de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente [@pietsch2022].
+![](fig/data1.png)
+La ciencia de datos representa un cambio de paradigma hacia lo que se denomina el **nuevo inductivismo** [@pietsch2022].
+
+*   **Ciencia Fenomenológica:** A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la CD se clasifica como una **ciencia fenomenológica**. Su prioridad es la **predicción y la manipulación** de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente [@pietsch2022].
 *   **Inducción Variacional y "Difference-making":** La práctica analítica moderna busca identificar **"hacedores de diferencia"**. Una relación es relevante si, al variar una circunstancia, el fenómeno de interés cambia [@pietsch2022]. En BI, esto es vital: no basta saber que dos variables se correlacionan, necesitamos saber qué variable (ej. una oferta de descuento) causa un cambio en el comportamiento del cliente (ej. la compra) [@pietsch2022].
 
 ![](fig/dks.png)
@@ -40,9 +42,9 @@ La minería de datos representa un cambio de paradigma hacia lo que se denomina 
 
 **Contexto:** Un banco quiere mejorar su rentabilidad.
 
-1.  **Tarea:** Proponga una pregunta de consulta tradicional (ej. "¿Cuántos clientes tienen mora mayor a 30 días?").
-2.  **Tarea:** Proponga un objetivo de minería de datos (ej. "Descubrir patrones de comportamiento que diferencien a un cliente que pagará de uno que entrará en mora").
-3.  **Reflexión:** ¿Cómo ayuda el concepto de *difference-making* a decidir qué clientes deberían recibir una llamada de cobranza preventiva? 
+1.  Proponga una pregunta de consulta tradicional.
+2.  Proponga un objetivo de minería de datos.
+3.  ¿Cómo ayuda el concepto de *difference-making* a decidir qué clientes deberían recibir una llamada de cobranza preventiva? 
 :::
 
 ## Flujos de trabajo
@@ -74,7 +76,7 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
   6. Despliegue.
 * **Enfoque**: Cíclico e iterativo, priorizando los objetivos del negocio.
 
-![](fig/crisp.png)
+![](fig/crisp2.png)
 
 ### SEMMA
 
@@ -109,7 +111,7 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 | **Uso Ideal** | Investigación y desarrollo (I+D). | Gestión de proyectos corporativos. | Análisis en laboratorios estadísticos. | Prototipado rápido en R o Python. |
 
 ::: {.callout-note}
-### Actividad (5 minutos)
+### Actividad al paso
 
 **Instrucción:** Analice los siguientes dos escenarios y asigne la metodología que considere más adecuada. Posteriormente, identifique una "falla o limitación" de esa metodología para ese caso específico.
 
@@ -120,14 +122,14 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 ::: {.callout-note}
 ### Actividad (5 minutos)
 
-**Instrucción:** Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.
+Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.
 
 | Acción Realizada | Fase en CRISP-DM | Fase en OSEMN |
 | :--- | :--- | :--- |
 | Definir que el éxito es reducir las quejas en un 20%. | | |
 | Eliminar emojis y stop-words de los tweets. | | |
 | Ejecutar un análisis exploratorio para ver palabras frecuentes. | | |
-| Presentar una gráfica de barras con los resultados al director. | | |
+| Presentar una gráfica de barras con los resultados al directorio. | | |
 
 **Pregunta de reflexión:** ¿Por qué el flujo de @mason2010 es más natural para un analista que trabaja solo, mientras que el de @chapman2000 es indispensable para un equipo que trabaja para un cliente externo?
 :::
@@ -138,9 +140,9 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04
 ::: 
 
-::: {.callout-important}
-### Actividad (5 minutos)
-**Escenario:** Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.
+::: {.callout-note}
+### Actividad para su casa
+Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.
 
 1.  **Debate:** ¿Usaría **CRISP-DM** u **OSEMN**?.
 2.  **Riesgo:** ¿Qué peligro corre la **veracidad** de sus resultados si acelera la fase de limpieza?.
@@ -148,12 +150,38 @@ https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04
 
 ## Analítica de datos
 
-La analítica de datos se divide según su complejidad y el tipo de pregunta que busca responder:
+La analítica de datos es un marco amplio que gestiona el ciclo de vida completo de los datos. En la disciplina de la Minería de Datos (MD), estos niveles se distinguen por la complejidad de la tarea analítica y la naturaleza del conocimiento que se busca extraer.
 
-*   **Analítica Descriptiva:** Responde a **"¿Qué pasó?"**. Usa estadística e inferencia descriptiva para contextualizar eventos pasados.
-*   **Analítica Diagnóstica:** Responde a **"¿Por qué pasó?"**. Se enfoca en determinar la causa raíz de un fenómeno mediante el análisis de relaciones.
-*   **Analítica Predictiva:** Responde a **"¿Qué pasará?"**. Construye modelos que, basados en el pasado, estiman resultados futuros.
-*   **Analítica Prescriptiva:** Responde a **"¿Qué debemos hacer?"**. Basada en las predicciones, sugiere acciones para mitigar riesgos u obtener ventajas competitivas.
+A medida que se escala en la taxonomía, el analista transita de un rol observacional a uno de **descubrimiento y modelado**, aumentando proporcionalmente el valor estratégico para la toma de decisiones.
+
+### Analítica Descriptiva: ¿Qué pasó?
+
+Representa la base del proceso analítico y busca **contextualizar eventos que ya ocurrieron**. En minería de datos, esta etapa se asocia con las fases iniciales de **Comprensión de Datos** y **Estadística Descriptiva**, donde el objetivo es resumir las propiedades del dataset de forma comprensible.
+
+*   **En MD:** Se centra en la inferencia descriptiva y la identificación de frecuencias o distribuciones de los atributos (EDA).
+*   **Valor:** Proporciona una "comprensión en retrospectiva" (*hindsight*).
+
+### Analítica Diagnóstica: ¿Por qué pasó?
+
+Su objetivo es determinar la **causa raíz** de un fenómeno pasado. A diferencia de la simple visualización, en minería de datos el enfoque es la **exploración de dependencias**. Se busca identificar qué variables específicas actúan como "hacedores de diferencia" (*difference-making*), influyendo directamente en el fenómeno estudiado.
+
+*   **En MD:** Implica el descubrimiento de relaciones insospechadas y asociaciones entre variables que expliquen las variaciones en los datos.
+*   **Valor:** Aporta conocimiento y percepción profunda (*insight*).
+
+### Analítica Predictiva: ¿Qué pasará?
+
+Es el núcleo del **Aprendizaje Supervisado**. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida (\\(f\\)) que mapee las variables predictoras (\\(X\\)) hacia una variable objetivo (\\(Y\\)).
+
+*   **En MD:** Incluye tareas de **Clasificación** (metas categóricas) y **Regresión** (metas numéricas).
+*   **Valor:** Genera previsión (*foresight*) y permite la identificación proactiva de riesgos y oportunidades.
+
+### Analítica Prescriptiva: ¿Qué debemos hacer?
+
+Es el nivel más avanzado y se construye sobre los resultados de la analítica predictiva. El enfoque no es solo predecir, sino **prescribir acciones** basadas en una comprensión situacional profunda de los modelos generados.
+
+*   **En MD:** Se vincula con la fase de **Despliegue** (*Deployment*) y la utilización de los resultados de la minería para optimizar procesos o mitigar riesgos operativos.
+*   **Valor:** Transforma el conocimiento en **sabiduría estratégica**, permitiendo razonar sobre cuál es la mejor opción a seguir.
+
 
 ![](fig/analitica.png)
 
@@ -175,7 +203,6 @@ El objeto central de nuestro estudio es el **dataset**, una colección de datos 
 *   **Atributo (Variable):** Una propiedad individual (edad, monto de compra).
 *   **Metadata:** Información sobre el origen, precisión y puntualidad de los datos.
 
-
 ### Estructura de la Información
 
 1.  **Estructurados:** Formatos rígidos (tablas SQL).
@@ -184,28 +211,31 @@ El objeto central de nuestro estudio es el **dataset**, una colección de datos 
 
 ![](fig/dataset.png)
 
-## El "Bosque Analítico": Visión Holística de los Modelos
+## Modelos en minería de datos
 
 Para aplicar la técnica correcta, debemos entender la intuición detrás de los modelos:
 
-### 1. Aprendizaje Supervisado (Modelos Predictivos)
+### Aprendizaje No Supervisado (Modelos Descriptivos)
+
+La intuición es: **"Busco estructuras naturales"**. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos.
+
+*   **Clustering (Agrupamiento):** Crear grupos de clientes similares basados en su comportamiento multivariante.
+*   **Asociación:** Identificar qué productos suelen "viajar juntos" en un carrito de compras.
+*   **Reducción de Dimensionalidad (PCA):** Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.
+
+### Aprendizaje Supervisado (Modelos Predictivos)
+
 La intuición es: **"Tengo un maestro"** (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\\(X\\)) a una variable objetivo (\\(Y\\)).
 
 *   **Clasificación:** \\(Y\\) es una clase o etiqueta (ej. "Fraude" o "No Fraude").
 *   **Regresión:** \\(Y\\) es un valor numérico (ej. la proyección de ventas).
 
-### 2. Aprendizaje No Supervisado (Modelos Descriptivos)
-La intuición es: **"Busco estructuras naturales"**. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos.
-*   **Clustering (Agrupamiento):** Crear grupos de clientes similares basados en su comportamiento multivariante.
-*   **Asociación:** Identificar qué productos suelen "viajar juntos" en un carrito de compras.
-*   **Reducción de Dimensionalidad (PCA):** Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.
-
-::: {.callout-important}
+::: {.callout-note}
 
 ### Actividad (10 minutos)
 Identifique la intuición (Supervisado o No Supervisado) para:
 
-1.  Un sistema de Netflix que sugiere películas similares a las que ya viste. (No supervisado - Asociación/Clustering)
-2.  Un sistema de correos que identifica si un mensaje es SPAM. (Supervisado - Clasificación)
-3.  Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos. (No supervisado - Clustering)
+1.  Un sistema de Netflix que sugiere películas similares a las que ya viste. 
+2.  Un sistema de correos que identifica si un mensaje es SPAM. 
+3.  Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos.
 :::

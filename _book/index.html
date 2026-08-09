@@ -25,7 +25,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -340,7 +359,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prefacio" id="toc-prefacio" class="nav-link active" data-scroll-target="#prefacio">Prefacio</a></li>
+  <li><a href="#prefacio" id="toc-prefacio" class="nav-link active" data-scroll-target="#prefacio">Prefacio</a>
+  <ul class="collapse">
+  <li><a href="#estructura-del-libro" id="toc-estructura-del-libro" class="nav-link" data-scroll-target="#estructura-del-libro">Estructura del libro</a></li>
+  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -382,10 +406,48 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="prefacio" class="level1 unnumbered">
 <h1 class="unnumbered">Prefacio</h1><p><img src="cover.png" title="Minería de Datos" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<p>Este libro nace con el propósito fundamental de introducir al lector en el mundo de la <strong>Ciencia de Datos</strong> y la <strong>Minería de Datos (MD)</strong> utilizando el lenguaje <strong>R</strong> como herramienta central de computación estadística y visualización <span class="citation" data-cites="torgo2017 shmueli2018">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. En la era actual del Big Data, los datos masivos por sí mismos carecen de valor; requieren un proceso de refinamiento analítico para convertirse en conocimiento que impulse la innovación <span class="citation" data-cites="erl2016">(<a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>.</p>
+<p>El espíritu que guía estas páginas es el de <strong>“aprender haciendo”</strong> (<em>learn by doing</em>). Por ello, el texto no se limita a la descripción de algoritmos, sino que se sumerge en casos de estudio que reflejan los desafíos reales del analista: la interacción con diversas fuentes de datos, la lucha contra el ruido y la incertidumbre, y la necesidad de comunicar resultados técnicos a audiencias de negocios <span class="citation" data-cites="provost2013 torgo2017">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<section id="estructura-del-libro" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-del-libro">Estructura del libro</h2>
+<p>El contenido está organizado para reflejar el flujo de trabajo estándar en la industria (CRISP-DM) y la academia (KDD) <span class="citation" data-cites="chapman2000 fayyad1996">(<a href="references.html#ref-chapman2000" role="doc-biblioref">Chapman et al. 2000</a>; <a href="references.html#ref-fayyad1996" role="doc-biblioref">Fayyad et al. 1996</a>)</span>:</p>
+<ol type="1">
+<li><strong>Fundamentos y Adquisición:</strong> Una discusión sobre la epistemología del nuevo inductivismo y técnicas de captura de datos.</li>
+<li><strong>Pre-procesamiento y EDA:</strong> Técnicas de limpieza, transformación y diagnóstico visual, reconociendo que la preparación de los datos es la fase más laboriosa y crítica del proceso.</li>
+<li><strong>Modelado No Supervisado:</strong> Métodos para encontrar estructuras naturales en los datos sin etiquetas previas, incluyendo segmentación (Clustering) y reducción de dimensionalidad (PCA).</li>
+</ol>
+</section>
+<section id="reproducibilidad" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h2>
+<p>Un pilar central de esta obra es la <strong>reproducibilidad</strong> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Gracias al uso de <strong>Quarto</strong>, todos los ejemplos incluyen el código necesario para que el lector pueda replicar los análisis, generar sus propios informes dinámicos y dashboards, garantizando que el conocimiento descubierto sea auditable y transparente <span class="citation" data-cites="torgo2017 shmueli2018">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<p>Este texto está dirigido a estudiantes de economía, inteligencia de negocios y profesionales que deseen transitar de una toma de decisiones intuitiva a una fundamentada en datos.</p>
+</section>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p>Este apartado se actualizará periódicamente con un listado de fuentes de datos disponibles en el repositorio, con el fin de dar seguimiento a los temas discutidos en el libro.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-chapman2000" class="csl-entry" role="listitem">
+Chapman, Pete, Julian Clinton, Randy Kerber, et al. 2000. <em>CRISP-DM 1.0: Step-by-Step Data Mining Guide</em>.
+</div>
+<div id="ref-erl2016" class="csl-entry" role="listitem">
+Erl, Thomas, Wajid Khattak, and Paul Buhler. 2016. <em>Big Data Fundamentals: Concepts, Drivers &amp; Techniques</em>. Prentice Hall.
+</div>
+<div id="ref-fayyad1996" class="csl-entry" role="listitem">
+Fayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996. <span>“From Data Mining to Knowledge Discovery in Databases.”</span> <em>AI Magazine</em> 17 (3): 37–37.
+</div>
+<div id="ref-provost2013" class="csl-entry" role="listitem">
+Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media, Inc.
+</div>
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-torgo2017" class="csl-entry" role="listitem">
+Torgo, Luis. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
