@@ -1,0 +1,88 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Minería de Datos",
+    "section": "",
+    "text": "Prefacio\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html",
+    "href": "fundamentos.html",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "",
+    "text": "1.1 Qué es la minería de datos\nLa minería de datos (MD) es el proceso de analizar conjuntos de datos, a menudo de gran volumen, para encontrar relaciones insospechadas y resumir la información de formas novedosas, comprensibles y útiles para el propietario de los datos. En el ecosistema empresarial, se utiliza el aforismo de que “los datos son el nuevo oro”. Sin embargo, los datos en bruto son como el mineral sin procesar: carecen de valor estratégico hasta que pasan por un proceso de refinamiento analítico que los transforma en conocimiento accionable.\nA diferencia de la estadística tradicional que a menudo busca confirmar hipótesis predefinidas, la minería de datos es exploratoria por naturaleza; busca descubrir patrones que el analista no sabía que existían. El éxito en esta disciplina no solo requiere habilidades técnicas, sino también creatividad, rigor en la experimentación y, sobre todo, mucha paciencia para interactuar con otras áreas y gestionar el pre-procesamiento de la información.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html#qué-es-la-minería-de-datos",
+    "href": "fundamentos.html#qué-es-la-minería-de-datos",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "",
+    "text": "1.1.1 Discusión Epistemológica: El Nuevo Inductivismo\nLa minería de datos representa un cambio de paradigma hacia lo que se denomina el nuevo inductivismo (Pietsch 2022).\n\nCiencia Fenomenológica: A diferencia de las ciencias teóricas que buscan leyes universales e inmutables, la MD se clasifica como una ciencia fenomenológica. Su prioridad es la predicción y la manipulación de fenómenos complejos; es decir, un modelo es válido si funciona para predecir un resultado de negocio, aunque no siempre podamos explicar la teoría física subyacente (Pietsch 2022).\nInducción Variacional y “Difference-making”: La práctica analítica moderna busca identificar “hacedores de diferencia”. Una relación es relevante si, al variar una circunstancia, el fenómeno de interés cambia (Pietsch 2022). En BI, esto es vital: no basta saber que dos variables se correlacionan, necesitamos saber qué variable (ej. una oferta de descuento) causa un cambio en el comportamiento del cliente (ej. la compra) (Pietsch 2022).\n\n\n\n\n\n\n\n\nNoteActividad de Clase: Del SQL al Descubrimiento (10 min)\n\n\n\nContexto: Un banco quiere mejorar su rentabilidad. 1. Tarea: Proponga una pregunta de consulta tradicional (ej. “¿Cuántos clientes tienen mora mayor a 30 días?”). 2. Tarea: Proponga un objetivo de minería de datos (ej. “Descubrir patrones de comportamiento que diferencien a un cliente que pagará de uno que entrará en mora”). 3. Reflexión: ¿Cómo ayuda el concepto de difference-making a decidir qué clientes deberían recibir una llamada de cobranza preventiva? (Pietsch 2022).",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html#flujos-de-trabajo",
+    "href": "fundamentos.html#flujos-de-trabajo",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "1.2 Flujos de trabajo",
+    "text": "1.2 Flujos de trabajo\nPara garantizar la replicabilidad y evitar que el análisis sea un proceso de “suerte”, se utilizan marcos metodológicos estandarizados.\n\n1.2.1 KDD (Knowledge Discovery in Databases)\n\nOrigen: Propuesto por Fayyad et al. (1996) en el ámbito académico para distinguir el proceso global de descubrimiento de la etapa específica de aplicación de algoritmos.\nFases: 1. Selección, 2. Preprocesamiento, 3. Transformación, 4. Minería de datos, 5. Interpretación/Evaluación.\nEnfoque: Científico y centrado en la purificación técnica de los datos.\n\n\n\n1.2.2 CRISP-DM (Cross-Industry Standard Process for Data Mining)\n\nOrigen: Surgió de un consorcio europeo a finales de los 90 (NCR, SPSS, Daimler-Benz) para crear un estándar no propietario adaptado a la industria (Chapman et al. 2000).\nFases: 1. Comprensión del Negocio, 2. Comprensión de los Datos, 3. Preparación de los Datos, 4. Modelado, 5. Evaluación, 6. Despliegue.\nEnfoque: Cíclico e iterativo, priorizando los objetivos del negocio.\n\n\n\n\n1.2.3 SEMMA\n\nOrigen: Desarrollado por el SAS Institute como metodología operativa para su software Enterprise Miner (matignon2007?).\nFases: 1. Sample (Muestreo), 2. Explore (Exploración), 3. Modify (Modificación), 4. Model (Modelado), 5. Assess (Evaluación).\nEnfoque: Técnico-estadístico, orientado a la experimentación en laboratorio.\n\n\n\n1.2.4 OSEMN\n\nOrigen: Acuñado por Mason and Wiggins (2010) para simplificar el flujo de trabajo en la ciencia de datos moderna basada en scripts (R/Python).\nFases: 1. Obtain (Obtener), 2. Scrub (Limpiar), 3. Explore (Explorar), 4. Model (Modelar), 5. iNterpret (Interpretar).\nEnfoque: Pragmático y ágil, ideal para entornos de desarrollo rápido y programación fluida.\n\n\n\n\n\n\n\n\n\n\n\nCaracterística\nKDD\nCRISP-DM\nSEMMA\nOSEMN\n\n\n\n\nAutor / Referencia\nFayyad et al. (1996)\nChapman et al. (2000)\n(matignon2007?)\nMason and Wiggins (2010)\n\n\nOrigen\nAcademia (Ciencias de la Computación)\nConsorcio Industrial (NCR, SPSS, Daimler)\nSector Software (SAS Institute)\nCiencia de Datos Moderna (Agile)\n\n\nEnfoque Principal\nProceso científico de extracción de conocimiento.\nIntegración de los objetivos de negocio.\nExperimentación técnica y estadística.\nProgramación ágil y flujo de código.\n\n\nFases Clave\nSelección, Preprocesamiento, Transformación, Minería, Interpretación.\nNegocio, Datos, Preparación, Modelado, Evaluación, Despliegue.\nSample, Explore, Modify, Model, Assess.\nObtain, Scrub, Explore, Model, iNterpret.\n\n\nUso Ideal\nInvestigación y desarrollo (I+D).\nGestión de proyectos corporativos.\nAnálisis en laboratorios estadísticos.\nPrototipado rápido en R o Python.\n\n\n\nEl Dilema de la Metodología (Análisis Crítico)\nInstrucción: Analice los siguientes dos escenarios y asigne la metodología que considere más adecuada. Posteriormente, identifique una “falla o limitación” de esa metodología para ese caso específico.\n\nEscenario A: Una institución bancaria requiere un modelo de riesgo crediticio altamente auditable por entes reguladores, donde cada paso de la transformación de datos debe estar documentado estadísticamente.\nEscenario B: Un equipo de marketing digital necesita probar rápidamente si un nuevo algoritmo de recomendación mejora los clics en una campaña que dura solo 48 horas.\n\n\nActividad 2: Ingeniería Inversa de Procesos (Diferenciación)\n\nInstrucción: Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.\n\n\n\nAcción Realizada\nFase en CRISP-DM\nFase en OSEMN\n\n\n\n\nDefinir que el éxito es reducir las quejas en un 20%.\n\n\n\n\nEliminar emojis y stop-words de los tweets.\n\n\n\n\nEjecutar un análisis exploratorio para ver palabras frecuentes.\n\n\n\n\nPresentar una gráfica de barras con los resultados al director.\n\n\n\n\n\nPregunta de reflexión: ¿Por qué el flujo de Mason and Wiggins (2010) es más natural para un analista que trabaja solo, mientras que el de Chapman et al. (2000) es indispensable para un equipo que trabaja para un cliente externo?\n\nLectura sugerida: https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04\n\n\n\n\n\n\n\n\nImportantActividad de Clase: El Dilema de la Metodología (10 min)\n\n\n\nEscenario: Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas. 1. Debate: ¿Usaría CRISP-DM u OSEMN?. 2. Riesgo: ¿Qué peligro corre la veracidad de sus resultados si acelera la fase de limpieza?.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html#analítica-de-datos",
+    "href": "fundamentos.html#analítica-de-datos",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "1.3 Analítica de datos",
+    "text": "1.3 Analítica de datos\nLa analítica de datos se divide según su complejidad y el tipo de pregunta que busca responder:\n\nAnalítica Descriptiva: Responde a “¿Qué pasó?”. Usa estadística e inferencia descriptiva para contextualizar eventos pasados.\nAnalítica Diagnóstica: Responde a “¿Por qué pasó?”. Se enfoca en determinar la causa raíz de un fenómeno mediante el análisis de relaciones.\nAnalítica Predictiva: Responde a “¿Qué pasará?”. Construye modelos que, basados en el pasado, estiman resultados futuros.\nAnalítica Prescriptiva: Responde a “¿Qué debemos hacer?”. Basada en las predicciones, sugiere acciones para mitigar riesgos u obtener ventajas competitivas.\n\n\n\n\n\n\n\n\nNote\n\n\n\n\nActividad de Clase: Clasificando la Demanda (10 min) Clasifique las siguientes solicitudes de una aerolínea: 1. “Queremos saber cuántos asientos se quedaron vacíos el año pasado”. (Descriptiva) 2. “¿Cuál es la probabilidad de que un vuelo a La Paz se cancele por clima mañana?”. (Predictiva) 3. “¿Por qué perdimos el 10% de clientes frecuentes en el último semestre?”. (Diagnóstica) 4. “¿Qué precio debemos fijar hoy para llenar el avión y maximizar la ganancia?”. (Prescriptiva)",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html#conceptos-clave-y-estructura-de-datos",
+    "href": "fundamentos.html#conceptos-clave-y-estructura-de-datos",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "1.4 Conceptos clave y estructura de datos",
+    "text": "1.4 Conceptos clave y estructura de datos\nEl objeto central de nuestro estudio es el dataset, una colección de datos que comparten atributos comunes.\n\nInstancia (Registro): Una unidad única (un cliente, una transacción).\nAtributo (Variable): Una propiedad individual (edad, monto de compra).\nMetadata: Información sobre el origen, precisión y puntualidad de los datos.\n\n\n1.4.1 Estructura de la Información\n\nEstructurados: Formatos rígidos (tablas SQL).\nNo Estructurados: Texto libre (redes sociales), audios, imágenes. Representan la mayor parte de la data actual.\nSemi-estructurados: Poseen etiquetas jerárquicas pero no son tabulares (ej. JSON de una API, XML).",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "fundamentos.html#el-bosque-analítico-visión-holística-de-los-modelos",
+    "href": "fundamentos.html#el-bosque-analítico-visión-holística-de-los-modelos",
+    "title": "1  Fundamentos de la minería de datos",
+    "section": "1.5 El “Bosque Analítico”: Visión Holística de los Modelos",
+    "text": "1.5 El “Bosque Analítico”: Visión Holística de los Modelos\nPara aplicar la técnica correcta, debemos entender la intuición detrás de los modelos:\n\n1.5.1 1. Aprendizaje Supervisado (Modelos Predictivos)\nLa intuición es: “Tengo un maestro” (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\\(X\\)) a una variable objetivo (\\(Y\\)). * Clasificación: \\(Y\\) es una clase o etiqueta (ej. “Fraude” o “No Fraude”). * Regresión: \\(Y\\) es un valor numérico (ej. la proyección de ventas).\n\n\n1.5.2 2. Aprendizaje No Supervisado (Modelos Descriptivos)\nLa intuición es: “Busco estructuras naturales”. No hay una respuesta previa; queremos entender asociaciones y patrones ocultos. * Clustering (Agrupamiento): Crear grupos de clientes similares basados en su comportamiento multivariante. * Asociación: Identificar qué productos suelen “viajar juntos” en un carrito de compras. * Reducción de Dimensionalidad (PCA): Simplificar un problema de 100 variables a las 3 más importantes sin perder información esencial.\n\n\n\n\n\n\nImportantActividad de Clase: ¿Qué modelo necesito? (10 min)\n\n\n\nIdentifique la intuición (Supervisado o No Supervisado) para: 1. Un sistema de Netflix que sugiere películas similares a las que ya viste. (No supervisado - Asociación/Clustering) 2. Un sistema de correos que identifica si un mensaje es SPAM. (Supervisado - Clasificación) 3. Un análisis para identificar 3 perfiles de votantes en una base de datos de ciudadanos. (No supervisado - Clustering)\n\n\n\n\n\n\nChapman, Pete, Julian Clinton, Randy Kerber, et al. 2000. CRISP-DM 1.0: Step-by-Step Data Mining Guide.\n\n\nFayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996. “From Data Mining to Knowledge Discovery in Databases.” AI Magazine 17 (3): 37–37.\n\n\nMason, Hilary, and Chris Wiggins. 2010. “A Taxonomy of Data Science.” Dataists 22.\n\n\nPietsch, Wolfgang. 2022. On the Epistemology of Data Science: Conceptual Tools for a New Inductivism. Springer Nature.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Fundamentos de la minería de datos</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Referencias",
+    "section": "",
+    "text": "Chapman, Pete, Julian Clinton, Randy Kerber, et al. 2000. CRISP-DM\n1.0: Step-by-Step Data Mining Guide.\n\n\nFayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996.\n“From Data Mining to Knowledge Discovery in Databases.”\nAI Magazine 17 (3): 37–37.\n\n\nMason, Hilary, and Chris Wiggins. 2010. “A Taxonomy of Data\nScience.” Dataists 22.\n\n\nPietsch, Wolfgang. 2022. On the Epistemology of Data Science:\nConceptual Tools for a New Inductivism. Springer Nature.",
+    "crumbs": [
+      "Referencias"
+    ]
+  }
+]
