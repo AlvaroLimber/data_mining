@@ -1,12 +1,10 @@
 # Prefacio {.unnumbered}
 
-Este libro nace con el propósito fundamental de introducir al lector en el mundo de la **Ciencia de Datos** y la **Minería de Datos (MD)** utilizando el lenguaje **R** como herramienta central de computación estadística y visualización [@torgo2017; @shmueli2018]. En la era actual del Big Data, los datos masivos por sí mismos carecen de valor; requieren un proceso de refinamiento analítico para convertirse en conocimiento que impulse la innovación [@erl2016].
+Este libro nace con el propósito fundamental de introducir al lector en el mundo de la **Ciencia de Datos** y la **Minería de Datos (MD)** utilizando el lenguaje **R** como herramienta central de computación estadística y visualización. En la era actual del Big Data, los datos masivos por sí mismos carecen de valor; requieren un proceso de refinamiento analítico para convertirse en conocimiento que impulse la innovación.
 
-El espíritu que guía estas páginas es el de **"aprender haciendo"** (*learn by doing*). Por ello, el texto no se limita a la descripción de algoritmos, sino que se sumerge en casos de estudio que reflejan los desafíos reales del analista: la interacción con diversas fuentes de datos, la lucha contra el ruido y la incertidumbre, y la necesidad de comunicar resultados técnicos a audiencias de negocios [@provost2013; @torgo2017].
+El espíritu que guía estas páginas es el de **"aprender haciendo"** (*learn by doing*). Por ello, el texto no se limita a la descripción de algoritmos, sino que se sumerge en casos de estudio que reflejan los desafíos reales del analista: la interacción con diversas fuentes de datos, la lucha contra el ruido y la incertidumbre, y la necesidad de comunicar resultados técnicos a audiencias de negocios.
 
 ## Estructura del libro
-
-El contenido está organizado para reflejar el flujo de trabajo estándar en la industria (CRISP-DM) y la academia (KDD) [@chapman2000; @fayyad1996]:
 
 1.  **Fundamentos y Adquisición:** Una discusión sobre la epistemología del nuevo inductivismo y técnicas de captura de datos.
 2.  **Pre-procesamiento y EDA:** Técnicas de limpieza, transformación y diagnóstico visual, reconociendo que la preparación de los datos es la fase más laboriosa y crítica del proceso.
@@ -14,7 +12,7 @@ El contenido está organizado para reflejar el flujo de trabajo estándar en la 
 
 ## Reproducibilidad
 
-Un pilar central de esta obra es la **reproducibilidad** [@torgo2017]. Gracias al uso de **Quarto**, todos los ejemplos incluyen el código necesario para que el lector pueda replicar los análisis, generar sus propios informes dinámicos y dashboards, garantizando que el conocimiento descubierto sea auditable y transparente [@torgo2017; @shmueli2018].
+Un pilar central de esta obra es la **reproducibilidad** [@torgo2017]. Gracias al uso de **Quarto**, todos los ejemplos incluyen el código necesario para que el lector pueda replicar los análisis, generar sus propios informes dinámicos y dashboards, garantizando que el conocimiento descubierto sea auditable y transparente.
 
 Este texto está dirigido a estudiantes de economía, inteligencia de negocios y profesionales que deseen transitar de una toma de decisiones intuitiva a una fundamentada en datos.
 
