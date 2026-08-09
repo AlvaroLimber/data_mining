@@ -32,13 +32,26 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 ### KDD (Knowledge Discovery in Databases)
 
 * **Origen**: Propuesto por @fayyad1996 en el ámbito académico para distinguir el proceso global de descubrimiento de la etapa específica de aplicación de algoritmos.
-* **Fases**: 1. Selección, 2. Preprocesamiento, 3. Transformación, 4. Minería de datos, 5. Interpretación/Evaluación.
+* **Fases**: 
+  1. Selección, 
+  2. Preprocesamiento, 
+  3. Transformación, 
+  4. Minería de datos, 
+  5. Interpretación/Evaluación.
 * **Enfoque**: Científico y centrado en la purificación técnica de los datos.
+
+![Flujo KDD](fig/kdd.png)
 
 ### CRISP-DM (Cross-Industry Standard Process for Data Mining)
 
 * **Origen**: Surgió de un consorcio europeo a finales de los 90 (NCR, SPSS, Daimler-Benz) para crear un estándar no propietario adaptado a la industria [@chapman2000].
-* **Fases**: 1. Comprensión del Negocio, 2. Comprensión de los Datos, 3. Preparación de los Datos, 4. Modelado, 5. Evaluación, 6. Despliegue.
+* **Fases**: 
+  1. Comprensión del Negocio, 
+  2. Comprensión de los Datos, 
+  3. Preparación de los Datos, 
+  4. Modelado, 
+  5. Evaluación, 
+  6. Despliegue.
 * **Enfoque**: Cíclico e iterativo, priorizando los objetivos del negocio.
 
 ![](fig/crisp.png)
@@ -46,14 +59,26 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 ### SEMMA
 
 * **Origen**: Desarrollado por el SAS Institute como metodología operativa para su software Enterprise Miner [@matignon2007].
-* **Fases**: 1. Sample (Muestreo), 2. Explore (Exploración), 3. Modify (Modificación), 4. Model (Modelado), 5. Assess (Evaluación).
+* **Fases**: 
+  1. Sample (Muestreo), 
+  2. Explore (Exploración), 
+  3. Modify (Modificación), 
+  4. Model (Modelado), 
+  5. Assess (Evaluación).
 * **Enfoque**: Técnico-estadístico, orientado a la experimentación en laboratorio.
 
 ### OSEMN
 
 * **Origen**: Acuñado por @mason2010 para simplificar el flujo de trabajo en la ciencia de datos moderna basada en scripts (R/Python).
-* **Fases**: 1. Obtain (Obtener), 2. Scrub (Limpiar), 3. Explore (Explorar), 4. Model (Modelar), 5. iNterpret (Interpretar).
+* **Fases**: 
+  1. Obtain (Obtener), 
+  2. Scrub (Limpiar), 
+  3. Explore (Explorar), 
+  4. Model (Modelar), 
+  5. iNterpret (Interpretar).
 * **Enfoque**: Pragmático y ágil, ideal para entornos de desarrollo rápido y programación fluida.
+
+### Comparación de flujos de trabajo
 
 | Característica | KDD | CRISP-DM | SEMMA | OSEMN |
 | :--- | :--- | :--- | :--- | :--- |
@@ -63,16 +88,17 @@ Para garantizar la replicabilidad y evitar que el análisis sea un proceso de "s
 | **Fases Clave** | Selección, Preprocesamiento, Transformación, Minería, Interpretación. | Negocio, Datos, Preparación, Modelado, Evaluación, Despliegue. | Sample, Explore, Modify, Model, Assess. | Obtain, Scrub, Explore, Model, iNterpret. |
 | **Uso Ideal** | Investigación y desarrollo (I+D). | Gestión de proyectos corporativos. | Análisis en laboratorios estadísticos. | Prototipado rápido en R o Python. |
 
-
-El Dilema de la Metodología (Análisis Crítico)
+::: {.callout-note}
+### Actividad de clase (5 minutos)
 
 **Instrucción:** Analice los siguientes dos escenarios y asigne la metodología que considere más adecuada. Posteriormente, identifique una "falla o limitación" de esa metodología para ese caso específico.
 
 1. **Escenario A:** Una institución bancaria requiere un modelo de riesgo crediticio altamente auditable por entes reguladores, donde cada paso de la transformación de datos debe estar documentado estadísticamente.
 2. **Escenario B:** Un equipo de marketing digital necesita probar rápidamente si un nuevo algoritmo de recomendación mejora los clics en una campaña que dura solo 48 horas.
+:::
 
-
-> Actividad 2: Ingeniería Inversa de Procesos (Diferenciación)
+::: {.callout-note}
+### Actividad de clase 10 (minutos)
 
 **Instrucción:** Se presenta una lista de 4 acciones clave realizadas en un proyecto de análisis de sentimientos. Clasifique cada acción según el flujo de trabajo indicado.
 
@@ -84,15 +110,18 @@ El Dilema de la Metodología (Análisis Crítico)
 | Presentar una gráfica de barras con los resultados al director. | | |
 
 **Pregunta de reflexión:** ¿Por qué el flujo de @mason2010 es más natural para un analista que trabaja solo, mientras que el de @chapman2000 es indispensable para un equipo que trabaja para un cliente externo?
+:::
 
-> Lectura sugerida: https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04
+::: {.callout-note}
+> Lectura sugerida: 
 
-
-![](fig/kdd.png)
+https://ijisr.issr-journals.org/abstract.php?article=IJISR-14-281-04
+::: 
 
 ::: {.callout-important}
-### Actividad de Clase: El Dilema de la Metodología (10 min)
+### Actividad de Clase (10 minutos)
 **Escenario:** Una empresa de retail quiere implementar un sistema de recomendación en su web para una campaña que inicia en 48 horas.
+
 1.  **Debate:** ¿Usaría **CRISP-DM** u **OSEMN**?.
 2.  **Riesgo:** ¿Qué peligro corre la **veracidad** de sus resultados si acelera la fase de limpieza?.
 :::
