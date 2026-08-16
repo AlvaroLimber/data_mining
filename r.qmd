@@ -218,7 +218,7 @@ Permiten que R tome decisiones o repita tareas automáticamente:
 *   **Condicionales (`if` / `else`):** Ejecutan código basado en una premisa lógica (ej. "si el riesgo es alto, denegar crédito").
 *   **Bucles (`for`):** Repiten una secuencia de comandos un número definido de veces (ej. procesar automáticamente 12 archivos de ventas mensuales).
 
-::: {panel-tabset}
+::: {.panel-tabset}
 ### if
 ```r
 x <- 5

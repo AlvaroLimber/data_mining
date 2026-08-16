@@ -441,7 +441,7 @@ window.Quarto = {
   <li><a href="#automatización-rutinas-y-funciones-personalizadas" id="toc-automatización-rutinas-y-funciones-personalizadas" class="nav-link" data-scroll-target="#automatización-rutinas-y-funciones-personalizadas"><span class="header-section-number">2.4</span> Automatización: Rutinas y Funciones Personalizadas</a>
   <ul class="collapse">
   <li><a href="#estructuras-de-control-de-flujo" id="toc-estructuras-de-control-de-flujo" class="nav-link" data-scroll-target="#estructuras-de-control-de-flujo"><span class="header-section-number">2.4.1</span> Estructuras de Control de Flujo</a></li>
-  <li><a href="#creación-de-funciones" id="toc-creación-de-funciones" class="nav-link" data-scroll-target="#creación-de-funciones"><span class="header-section-number">2.4.5</span> Creación de Funciones</a></li>
+  <li><a href="#creación-de-funciones" id="toc-creación-de-funciones" class="nav-link" data-scroll-target="#creación-de-funciones"><span class="header-section-number">2.4.2</span> Creación de Funciones</a></li>
   </ul></li>
   <li><a href="#investigación-reproducible-con-quarto" id="toc-investigación-reproducible-con-quarto" class="nav-link" data-scroll-target="#investigación-reproducible-con-quarto"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto</a></li>
   </ul>
@@ -731,10 +731,10 @@ comando(arg1,arg2, \ldots)
 <li><strong>Condicionales (<code>if</code> / <code>else</code>):</strong> Ejecutan código basado en una premisa lógica (ej. “si el riesgo es alto, denegar crédito”).</li>
 <li><strong>Bucles (<code>for</code>):</strong> Repiten una secuencia de comandos un número definido de veces (ej. procesar automáticamente 12 archivos de ventas mensuales).</li>
 </ul>
-</section>
-<div class="{panel-tabset}">
-<section id="if" class="level3" data-number="2.4.2">
-<h3 data-number="2.4.2" class="anchored" data-anchor-id="if"><span class="header-section-number">2.4.2</span> if</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">if</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">for</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false" href="">while</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(x<span class="sc">&gt;</span><span class="dv">3</span>){</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"Hola"</span>)</span>
@@ -749,9 +749,8 @@ comando(arg1,arg2, \ldots)
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"viernes"</span>)</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="for" class="level3" data-number="2.4.3">
-<h3 data-number="2.4.3" class="anchored" data-anchor-id="for"><span class="header-section-number">2.4.3</span> for</h3>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i<span class="sc">&lt;</span><span class="dv">5</span>){</span>
@@ -760,22 +759,23 @@ comando(arg1,arg2, \ldots)
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Chau"</span>)</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="while" class="level3" data-number="2.4.4">
-<h3 data-number="2.4.4" class="anchored" data-anchor-id="while"><span class="header-section-number">2.4.4</span> while</h3>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>aux<span class="ot">&lt;-</span><span class="dv">1</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(aux<span class="sc">&gt;</span><span class="fl">0.05</span>){</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  aux<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">/</span>x</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  x<span class="ot">&lt;-</span>x<span class="sc">+</span><span class="dv">1</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
+</div>
+</div>
 </div>
 <div class=".callout-note">
 <p>Hola</p>
 </div>
-<section id="creación-de-funciones" class="level3" data-number="2.4.5">
-<h3 data-number="2.4.5" class="anchored" data-anchor-id="creación-de-funciones"><span class="header-section-number">2.4.5</span> Creación de Funciones</h3>
+</section>
+<section id="creación-de-funciones" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="creación-de-funciones"><span class="header-section-number">2.4.2</span> Creación de Funciones</h3>
 <p>Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estructura básica</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mi_indicador <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
