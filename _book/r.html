@@ -770,8 +770,22 @@ comando(arg1,arg2, \ldots)
 </div>
 </div>
 </div>
-<div class=".callout-note">
-<p>Hola</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Ejercicios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Identificación de Datos Perdidos:</strong> Dado el dataset airquality, crea un bucle <code>for</code> que recorra todas las columnas. Si una columna tiene más de un 10% de valores <code>NA</code>, imprime un mensaje de alerta con el nombre de la variable.</li>
+<li><strong>Regla de Negocio para Riesgo:</strong> Supón que tienes un vector con montos de transacciones (simula 100 casos). Utiliza una estructura <code>if</code> / <code>else</code> dentro de un bucle para clasificar cada transacción: si el monto es mayor a 5000 USD y ocurre en una sucursal específica, etiquétala como “Revisión Manual”; de lo contrario, etiquétala como “Aprobada”.</li>
+<li><strong>Simulación de Convergencia:</strong> Utiliza un bucle <code>while</code> para simular el entrenamiento de un modelo. Inicia con un “error” de 1.0 y, en cada paso, reduce el error en un 15% de manera aleatoria. El bucle debe detenerse cuando el error sea menor a 0.01. Este ejercicio ayuda a entender cómo funcionan los procesos iterativos en <strong>redes neuronales</strong> y otros algoritmos de aprendizaje.</li>
+</ol>
+</div>
 </div>
 </section>
 <section id="creación-de-funciones" class="level3" data-number="2.4.2">
@@ -782,8 +796,22 @@ comando(arg1,arg2, \ldots)
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  resultado <span class="ot">&lt;-</span> (x <span class="sc">/</span> <span class="fu">sum</span>(x)) <span class="sc">*</span> <span class="dv">100</span> <span class="co"># Cálculo de porcentaje participación</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultado)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class=".callout-note">
-<p>HOla</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Función de Normalización (Z-score):</strong> Crea una función llamada <code>estandarizar</code> que reciba un vector numérico y devuelva los valores transformados mediante la fórmula <span class="math inline">\(z = (x - \bar{x}) / s\)</span>. La estandarización es indispensable antes de aplicar métodos como <strong>PCA</strong> o <strong>Clustering</strong> para evitar que las variables con escalas grandes dominen el análisis.</p></li>
+<li><p><strong>Calculadora de MSE:</strong> Desarrolla una función que reciba dos vectores: uno con los valores reales y otro con las predicciones de un modelo. La función debe devolver el <strong>Error Cuadrático Medio (MSE)</strong>. Este es el estándar para evaluar el desempeño en tareas de <strong>Regresión</strong>.</p></li>
+<li><p><strong>Reporte de Clasificación:</strong> Escribe una función que tome una matriz de confusión de 2x2 como entrada y calcule la <strong>Precisión (Precision)</strong> y la <strong>Exhaustividad (Recall)</strong>. Esta herramienta será fundamental cuando estudies modelos de clasificación supervisada en capítulos futuros.</p></li>
+</ol>
+</div>
 </div>
 </section>
 </section>

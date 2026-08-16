@@ -260,10 +260,13 @@ while(aux>0.05){
 ```
 :::
 
-::: .callout-note
-Hola
-:::
+::: {.callout-note}
+### Ejercicios
 
+1.  **Identificación de Datos Perdidos:** Dado el dataset airquality, crea un bucle `for` que recorra todas las columnas. Si una columna tiene más de un 10% de valores `NA`, imprime un mensaje de alerta con el nombre de la variable.
+2.  **Regla de Negocio para Riesgo:** Supón que tienes un vector con montos de transacciones (simula 100 casos). Utiliza una estructura `if` / `else` dentro de un bucle para clasificar cada transacción: si el monto es mayor a 5000 USD y ocurre en una sucursal específica, etiquétala como "Revisión Manual"; de lo contrario, etiquétala como "Aprobada".
+3.  **Simulación de Convergencia:** Utiliza un bucle `while` para simular el entrenamiento de un modelo. Inicia con un "error" de 1.0 y, en cada paso, reduce el error en un 15% de manera aleatoria. El bucle debe detenerse cuando el error sea menor a 0.01. Este ejercicio ayuda a entender cómo funcionan los procesos iterativos en **redes neuronales** y otros algoritmos de aprendizaje.
+:::
 
 ### Creación de Funciones
 
@@ -276,8 +279,13 @@ mi_indicador <- function(x) {
   return(resultado)
 }
 ```
-::: .callout-note
-HOla
+::: {.callout-tip}
+### Ejercicios
+
+1.  **Función de Normalización (Z-score):** Crea una función llamada `estandarizar` que reciba un vector numérico y devuelva los valores transformados mediante la fórmula $z = (x - \bar{x}) / s$. La estandarización es indispensable antes de aplicar métodos como **PCA** o **Clustering** para evitar que las variables con escalas grandes dominen el análisis.
+2.  **Calculadora de MSE:** Desarrolla una función que reciba dos vectores: uno con los valores reales y otro con las predicciones de un modelo. La función debe devolver el **Error Cuadrático Medio (MSE)**. Este es el estándar para evaluar el desempeño en tareas de **Regresión**.
+
+3.  **Reporte de Clasificación:** Escribe una función que tome una matriz de confusión de 2x2 como entrada y calcule la **Precisión (Precision)** y la **Exhaustividad (Recall)**. Esta herramienta será fundamental cuando estudies modelos de clasificación supervisada en capítulos futuros.
 :::
 
 ## Investigación Reproducible con Quarto
