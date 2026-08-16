@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # El Ecosistema de R y la Computación Estadística
 
 ## ¿Qué es R? Un entorno para la minería de datos
@@ -14,6 +19,25 @@ Para un desempeño profesional, el analista debe configurar un ecosistema robust
 2.  **RStudio (IDE):** El entorno de desarrollo integrado que facilita la escritura de código, la gestión de archivos y la visualización de resultados en una interfaz de cuatro paneles (Editor, Consola, Entorno y Utilidades).
 3.  **Compilador LaTeX:** Herramienta indispensable para la generación de reportes técnicos en formato PDF a través de distribuciones livianas como *TinyTeX*.
 
+::: {.callout-tip}
+Existen otras alternativas populares para gestionar sus proyectos:
+
+- Google Colab
+- Visual Studio Code
+- Pycharm
+- Posit cloud
+- JupyterLab, Jupyter Notebook
+- Databricks
+
+| Necesidad principal | Entorno recomendado |
+| --- | --- |
+| **Investigación y análisis estadístico en R** | RStudio / Posit Workbench |
+| **Desarrollo general multiprogramación (Python/R)** | VS Code |
+| **Pruebas rápidas con GPU o uso educativo** | Google Colab |
+| **Procesamiento masivo de datos (Big Data)** | Databricks |
+| **Prototipado interactivo local** | JupyterLab |
+:::
+
 ### Gestión de Proyectos y Buenas Prácticas
 
 Un error común en analistas novatos es trabajar con ficheros sueltos en carpetas genéricas. En minería de datos, el orden garantiza la **reproducibilidad**.
@@ -23,10 +47,16 @@ Un error común en analistas novatos es trabajar con ficheros sueltos en carpeta
 
 ## Sintaxis Básica y Operaciones en la Consola
 
-Antes de almacenar información, debemos comprender la lógica de comunicación con el motor de R. Esta sigue el principio matemático de $f(x)=y$, donde aplicamos una **función** a un **argumento** para obtener un resultado.
+Esta sigue el principio matemático de: 
+
+$$
+f(x)=y\\
+comando(arg1,arg2, \ldots)
+$$
+
+, donde aplicamos una **función** a un **argumento** para obtener un resultado.
 
 ::: {.panel-tabset}
-
 ### R como Calculadora
 R maneja operaciones de alta precisión respetando el orden algebraico estándar:
 ```r
@@ -35,7 +65,6 @@ R maneja operaciones de alta precisión respetando el orden algebraico estándar
 sqrt(144)            # Función raíz cuadrada
 10^2                 # Potenciación
 ```
-
 ### Operadores Lógicos
 Esenciales para el filtrado de reglas de negocio en BI, devuelven valores `TRUE` o `FALSE`:
 ```r
@@ -47,15 +76,25 @@ Esenciales para el filtrado de reglas de negocio en BI, devuelven valores `TRUE`
 
 ### Palabras Reservadas
 R tiene términos protegidos con significados técnicos específicos:
+
 *   `NA`: Dato perdido (*Not Available*).
 *   `NULL`: Objeto vacío o inexistente.
 *   `NaN`: Error en cálculo numérico (*Not a Number*).
 *   `Inf`: Infinito matemático.
+
+### Clases
+
+```r
+class(100)    # numérica
+class("hola") # Texto, caractér
+class(2>3)    # Lógica
+```
 :::
 
 ::: {.callout-note}
-### Actividad de Clase 1: Análisis Financiero Inmediato (10 min)
+### Actividad (5 min)
 **Escenario:** Un cliente tiene un crédito de 50,000 USD a una tasa del 1.2% mensual.
+
 1.  Use la **consola** como calculadora para hallar el interés del primer mes.
 2.  Verifique si ese interés es mayor a 500 USD usando un operador lógico.
 3.  Utilice el comando `?log` para investigar cómo calcular el logaritmo en base 10 del monto total del crédito.
@@ -66,27 +105,107 @@ R tiene términos protegidos con significados técnicos específicos:
 En R, todo es un **objeto**. Para crear estos activos en la memoria, utilizamos el operador de asignación `<-` (evite el uso de `=` para asignaciones, ya que puede confundirse con igualdad lógica).
 
 ### Estructuras Homogéneas (Mismo tipo de dato)
+
 Contienen elementos de una sola clase (números, texto o lógicos):
+
 *   **Scalar:** Un único valor individual.
 *   **Vector:** Una colección indexada de valores columna. Se crean con la función combinar `c()`.
 *   **Matriz:** Una estructura bidimensional donde todos los datos son del mismo tipo (ej. una tabla de puros montos financieros).
+* **Array:** Una generalización de la matriz de mas de 2 dimensiones
+
+::: {.panel-tabset}
+### Scalar 
+
+```r
+s1  <-  2
+s2  <-  "hola a todos"
+s3  <-  3==4
+```
+### Vector
+```r
+v1  <-  c(2,4,6,8,10)
+v2  <-  c("a", "b", "c", "hola", "buenos días")
+v3  <-  v1>5
+```
+
+### Matriz
+```r
+m1  <-  matrix(c(1, 2, 3, 4) , 2, 2 )
+m2  <-  matrix(c("a", "b", "c", "d") , 2, 2 )
+m3  <-  m1>=2
+```
+
+### Array
+```r
+a1  <-  array(1:8, c(2, 2, 2))
+```
+:::
 
 ### Estructuras Heterogéneas (Múltiples tipos de datos)
 Permiten combinar diferentes naturalezas de información, siendo las más poderosas para el analista:
-*   **Data Frames:** Es el formato estándar de las bases de datos. Cada columna es una variable (puede ser de distinto tipo) y cada fila es una observación [@shmueli2018; 19].
+
+*   **Data Frames:** Es el formato estándar de las bases de datos (tabular). Cada columna es una variable (puede ser de distinto tipo) y cada fila es una observación.
 *   **Listas:** El objeto más flexible; puede contener vectores, matrices, modelos y hasta otras listas en un solo contenedor.
 
-> **Sugerencia de Imagen:** Un diagrama jerárquico que muestre la diferencia entre un **Vector** (una fila de cajas iguales), un **Data Frame** (una tabla tipo Excel con columnas de colores distintos) y una **Lista** (un baúl que contiene objetos de formas y tamaños variados).
+::: {.panel-tabset}
+### Dataframe
 
----
+```r
+nombre  <- c("Maria", "Jose", "Ana")
+edad  <-  c(19, 30, 23)
+df1 <-  data.frame(nombre, edad)
+df1
+```
+
+### Lista
+```r
+s1 <- 1; v1<-c(1,2)
+l1 <- list(s1, v1, df1)
+l1
+```
+:::
+
+![Estructuras en R](fig/class.jpeg)
 
 ::: {.callout-important}
-### Actividad de Clase 2: Creación de un Dataset Estratégico (10 min)
-**Contexto:** Usted debe registrar el desempeño de tres vendedores: Ana, Luis y Pedro. Vendieron 15, 20 y 12 unidades respectivamente.
+### Actividad: Creación de un Dataset Estratégico (5 min)
+Debe registrar el desempeño de tres vendedores: Ana, Luis y Pedro. Vendieron 15, 20 y 12 unidades respectivamente.
+
 1.  Cree el vector `vendedores` con los nombres.
 2.  Cree el vector `ventas` con las unidades.
 3.  Cree un dataframe llamado `df_comercial` que una ambos vectores.
 4.  Use la función `str(df_comercial)` para inspeccionar la estructura de su base de datos.
+:::
+
+### Indexación
+
+Se refiere al proceso de acceder, seleccionar o extraer elementos específicos dentro de las estructuras de datos en R (vectores, matrices, data frames y listas) utilizando operadores de extracción.
+
+::: {.panel-tabset}
+### Vectores
+```r
+set.seed(123) # Semilla aleatoria
+v1<-runif(10) # Distribución uniforme de 0 a 1
+v1[2]
+v1[c(3,7)]
+v1[2:5]
+```
+
+### Matrices y dataframe
+```r
+data(iris) #datos en R
+iris[2,] #Fila
+iris[,2] #Columna
+iris[c(2, 5), c(1, 5)]
+iris$Petal.Length #seleccionar variable
+```
+
+### Listas
+```r
+l1<-list(2, 1:10, iris)
+l1[[2]]
+l1[[3]]$Species
+```
 :::
 
 ## Automatización: Rutinas y Funciones Personalizadas
@@ -99,7 +218,55 @@ Permiten que R tome decisiones o repita tareas automáticamente:
 *   **Condicionales (`if` / `else`):** Ejecutan código basado en una premisa lógica (ej. "si el riesgo es alto, denegar crédito").
 *   **Bucles (`for`):** Repiten una secuencia de comandos un número definido de veces (ej. procesar automáticamente 12 archivos de ventas mensuales).
 
+::: {panel-tabset}
+### if
+```r
+x <- 5
+if(x>3){
+  print("Hola")
+} else {
+  print("Chau")
+}
+
+if(x==3){
+  print("lunes")
+} else if(x>3){
+  print("martes")
+} else {
+  print("viernes")
+}
+```
+
+### for
+```r
+for(i in 1:10){
+  print(i)
+  if(i<5){
+    print("Hola")
+  } else {
+    print("Chau")
+  }
+}
+```
+
+### while
+```{r}
+x <- 1
+aux<-1
+while(aux>0.05){
+  aux<-1/x
+  x<-x+1
+}
+```
+:::
+
+::: .callout-note
+
+:::
+
+
 ### Creación de Funciones (`function`)
+
 Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:
 
 ```r
@@ -109,12 +276,20 @@ mi_indicador <- function(x) {
   return(resultado)
 }
 ```
+::: .callout-note
+
+:::
 
 ## Investigación Reproducible con Quarto (`.qmd`)
 
 El estándar actual para la minería de datos es el uso de documentos dinámicos que integran narrativa, código y resultados en un solo flujo. A diferencia de copiar tablas a un Word, un archivo de Quarto permite:
 1.  **YAML Header:** Definir metadatos y formatos de salida (PDF, HTML, Dashboards).
 2.  **Chunks de Código:** Bloques de R donde ocurre el procesamiento, con opciones de control como `echo`, `eval` y `message`.
-3.  **Ecuaciones LaTeX:** Inserción de fórmulas matemáticas complejas como \\(\sum_{i=1}^{n} x_i^2\\) para documentar la metodología algorítmica utilizada.
+3.  **Ecuaciones LaTeX:** Inserción de fórmulas matemáticas complejas como $\sum_{i=1}^{n} x_i^2$ para documentar la metodología algorítmica utilizada.
 
-Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian [14, UA1].
+Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian.
+
+::: .callout-note
+
+:::
+
