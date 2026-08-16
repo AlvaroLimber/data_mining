@@ -1,0 +1,120 @@
+# El Ecosistema de R y la Computación Estadística
+
+## ¿Qué es R? Un entorno para la minería de datos
+
+R no se limita a ser un lenguaje de programación; se define técnicamente como un entorno integrado de servicios de software diseñado para la manipulación de datos, el cálculo estadístico y la generación de representaciones gráficas de alta calidad. Surgió en 1996 en la Universidad de Auckland, Nueva Zelanda, creado por Ross Ihaka y Robert Gentleman como una implementación de código abierto del lenguaje S [@torgo2017; @shmueli2018].
+
+Su éxito en la Inteligencia de Negocios (BI) radica en su naturaleza **Open Source**, lo que permite una validación constante de sus algoritmos por parte de la comunidad científica y el desarrollo de miles de librerías especializadas que extienden sus capacidades más allá de lo que cualquier software comercial cerrado puede ofrecer [@torgo2017].
+
+### Configuración de la Estación de Trabajo
+
+Para un desempeño profesional, el analista debe configurar un ecosistema robusto compuesto por tres pilares fundamentales:
+
+1.  **R Base:** El motor de ejecución, disponible en el [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/).
+2.  **RStudio (IDE):** El entorno de desarrollo integrado que facilita la escritura de código, la gestión de archivos y la visualización de resultados en una interfaz de cuatro paneles (Editor, Consola, Entorno y Utilidades).
+3.  **Compilador LaTeX:** Herramienta indispensable para la generación de reportes técnicos en formato PDF a través de distribuciones livianas como *TinyTeX*.
+
+### Gestión de Proyectos y Buenas Prácticas
+
+Un error común en analistas novatos es trabajar con ficheros sueltos en carpetas genéricas. En minería de datos, el orden garantiza la **reproducibilidad**.
+
+*   **Proyectos de R (.Rproj):** Siempre inicie su trabajo creando un proyecto (`File > New Project`). Esto encapsula todos los activos en una carpeta raíz y evita errores de rutas de archivos al compartir el trabajo con otros equipos.
+*   **Nomenclatura de Objetos:** Siga el estándar de @wickham2014: use nombres cortos, siempre en minúsculas y separe las palabras con guion bajo (ej. `monto_total` en lugar de `MontoTotal` o `mt`). Evite nombres genéricos como `dato1` o `tabla`.
+
+## Sintaxis Básica y Operaciones en la Consola
+
+Antes de almacenar información, debemos comprender la lógica de comunicación con el motor de R. Esta sigue el principio matemático de $f(x)=y$, donde aplicamos una **función** a un **argumento** para obtener un resultado.
+
+::: {.panel-tabset}
+
+### R como Calculadora
+R maneja operaciones de alta precisión respetando el orden algebraico estándar:
+```r
+# Operaciones aritméticas
+(1500 * 0.15) + 200  # Cálculo de interés
+sqrt(144)            # Función raíz cuadrada
+10^2                 # Potenciación
+```
+
+### Operadores Lógicos
+Esenciales para el filtrado de reglas de negocio en BI, devuelven valores `TRUE` o `FALSE`:
+```r
+100 >= 50    # Mayor o igual
+10 == 10     # Igualdad estricta (doble igual)
+10 != 5      # Diferente de
+(5 > 3) & (10 < 2) # Operador Y (AND)
+```
+
+### Palabras Reservadas
+R tiene términos protegidos con significados técnicos específicos:
+*   `NA`: Dato perdido (*Not Available*).
+*   `NULL`: Objeto vacío o inexistente.
+*   `NaN`: Error en cálculo numérico (*Not a Number*).
+*   `Inf`: Infinito matemático.
+:::
+
+::: {.callout-note}
+### Actividad de Clase 1: Análisis Financiero Inmediato (10 min)
+**Escenario:** Un cliente tiene un crédito de 50,000 USD a una tasa del 1.2% mensual.
+1.  Use la **consola** como calculadora para hallar el interés del primer mes.
+2.  Verifique si ese interés es mayor a 500 USD usando un operador lógico.
+3.  Utilice el comando `?log` para investigar cómo calcular el logaritmo en base 10 del monto total del crédito.
+:::
+
+## Estructuras de Datos: Los Activos de Información
+
+En R, todo es un **objeto**. Para crear estos activos en la memoria, utilizamos el operador de asignación `<-` (evite el uso de `=` para asignaciones, ya que puede confundirse con igualdad lógica).
+
+### Estructuras Homogéneas (Mismo tipo de dato)
+Contienen elementos de una sola clase (números, texto o lógicos):
+*   **Scalar:** Un único valor individual.
+*   **Vector:** Una colección indexada de valores columna. Se crean con la función combinar `c()`.
+*   **Matriz:** Una estructura bidimensional donde todos los datos son del mismo tipo (ej. una tabla de puros montos financieros).
+
+### Estructuras Heterogéneas (Múltiples tipos de datos)
+Permiten combinar diferentes naturalezas de información, siendo las más poderosas para el analista:
+*   **Data Frames:** Es el formato estándar de las bases de datos. Cada columna es una variable (puede ser de distinto tipo) y cada fila es una observación [@shmueli2018; 19].
+*   **Listas:** El objeto más flexible; puede contener vectores, matrices, modelos y hasta otras listas en un solo contenedor.
+
+> **Sugerencia de Imagen:** Un diagrama jerárquico que muestre la diferencia entre un **Vector** (una fila de cajas iguales), un **Data Frame** (una tabla tipo Excel con columnas de colores distintos) y una **Lista** (un baúl que contiene objetos de formas y tamaños variados).
+
+---
+
+::: {.callout-important}
+### Actividad de Clase 2: Creación de un Dataset Estratégico (10 min)
+**Contexto:** Usted debe registrar el desempeño de tres vendedores: Ana, Luis y Pedro. Vendieron 15, 20 y 12 unidades respectivamente.
+1.  Cree el vector `vendedores` con los nombres.
+2.  Cree el vector `ventas` con las unidades.
+3.  Cree un dataframe llamado `df_comercial` que una ambos vectores.
+4.  Use la función `str(df_comercial)` para inspeccionar la estructura de su base de datos.
+:::
+
+## Automatización: Rutinas y Funciones Personalizadas
+
+La minería de datos moderna requiere que el analista deje de realizar tareas manuales y empiece a escribir **scripts** para procesos repetitivos de limpieza y modelado.
+
+### Estructuras de Control de Flujo
+Permiten que R tome decisiones o repita tareas automáticamente:
+
+*   **Condicionales (`if` / `else`):** Ejecutan código basado en una premisa lógica (ej. "si el riesgo es alto, denegar crédito").
+*   **Bucles (`for`):** Repiten una secuencia de comandos un número definido de veces (ej. procesar automáticamente 12 archivos de ventas mensuales).
+
+### Creación de Funciones (`function`)
+Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:
+
+```r
+# Estructura básica
+mi_indicador <- function(x) {
+  resultado <- (x / sum(x)) * 100 # Cálculo de porcentaje participación
+  return(resultado)
+}
+```
+
+## Investigación Reproducible con Quarto (`.qmd`)
+
+El estándar actual para la minería de datos es el uso de documentos dinámicos que integran narrativa, código y resultados en un solo flujo. A diferencia de copiar tablas a un Word, un archivo de Quarto permite:
+1.  **YAML Header:** Definir metadatos y formatos de salida (PDF, HTML, Dashboards).
+2.  **Chunks de Código:** Bloques de R donde ocurre el procesamiento, con opciones de control como `echo`, `eval` y `message`.
+3.  **Ecuaciones LaTeX:** Inserción de fórmulas matemáticas complejas como \\(\sum_{i=1}^{n} x_i^2\\) para documentar la metodología algorítmica utilizada.
+
+Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian [14, UA1].

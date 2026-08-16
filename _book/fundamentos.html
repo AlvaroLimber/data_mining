@@ -52,7 +52,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./r.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -64,8 +64,8 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-43634426a2b20f70ebab780d1f5449e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7ad11678a5bbd983cb93c979fd3d6443.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b9f2f07ae5a8812bc508e625fed73b25.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ba8e73a601a383a97ed8429bc770149b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -94,10 +94,39 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta name="twitter:title" content="1&nbsp; Fundamentos de la minería de datos – Minería de Datos">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://example.com/fig/data1.png">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/data1.png">
 <meta name="twitter:image-height" content="672">
 <meta name="twitter:image-width" content="1543">
 <meta name="twitter:card" content="summary_large_image">
@@ -338,6 +367,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./fundamentos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span></a>
   </div>
 </li>
       </ul>
@@ -724,7 +759,7 @@ div.csl-indent {
 </section>
 <section id="analítica-predictiva-qué-pasará" class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="analítica-predictiva-qué-pasará"><span class="header-section-number">1.4.3</span> Analítica Predictiva: ¿Qué pasará?</h3>
-<p>Es el núcleo del <strong>Aprendizaje Supervisado</strong>. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida (\(f\)) que mapee las variables predictoras (\(X\)) hacia una variable objetivo (\(Y\)).</p>
+<p>Es el núcleo del <strong>Aprendizaje Supervisado</strong>. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida <span class="math inline">\(f\)</span> que mapee las variables predictoras (<span class="math inline">\(X\)</span>) hacia una variable objetivo (<span class="math inline">\(Y\)</span>).</p>
 <ul>
 <li><strong>En MD:</strong> Incluye tareas de <strong>Clasificación</strong> (metas categóricas) y <strong>Regresión</strong> (metas numéricas).</li>
 <li><strong>Valor:</strong> Genera previsión (<em>foresight</em>) y permite la identificación proactiva de riesgos y oportunidades.</li>
@@ -791,10 +826,10 @@ div.csl-indent {
 </section>
 <section id="aprendizaje-supervisado-modelos-predictivos" class="level3" data-number="1.6.2">
 <h3 data-number="1.6.2" class="anchored" data-anchor-id="aprendizaje-supervisado-modelos-predictivos"><span class="header-section-number">1.6.2</span> Aprendizaje Supervisado (Modelos Predictivos)</h3>
-<p>La intuición es: <strong>“Tengo un maestro”</strong> (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\(X\)) a una variable objetivo (\(Y\)).</p>
+<p>La intuición es: <strong>“Tengo un maestro”</strong> (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (<span class="math inline">\(X\)</span>) a una variable objetivo (<span class="math inline">\(Y\)</span>).</p>
 <ul>
-<li><strong>Clasificación:</strong> \(Y\) es una clase o etiqueta (ej. “Fraude” o “No Fraude”).</li>
-<li><strong>Regresión:</strong> \(Y\) es un valor numérico (ej. la proyección de ventas).</li>
+<li><strong>Clasificación:</strong> <span class="math inline">\(Y\)</span> es una clase o etiqueta (ej. “Fraude” o “No Fraude”).</li>
+<li><strong>Regresión:</strong> <span class="math inline">\(Y\)</span> es un valor numérico (ej. la proyección de ventas).</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -926,7 +961,7 @@ Pietsch, Wolfgang. 2022. <em>On the Epistemology of Data Science: Conceptual Too
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/example\.com");
+        var filterRegex = new RegExp("https:\/\/alvarolimber\.github\.io\/data_mining\/_book");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1260,8 +1295,8 @@ Pietsch, Wolfgang. 2022. <em>On the Epistemology of Data Science: Conceptual Too
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Referencias">
-        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./r.html" class="pagination-link" aria-label="El Ecosistema de R y la Computación Estadística">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

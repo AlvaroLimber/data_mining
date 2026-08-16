@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/index.html</loc>
-    <lastmod>2026-08-09T22:27:38.463Z</lastmod>
+    <loc>https://alvarolimber.github.io/data_mining/_book/index.html</loc>
+    <lastmod>2026-08-16T15:08:49.168Z</lastmod>
   </url>
   <url>
-    <loc>https://example.com/fundamentos.html</loc>
-    <lastmod>2026-08-09T22:21:29.890Z</lastmod>
+    <loc>https://alvarolimber.github.io/data_mining/_book/fundamentos.html</loc>
+    <lastmod>2026-08-16T15:18:42.480Z</lastmod>
   </url>
   <url>
-    <loc>https://example.com/references.html</loc>
-    <lastmod>2026-08-09T17:31:00.474Z</lastmod>
+    <loc>https://alvarolimber.github.io/data_mining/_book/r.html</loc>
+    <lastmod>2026-08-16T15:22:31.115Z</lastmod>
+  </url>
+  <url>
+    <loc>https://alvarolimber.github.io/data_mining/_book/references.html</loc>
+    <lastmod>2026-08-16T15:08:49.168Z</lastmod>
   </url>
 </urlset>

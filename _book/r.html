@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alvaro Chirino Gutierrez">
-<meta name="dcterms.date" content="2026-01-01">
 
-<title>Minería de Datos</title>
+<title>2&nbsp; El Ecosistema de R y la Computación Estadística – Minería de Datos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -54,7 +87,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./fundamentos.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./fundamentos.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -95,13 +129,39 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="twitter:title" content="Minería de Datos">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="2&nbsp; El Ecosistema de R y la Computación Estadística – Minería de Datos">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/cover.png">
-<meta name="twitter:image-height" content="1264">
-<meta name="twitter:image-width" content="848">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
@@ -273,7 +333,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prefacio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./r.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -322,7 +382,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prefacio</span></a>
   </div>
 </li>
@@ -343,7 +403,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./r.html" class="sidebar-item-text sidebar-link">
+  <a href="./r.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span></a>
   </div>
 </li>
@@ -365,12 +425,23 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prefacio" id="toc-prefacio" class="nav-link active" data-scroll-target="#prefacio">Prefacio</a>
+  <li><a href="#qué-es-r-un-entorno-para-la-minería-de-datos" id="toc-qué-es-r-un-entorno-para-la-minería-de-datos" class="nav-link active" data-scroll-target="#qué-es-r-un-entorno-para-la-minería-de-datos"><span class="header-section-number">2.1</span> ¿Qué es R? Un entorno para la minería de datos</a>
   <ul class="collapse">
-  <li><a href="#estructura-del-libro" id="toc-estructura-del-libro" class="nav-link" data-scroll-target="#estructura-del-libro">Estructura del libro</a></li>
-  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#configuración-de-la-estación-de-trabajo" id="toc-configuración-de-la-estación-de-trabajo" class="nav-link" data-scroll-target="#configuración-de-la-estación-de-trabajo"><span class="header-section-number">2.1.1</span> Configuración de la Estación de Trabajo</a></li>
+  <li><a href="#gestión-de-proyectos-y-buenas-prácticas" id="toc-gestión-de-proyectos-y-buenas-prácticas" class="nav-link" data-scroll-target="#gestión-de-proyectos-y-buenas-prácticas"><span class="header-section-number">2.1.2</span> Gestión de Proyectos y Buenas Prácticas</a></li>
   </ul></li>
+  <li><a href="#sintaxis-básica-y-operaciones-en-la-consola" id="toc-sintaxis-básica-y-operaciones-en-la-consola" class="nav-link" data-scroll-target="#sintaxis-básica-y-operaciones-en-la-consola"><span class="header-section-number">2.2</span> Sintaxis Básica y Operaciones en la Consola</a></li>
+  <li><a href="#estructuras-de-datos-los-activos-de-información" id="toc-estructuras-de-datos-los-activos-de-información" class="nav-link" data-scroll-target="#estructuras-de-datos-los-activos-de-información"><span class="header-section-number">2.3</span> Estructuras de Datos: Los Activos de Información</a>
+  <ul class="collapse">
+  <li><a href="#estructuras-homogéneas-mismo-tipo-de-dato" id="toc-estructuras-homogéneas-mismo-tipo-de-dato" class="nav-link" data-scroll-target="#estructuras-homogéneas-mismo-tipo-de-dato"><span class="header-section-number">2.3.1</span> Estructuras Homogéneas (Mismo tipo de dato)</a></li>
+  <li><a href="#estructuras-heterogéneas-múltiples-tipos-de-datos" id="toc-estructuras-heterogéneas-múltiples-tipos-de-datos" class="nav-link" data-scroll-target="#estructuras-heterogéneas-múltiples-tipos-de-datos"><span class="header-section-number">2.3.2</span> Estructuras Heterogéneas (Múltiples tipos de datos)</a></li>
+  </ul></li>
+  <li><a href="#automatización-rutinas-y-funciones-personalizadas" id="toc-automatización-rutinas-y-funciones-personalizadas" class="nav-link" data-scroll-target="#automatización-rutinas-y-funciones-personalizadas"><span class="header-section-number">2.4</span> Automatización: Rutinas y Funciones Personalizadas</a>
+  <ul class="collapse">
+  <li><a href="#estructuras-de-control-de-flujo" id="toc-estructuras-de-control-de-flujo" class="nav-link" data-scroll-target="#estructuras-de-control-de-flujo"><span class="header-section-number">2.4.1</span> Estructuras de Control de Flujo</a></li>
+  <li><a href="#creación-de-funciones-function" id="toc-creación-de-funciones-function" class="nav-link" data-scroll-target="#creación-de-funciones-function"><span class="header-section-number">2.4.2</span> Creación de Funciones (<code>function</code>)</a></li>
+  </ul></li>
+  <li><a href="#investigación-reproducible-con-quarto-.qmd" id="toc-investigación-reproducible-con-quarto-.qmd" class="nav-link" data-scroll-target="#investigación-reproducible-con-quarto-.qmd"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto (<code>.qmd</code>)</a></li>
   </ul>
 </nav>
     </div>
@@ -378,28 +449,16 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./r.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Minería de Datos</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Alvaro Chirino Gutierrez </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -409,35 +468,131 @@ div.csl-indent {
 </header>
 
 
-
-<section id="prefacio" class="level1 unnumbered">
-<h1 class="unnumbered">Prefacio</h1><p><img src="cover.png" title="Minería de Datos" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>Este libro nace con el propósito fundamental de introducir al lector en el mundo de la <strong>Ciencia de Datos</strong> y la <strong>Minería de Datos (MD)</strong> utilizando el lenguaje <strong>R</strong> como herramienta central de computación estadística y visualización. En la era actual del Big Data, los datos masivos por sí mismos carecen de valor; requieren un proceso de refinamiento analítico para convertirse en conocimiento que impulse la innovación.</p>
-<p>El espíritu que guía estas páginas es el de <strong>“aprender haciendo”</strong> (<em>learn by doing</em>). Por ello, el texto no se limita a la descripción de algoritmos, sino que se sumerge en casos de estudio que reflejan los desafíos reales del analista: la interacción con diversas fuentes de datos, la lucha contra el ruido y la incertidumbre, y la necesidad de comunicar resultados técnicos a audiencias de negocios.</p>
-<section id="estructura-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="estructura-del-libro">Estructura del libro</h2>
+<section id="qué-es-r-un-entorno-para-la-minería-de-datos" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="qué-es-r-un-entorno-para-la-minería-de-datos"><span class="header-section-number">2.1</span> ¿Qué es R? Un entorno para la minería de datos</h2>
+<p>R no se limita a ser un lenguaje de programación; se define técnicamente como un entorno integrado de servicios de software diseñado para la manipulación de datos, el cálculo estadístico y la generación de representaciones gráficas de alta calidad. Surgió en 1996 en la Universidad de Auckland, Nueva Zelanda, creado por Ross Ihaka y Robert Gentleman como una implementación de código abierto del lenguaje S <span class="citation" data-cites="torgo2017 shmueli2018">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<p>Su éxito en la Inteligencia de Negocios (BI) radica en su naturaleza <strong>Open Source</strong>, lo que permite una validación constante de sus algoritmos por parte de la comunidad científica y el desarrollo de miles de librerías especializadas que extienden sus capacidades más allá de lo que cualquier software comercial cerrado puede ofrecer <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<section id="configuración-de-la-estación-de-trabajo" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="configuración-de-la-estación-de-trabajo"><span class="header-section-number">2.1.1</span> Configuración de la Estación de Trabajo</h3>
+<p>Para un desempeño profesional, el analista debe configurar un ecosistema robusto compuesto por tres pilares fundamentales:</p>
 <ol type="1">
-<li><strong>Fundamentos y Adquisición:</strong> Una discusión sobre la epistemología del nuevo inductivismo y técnicas de captura de datos.</li>
-<li><strong>Pre-procesamiento y EDA:</strong> Técnicas de limpieza, transformación y diagnóstico visual, reconociendo que la preparación de los datos es la fase más laboriosa y crítica del proceso.</li>
-<li><strong>Modelado No Supervisado:</strong> Métodos para encontrar estructuras naturales en los datos sin etiquetas previas, incluyendo segmentación (Clustering) y reducción de dimensionalidad (PCA).</li>
+<li><strong>R Base:</strong> El motor de ejecución, disponible en el <a href="https://cran.r-project.org/">Comprehensive R Archive Network (CRAN)</a>.</li>
+<li><strong>RStudio (IDE):</strong> El entorno de desarrollo integrado que facilita la escritura de código, la gestión de archivos y la visualización de resultados en una interfaz de cuatro paneles (Editor, Consola, Entorno y Utilidades).</li>
+<li><strong>Compilador LaTeX:</strong> Herramienta indispensable para la generación de reportes técnicos en formato PDF a través de distribuciones livianas como <em>TinyTeX</em>.</li>
 </ol>
 </section>
-<section id="reproducibilidad" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h2>
-<p>Un pilar central de esta obra es la <strong>reproducibilidad</strong> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Gracias al uso de <strong>Quarto</strong>, todos los ejemplos incluyen el código necesario para que el lector pueda replicar los análisis, generar sus propios informes dinámicos y dashboards, garantizando que el conocimiento descubierto sea auditable y transparente.</p>
-<p>Este texto está dirigido a estudiantes de economía, inteligencia de negocios y profesionales que deseen transitar de una toma de decisiones intuitiva a una fundamentada en datos.</p>
+<section id="gestión-de-proyectos-y-buenas-prácticas" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="gestión-de-proyectos-y-buenas-prácticas"><span class="header-section-number">2.1.2</span> Gestión de Proyectos y Buenas Prácticas</h3>
+<p>Un error común en analistas novatos es trabajar con ficheros sueltos en carpetas genéricas. En minería de datos, el orden garantiza la <strong>reproducibilidad</strong>.</p>
+<ul>
+<li><strong>Proyectos de R (.Rproj):</strong> Siempre inicie su trabajo creando un proyecto (<code>File &gt; New Project</code>). Esto encapsula todos los activos en una carpeta raíz y evita errores de rutas de archivos al compartir el trabajo con otros equipos.</li>
+<li><strong>Nomenclatura de Objetos:</strong> Siga el estándar de <span class="citation" data-cites="wickham2014">(<a href="references.html#ref-wickham2014" role="doc-biblioref"><strong>wickham2014?</strong></a>)</span>: use nombres cortos, siempre en minúsculas y separe las palabras con guion bajo (ej. <code>monto_total</code> en lugar de <code>MontoTotal</code> o <code>mt</code>). Evite nombres genéricos como <code>dato1</code> o <code>tabla</code>.</li>
+</ul>
 </section>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>Este apartado se actualizará periódicamente con un listado de fuentes de datos disponibles en el repositorio, con el fin de dar seguimiento a los temas discutidos en el libro.</p>
+</section>
+<section id="sintaxis-básica-y-operaciones-en-la-consola" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sintaxis-básica-y-operaciones-en-la-consola"><span class="header-section-number">2.2</span> Sintaxis Básica y Operaciones en la Consola</h2>
+<p>Antes de almacenar información, debemos comprender la lógica de comunicación con el motor de R. Esta sigue el principio matemático de <span class="math inline">\(f(x)=y\)</span>, donde aplicamos una <strong>función</strong> a un <strong>argumento</strong> para obtener un resultado.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">R como Calculadora</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Operadores Lógicos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Palabras Reservadas</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>R maneja operaciones de alta precisión respetando el orden algebraico estándar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Operaciones aritméticas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1500</span> <span class="sc">*</span> <span class="fl">0.15</span>) <span class="sc">+</span> <span class="dv">200</span>  <span class="co"># Cálculo de interés</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">144</span>)            <span class="co"># Función raíz cuadrada</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span><span class="sc">^</span><span class="dv">2</span>                 <span class="co"># Potenciación</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Esenciales para el filtrado de reglas de negocio en BI, devuelven valores <code>TRUE</code> o <code>FALSE</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">&gt;=</span> <span class="dv">50</span>    <span class="co"># Mayor o igual</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">==</span> <span class="dv">10</span>     <span class="co"># Igualdad estricta (doble igual)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">!=</span> <span class="dv">5</span>      <span class="co"># Diferente de</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>(<span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">&amp;</span> (<span class="dv">10</span> <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="co"># Operador Y (AND)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>R tiene términos protegidos con significados técnicos específicos: * <code>NA</code>: Dato perdido (<em>Not Available</em>). * <code>NULL</code>: Objeto vacío o inexistente. * <code>NaN</code>: Error en cálculo numérico (<em>Not a Number</em>). * <code>Inf</code>: Infinito matemático.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase 1: Análisis Financiero Inmediato (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario:</strong> Un cliente tiene un crédito de 50,000 USD a una tasa del 1.2% mensual. 1. Use la <strong>consola</strong> como calculadora para hallar el interés del primer mes. 2. Verifique si ese interés es mayor a 500 USD usando un operador lógico. 3. Utilice el comando <code>?log</code> para investigar cómo calcular el logaritmo en base 10 del monto total del crédito.</p>
+</div>
+</div>
+</section>
+<section id="estructuras-de-datos-los-activos-de-información" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="estructuras-de-datos-los-activos-de-información"><span class="header-section-number">2.3</span> Estructuras de Datos: Los Activos de Información</h2>
+<p>En R, todo es un <strong>objeto</strong>. Para crear estos activos en la memoria, utilizamos el operador de asignación <code>&lt;-</code> (evite el uso de <code>=</code> para asignaciones, ya que puede confundirse con igualdad lógica).</p>
+<section id="estructuras-homogéneas-mismo-tipo-de-dato" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="estructuras-homogéneas-mismo-tipo-de-dato"><span class="header-section-number">2.3.1</span> Estructuras Homogéneas (Mismo tipo de dato)</h3>
+<p>Contienen elementos de una sola clase (números, texto o lógicos): * <strong>Scalar:</strong> Un único valor individual. * <strong>Vector:</strong> Una colección indexada de valores columna. Se crean con la función combinar <code>c()</code>. * <strong>Matriz:</strong> Una estructura bidimensional donde todos los datos son del mismo tipo (ej. una tabla de puros montos financieros).</p>
+</section>
+<section id="estructuras-heterogéneas-múltiples-tipos-de-datos" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="estructuras-heterogéneas-múltiples-tipos-de-datos"><span class="header-section-number">2.3.2</span> Estructuras Heterogéneas (Múltiples tipos de datos)</h3>
+<p>Permiten combinar diferentes naturalezas de información, siendo las más poderosas para el analista: * <strong>Data Frames:</strong> Es el formato estándar de las bases de datos. Cada columna es una variable (puede ser de distinto tipo) y cada fila es una observación [<span class="citation" data-cites="shmueli2018">Shmueli et al. (<a href="references.html#ref-shmueli2018" role="doc-biblioref">2018</a>)</span>; 19]. * <strong>Listas:</strong> El objeto más flexible; puede contener vectores, matrices, modelos y hasta otras listas en un solo contenedor.</p>
+<blockquote class="blockquote">
+<p><strong>Sugerencia de Imagen:</strong> Un diagrama jerárquico que muestre la diferencia entre un <strong>Vector</strong> (una fila de cajas iguales), un <strong>Data Frame</strong> (una tabla tipo Excel con columnas de colores distintos) y una <strong>Lista</strong> (un baúl que contiene objetos de formas y tamaños variados).</p>
+</blockquote>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase 2: Creación de un Dataset Estratégico (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Contexto:</strong> Usted debe registrar el desempeño de tres vendedores: Ana, Luis y Pedro. Vendieron 15, 20 y 12 unidades respectivamente. 1. Cree el vector <code>vendedores</code> con los nombres. 2. Cree el vector <code>ventas</code> con las unidades. 3. Cree un dataframe llamado <code>df_comercial</code> que una ambos vectores. 4. Use la función <code>str(df_comercial)</code> para inspeccionar la estructura de su base de datos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="automatización-rutinas-y-funciones-personalizadas" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="automatización-rutinas-y-funciones-personalizadas"><span class="header-section-number">2.4</span> Automatización: Rutinas y Funciones Personalizadas</h2>
+<p>La minería de datos moderna requiere que el analista deje de realizar tareas manuales y empiece a escribir <strong>scripts</strong> para procesos repetitivos de limpieza y modelado.</p>
+<section id="estructuras-de-control-de-flujo" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="estructuras-de-control-de-flujo"><span class="header-section-number">2.4.1</span> Estructuras de Control de Flujo</h3>
+<p>Permiten que R tome decisiones o repita tareas automáticamente:</p>
+<ul>
+<li><strong>Condicionales (<code>if</code> / <code>else</code>):</strong> Ejecutan código basado en una premisa lógica (ej. “si el riesgo es alto, denegar crédito”).</li>
+<li><strong>Bucles (<code>for</code>):</strong> Repiten una secuencia de comandos un número definido de veces (ej. procesar automáticamente 12 archivos de ventas mensuales).</li>
+</ul>
+</section>
+<section id="creación-de-funciones-function" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="creación-de-funciones-function"><span class="header-section-number">2.4.2</span> Creación de Funciones (<code>function</code>)</h3>
+<p>Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estructura básica</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mi_indicador <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  resultado <span class="ot">&lt;-</span> (x <span class="sc">/</span> <span class="fu">sum</span>(x)) <span class="sc">*</span> <span class="dv">100</span> <span class="co"># Cálculo de porcentaje participación</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultado)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="investigación-reproducible-con-quarto-.qmd" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="investigación-reproducible-con-quarto-.qmd"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto (<code>.qmd</code>)</h2>
+<p>El estándar actual para la minería de datos es el uso de documentos dinámicos que integran narrativa, código y resultados en un solo flujo. A diferencia de copiar tablas a un Word, un archivo de Quarto permite: 1. <strong>YAML Header:</strong> Definir metadatos y formatos de salida (PDF, HTML, Dashboards). 2. <strong>Chunks de Código:</strong> Bloques de R donde ocurre el procesamiento, con opciones de control como <code>echo</code>, <code>eval</code> y <code>message</code>. 3. <strong>Ecuaciones LaTeX:</strong> Inserción de fórmulas matemáticas complejas como \(_{i=1}^{n} x_i^2\) para documentar la metodología algorítmica utilizada.</p>
+<p>Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian [14, UA1].</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
 <div id="ref-torgo2017" class="csl-entry" role="listitem">
 Torgo, Luis. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -856,10 +1011,13 @@ Torgo, Luis. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./fundamentos.html" class="pagination-link" aria-label="Fundamentos de la minería de datos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./fundamentos.html" class="pagination-link" aria-label="Fundamentos de la minería de datos">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

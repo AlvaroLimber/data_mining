@@ -170,7 +170,7 @@ Su objetivo es determinar la **causa raíz** de un fenómeno pasado. A diferenci
 
 ### Analítica Predictiva: ¿Qué pasará?
 
-Es el núcleo del **Aprendizaje Supervisado**. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida (\\(f\\)) que mapee las variables predictoras (\\(X\\)) hacia una variable objetivo (\\(Y\\)).
+Es el núcleo del **Aprendizaje Supervisado**. Se lleva a cabo en un intento de determinar el resultado de un evento futuro basándose en la fuerza y magnitud de las asociaciones encontradas en el pasado. Busca aproximar una función desconocida $f$ que mapee las variables predictoras ($X$) hacia una variable objetivo ($Y$).
 
 *   **En MD:** Incluye tareas de **Clasificación** (metas categóricas) y **Regresión** (metas numéricas).
 *   **Valor:** Genera previsión (*foresight*) y permite la identificación proactiva de riesgos y oportunidades.
@@ -225,10 +225,10 @@ La intuición es: **"Busco estructuras naturales"**. No hay una respuesta previa
 
 ### Aprendizaje Supervisado (Modelos Predictivos)
 
-La intuición es: **"Tengo un maestro"** (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras (\\(X\\)) a una variable objetivo (\\(Y\\)).
+La intuición es: **"Tengo un maestro"** (datos históricos con la respuesta conocida). El objetivo es mapear variables predictoras ($X$) a una variable objetivo ($Y$).
 
-*   **Clasificación:** \\(Y\\) es una clase o etiqueta (ej. "Fraude" o "No Fraude").
-*   **Regresión:** \\(Y\\) es un valor numérico (ej. la proyección de ventas).
+*   **Clasificación:** $Y$ es una clase o etiqueta (ej. "Fraude" o "No Fraude").
+*   **Regresión:** $Y$ es un valor numérico (ej. la proyección de ventas).
 
 ::: {.callout-note}
 

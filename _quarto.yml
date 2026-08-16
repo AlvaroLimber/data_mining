@@ -8,7 +8,7 @@ book:
   date-format: "YYYY"
   #favicon: logo.png
   twitter-card: true
-  site-url: https://example.com
+  site-url: https://alvarolimber.github.io/data_mining/_book
   search: true
   repo-url: https://github.com/data_mining/
   downloads: [pdf]
@@ -26,7 +26,7 @@ book:
     - part: "Parte I: Introducción y Fundamentos"
       chapters: 
         - fundamentos.qmd
-        #- r.qmd
+        - r.qmd
         #- scrape.qmd
     #- part: "Parte II: Modelado Múltiple"
      # chapters:

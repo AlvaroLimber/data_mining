@@ -1,1 +1,1 @@
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://alvarolimber.github.io/data_mining/_book/sitemap.xml
