@@ -441,9 +441,9 @@ window.Quarto = {
   <li><a href="#automatización-rutinas-y-funciones-personalizadas" id="toc-automatización-rutinas-y-funciones-personalizadas" class="nav-link" data-scroll-target="#automatización-rutinas-y-funciones-personalizadas"><span class="header-section-number">2.4</span> Automatización: Rutinas y Funciones Personalizadas</a>
   <ul class="collapse">
   <li><a href="#estructuras-de-control-de-flujo" id="toc-estructuras-de-control-de-flujo" class="nav-link" data-scroll-target="#estructuras-de-control-de-flujo"><span class="header-section-number">2.4.1</span> Estructuras de Control de Flujo</a></li>
-  <li><a href="#creación-de-funciones-function" id="toc-creación-de-funciones-function" class="nav-link" data-scroll-target="#creación-de-funciones-function"><span class="header-section-number">2.4.5</span> Creación de Funciones (<code>function</code>)</a></li>
+  <li><a href="#creación-de-funciones" id="toc-creación-de-funciones" class="nav-link" data-scroll-target="#creación-de-funciones"><span class="header-section-number">2.4.5</span> Creación de Funciones</a></li>
   </ul></li>
-  <li><a href="#investigación-reproducible-con-quarto-.qmd" id="toc-investigación-reproducible-con-quarto-.qmd" class="nav-link" data-scroll-target="#investigación-reproducible-con-quarto-.qmd"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto (<code>.qmd</code>)</a></li>
+  <li><a href="#investigación-reproducible-con-quarto" id="toc-investigación-reproducible-con-quarto" class="nav-link" data-scroll-target="#investigación-reproducible-con-quarto"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto</a></li>
   </ul>
 </nav>
     </div>
@@ -763,21 +763,19 @@ comando(arg1,arg2, \ldots)
 </section>
 <section id="while" class="level3" data-number="2.4.4">
 <h3 data-number="2.4.4" class="anchored" data-anchor-id="while"><span class="header-section-number">2.4.4</span> while</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>aux<span class="ot">&lt;-</span><span class="dv">1</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(aux<span class="sc">&gt;</span><span class="fl">0.05</span>){</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  aux<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">/</span>x</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  x<span class="ot">&lt;-</span>x<span class="sc">+</span><span class="dv">1</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
 </div>
 <div class=".callout-note">
-
+<p>Hola</p>
 </div>
-<section id="creación-de-funciones-function" class="level3" data-number="2.4.5">
-<h3 data-number="2.4.5" class="anchored" data-anchor-id="creación-de-funciones-function"><span class="header-section-number">2.4.5</span> Creación de Funciones (<code>function</code>)</h3>
+<section id="creación-de-funciones" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="creación-de-funciones"><span class="header-section-number">2.4.5</span> Creación de Funciones</h3>
 <p>Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estructura básica</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mi_indicador <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
@@ -785,17 +783,14 @@ comando(arg1,arg2, \ldots)
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultado)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class=".callout-note">
-
+<p>HOla</p>
 </div>
 </section>
 </section>
-<section id="investigación-reproducible-con-quarto-.qmd" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="investigación-reproducible-con-quarto-.qmd"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto (<code>.qmd</code>)</h2>
+<section id="investigación-reproducible-con-quarto" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="investigación-reproducible-con-quarto"><span class="header-section-number">2.5</span> Investigación Reproducible con Quarto</h2>
 <p>El estándar actual para la minería de datos es el uso de documentos dinámicos que integran narrativa, código y resultados en un solo flujo. A diferencia de copiar tablas a un Word, un archivo de Quarto permite: 1. <strong>YAML Header:</strong> Definir metadatos y formatos de salida (PDF, HTML, Dashboards). 2. <strong>Chunks de Código:</strong> Bloques de R donde ocurre el procesamiento, con opciones de control como <code>echo</code>, <code>eval</code> y <code>message</code>. 3. <strong>Ecuaciones LaTeX:</strong> Inserción de fórmulas matemáticas complejas como <span class="math inline">\(\sum_{i=1}^{n} x_i^2\)</span> para documentar la metodología algorítmica utilizada.</p>
 <p>Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian.</p>
-<div class=".callout-note">
-
-</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">

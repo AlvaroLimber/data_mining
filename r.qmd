@@ -250,7 +250,7 @@ for(i in 1:10){
 ```
 
 ### while
-```{r}
+```r
 x <- 1
 aux<-1
 while(aux>0.05){
@@ -261,11 +261,11 @@ while(aux>0.05){
 :::
 
 ::: .callout-note
-
+Hola
 :::
 
 
-### Creación de Funciones (`function`)
+### Creación de Funciones
 
 Una función es una secuencia de procedimientos con un objetivo claro. Si usted debe realizar el mismo cálculo más de tres veces, encapsúlelo en una función:
 
@@ -277,10 +277,10 @@ mi_indicador <- function(x) {
 }
 ```
 ::: .callout-note
-
+HOla
 :::
 
-## Investigación Reproducible con Quarto (`.qmd`)
+## Investigación Reproducible con Quarto
 
 El estándar actual para la minería de datos es el uso de documentos dinámicos que integran narrativa, código y resultados en un solo flujo. A diferencia de copiar tablas a un Word, un archivo de Quarto permite:
 1.  **YAML Header:** Definir metadatos y formatos de salida (PDF, HTML, Dashboards).
@@ -288,8 +288,3 @@ El estándar actual para la minería de datos es el uso de documentos dinámicos
 3.  **Ecuaciones LaTeX:** Inserción de fórmulas matemáticas complejas como $\sum_{i=1}^{n} x_i^2$ para documentar la metodología algorítmica utilizada.
 
 Esto garantiza que el conocimiento descubierto sea auditable, transparente y fácilmente actualizable si los datos de origen cambian.
-
-::: .callout-note
-
-:::
-
