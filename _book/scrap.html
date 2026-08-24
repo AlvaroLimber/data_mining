@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Referencias – Minería de Datos</title>
+<title>3&nbsp; Adquisición de Datos en la Web: Web Scraping y APIs – Minería de Datos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -52,7 +87,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./scrap.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./r.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -94,8 +130,10 @@ div.csl-indent {
 }</script>
 
 
-<meta name="twitter:title" content="Referencias – Minería de Datos">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3&nbsp; Adquisición de Datos en la Web: Web Scraping y APIs – Minería de Datos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/dataweb.jpeg">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
@@ -267,7 +305,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">Referencias</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./scrap.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -343,7 +381,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./scrap.html" class="sidebar-item-text sidebar-link">
+  <a href="./scrap.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span></a>
   </div>
 </li>
@@ -351,7 +389,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referencias</span></a>
   </div>
 </li>
@@ -360,16 +398,29 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#captura-y-preservación-de-la-información" id="toc-captura-y-preservación-de-la-información" class="nav-link active" data-scroll-target="#captura-y-preservación-de-la-información"><span class="header-section-number">3.1</span> Captura y Preservación de la Información</a></li>
+  <li><a href="#el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus" id="toc-el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus" class="nav-link" data-scroll-target="#el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus"><span class="header-section-number">3.2</span> El Ciclo de Recopilación de Información (Los 5 Pasos de Iacus)</a></li>
+  <li><a href="#fundamentos-tecnológicos-de-la-web-html-y-css" id="toc-fundamentos-tecnológicos-de-la-web-html-y-css" class="nav-link" data-scroll-target="#fundamentos-tecnológicos-de-la-web-html-y-css"><span class="header-section-number">3.3</span> Fundamentos Tecnológicos de la Web: HTML y CSS</a></li>
+  <li><a href="#raspado-web-práctico-en-r-con-rvest" id="toc-raspado-web-práctico-en-r-con-rvest" class="nav-link" data-scroll-target="#raspado-web-práctico-en-r-con-rvest"><span class="header-section-number">3.4</span> Raspado Web Práctico en R con <code>rvest</code></a></li>
+  <li><a href="#interfaces-de-programación-de-aplicaciones-apis" id="toc-interfaces-de-programación-de-aplicaciones-apis" class="nav-link" data-scroll-target="#interfaces-de-programación-de-aplicaciones-apis"><span class="header-section-number">3.5</span> Interfaces de Programación de Aplicaciones (APIs)</a>
+  <ul class="collapse">
+  <li><a href="#caso-práctico-consumo-de-la-api-del-banco-mundial" id="toc-caso-práctico-consumo-de-la-api-del-banco-mundial" class="nav-link" data-scroll-target="#caso-práctico-consumo-de-la-api-del-banco-mundial"><span class="header-section-number">3.5.1</span> Caso Práctico: Consumo de la API del Banco Mundial</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fundamentos.html">Parte I: Introducción y Fundamentos</a></li><li class="breadcrumb-item"><a href="./scrap.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Referencias</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></h1>
 </div>
 
 
@@ -386,56 +437,230 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-chapman2000" class="csl-entry" role="listitem">
-Chapman, Pete, and Julian ... Clinton. 2000. <em>CRISP-DM 1.0:
-Step-by-Step Data Mining Guide</em>. SPSS Inc.
+<section id="captura-y-preservación-de-la-información" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="captura-y-preservación-de-la-información"><span class="header-section-number">3.1</span> Captura y Preservación de la Información</h2>
+<p>En el ámbito del análisis de datos, el primer paso crítico consiste en obtener información de calidad mediante un proceso sistemático de captura y preservación. Tradicionalmente, la estadística y la investigación social han dependido de <strong>fuentes convencionales</strong> como censos, encuestas por muestreo y registros administrativos.</p>
+<p>Sin embargo, en el ecosistema digital moderno, la Inteligencia de Negocios y la minería de datos exigen incorporar la captura de información generada en espacios digitales, redes sociales y portales web. Este cambio metodológico demanda del analista <strong>mucha paciencia</strong> y creatividad, ya que la interacción con áreas externas y el preprocesamiento de datos crudos consumen la mayor parte del esfuerzo técnico.</p>
+<p>La justificación de este esfuerzo radica en la naturaleza de los datos del mundo real: independientemente de su origen, la mayoría de los datos son <strong>ruidosos, inconsistentes y adolecen de valores perdidos</strong>. Por ello, aunque la recopilación en la web pueda parecer de bajo costo, la creación de datos de alta calidad mediante limpieza, estandarización e integración representa una inversión considerable para cualquier organización.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/dataweb.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Datos Web</figcaption>
+</figure>
 </div>
-<div id="ref-fayyad1996" class="csl-entry" role="listitem">
-Fayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996.
-<span>“From Data Mining to Knowledge Discovery in Databases.”</span>
-<em>AI Magazine</em> 17 (3): 37–37.
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Estudio Observacional</th>
+<th>Registro Transaccional</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Origen</strong></td>
+<td>Diseñado ex profeso (con intensión) para investigar o medir.</td>
+<td>Generado automáticamente por una operación del día a día.</td>
+</tr>
+<tr class="even">
+<td><strong>Intención</strong></td>
+<td>Analítica / Científica.</td>
+<td>Operativa / Administrativa.</td>
+</tr>
+<tr class="odd">
+<td><strong>Intervención</strong></td>
+<td>El investigador diseña las preguntas o variables a medir.</td>
+<td>El sistema registra el evento tal como sucede por necesidad operativa.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus"><span class="header-section-number">3.2</span> El Ciclo de Recopilación de Información (Los 5 Pasos de Iacus)</h2>
+<p>Para evitar sesgos y garantizar que la recolección automática de información de los sitios web sea un proceso científico <span class="citation" data-cites="Iacus2015">(<a href="references.html#ref-Iacus2015" role="doc-biblioref">Iacus et al. 2015</a>)</span>, se debe seguir una secuencia metodológica estructurada:</p>
+<pre><code>[1. Definición de Necesidad] ──&gt; [2. Identificación de Fuentes] ──&gt; [3. Teoría de Generación]
+                                                                            │
+[5. Toma de Decisión y Raspado] &lt;── [4. Balance y Aspecto Legal] &lt;──────────┘</code></pre>
+<ol type="1">
+<li><strong>Definición de la Necesidad de Información:</strong> Delimitar con precisión qué datos se requieren para apoyar una mejor toma de decisiones dentro del negocio.</li>
+<li><strong>Identificación de Fuentes en la Web:</strong> Buscar portales digitales que contengan los atributos o propiedades requeridos para el estudio.</li>
+<li><strong>Teoría del Proceso de Generación de Datos:</strong> Comprender quién genera el dato, con qué frecuencia se actualiza y qué sesgos potenciales puede contener la plataforma de origen.</li>
+<li><strong>Balance de Ventajas, Desventajas y Legalidad:</strong> Evaluar la viabilidad técnica de la captura frente a las políticas de uso del portal y el archivo <code>robots.txt</code> del servidor. <em>https://www.ejemplo.com/robots.txt</em></li>
+<li><strong>Toma de Decisión e Inicio de la Recopilación:</strong> Diseñar el script de extracción automatizada resguardando la preservación y consistencia de los datos capturados.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div id="ref-hand2001principles" class="csl-entry" role="listitem">
-Hand, David J, Heikki Mannila, and Padhraic Smyth. 2001. <em>Principles
-of Data Mining</em>. MIT press.
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad: Planificando la Captura (10 min)
 </div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Instrucción:</strong> En grupos de tres estudiantes, elijan un portal de comercio electrónico o de noticias de su país.</p>
+<ol type="1">
+<li>Definan un objetivo de negocio que requiera raspar ese sitio.</li>
+<li>Identifiquen si los datos que obtendrán son el resultado de un estudio observacional o un registro transaccional.</li>
+<li>Mencionen dos posibles inconsistencias o ruidos que esperan encontrar en la data cruda.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="fundamentos-tecnológicos-de-la-web-html-y-css" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="fundamentos-tecnológicos-de-la-web-html-y-css"><span class="header-section-number">3.3</span> Fundamentos Tecnológicos de la Web: HTML y CSS</h2>
+<p>Para realizar la extracción automática de datos sin la intervención de un humano que navegue visualmente <span class="citation" data-cites="Mitchell2015">(<a href="references.html#ref-Mitchell2015" role="doc-biblioref">Mitchell 2015</a>)</span>, debemos entender el lenguaje con el que están construidas las páginas. El <strong>HTML</strong> (<em>HyperText Markup Language</em>) es un lenguaje de texto que se utiliza para estructurar y desplegar una página web.</p>
+<p>HTML funciona bajo una <strong>estructura jerárquica y entornos de encapsulamiento</strong> definidos por etiquetas (tags) y atributos. Por ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"oferta"</span><span class="ot"> id</span><span class="op">=</span><span class="st">"sucursal_la_paz"</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"producto"</span><span class="dt">&gt;</span>Laptop de Oficina<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"precio"</span><span class="dt">&gt;</span>750.00 USD<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En minería de datos, no necesitamos leer todo el código de una página. El diseño estético de la web utiliza hojas de estilo (CSS) que asignan clases (como <code>.producto</code> o <code>.precio</code>) a los elementos. Estas clases actúan como <strong>selectores o direcciones postales</strong> que le permiten a nuestro código en R extraer quirúrgicamente la información de interés.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/scrap.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Scraping en R</figcaption>
+</figure>
+</div>
+</section>
+<section id="raspado-web-práctico-en-r-con-rvest" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="raspado-web-práctico-en-r-con-rvest"><span class="header-section-number">3.4</span> Raspado Web Práctico en R con <code>rvest</code></h2>
+<p>En R, la librería diseñada para interactuar con páginas estáticas y realizar raspado web es <strong><code>rvest</code></strong>, la cual forma parte del universo de herramientas de <strong><code>tidyverse</code></strong>. Para facilitar la identificación del selector CSS de cualquier elemento sin inspeccionar manualmente el código, se emplea la extensión de navegador <strong>SelectorGadget</strong>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Instalación y Carga</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Funciones Clave</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Ejemplo de Raspado</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Para comenzar a trabajar con <code>rvest</code>, instale el paquete desde el CRAN y cárguelo en su sesión de trabajo junto con el núcleo de <code>tidyverse</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalación (se ejecuta una sola vez)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rvest"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga de librerías en la sesión actual</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>La extracción con <code>rvest</code> se basa en cuatro funciones secuenciales que procesan la información mediante la tubería o <em>pipe</em> (<code>%&gt;%</code>): * <code>read_html()</code>: Carga y analiza la estructura jerárquica del documento HTML. * <code>html_nodes()</code>: Extrae los entornos específicos que coinciden con el selector CSS. * <code>html_text()</code>: Limpia el código de marcado y extrae únicamente el texto plano. * <code>html_table()</code>: Convierte tablas HTML (<code>&lt;table&gt;</code>) directamente en estructuras de datos de R (<em>data frames</em>).</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>A continuación se presenta la sintaxis estándar para estructurar texto extraído de un contenedor web:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Leer el portal web de origen</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>url_portal <span class="ot">&lt;-</span> <span class="st">"https://ejemplo-tienda-bolivia.com"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>web_html   <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_portal)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Capturar nodos y transformarlos a un vector de texto limpio</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>nombres_productos <span class="ot">&lt;-</span> web_html <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".producto"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Obtén la tabla de esta fuente y genera un dataframe. https://www.bcb.gob.bo/tco_reporte_detalle_historico.php?fecha=2026-08-20</li>
+<li>Hacer web scraping de un portal de comercio electrónico, clasificados o supermercados locales en Bolivia.</li>
+<li>Hacer un web scraping de una biblioteca universitaria digital en Bolivia y capturar una búsqueda de interés.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="interfaces-de-programación-de-aplicaciones-apis" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="interfaces-de-programación-de-aplicaciones-apis"><span class="header-section-number">3.5</span> Interfaces de Programación de Aplicaciones (APIs)</h2>
+<p>Aunque el raspado web es una herramienta flexible, tiene una limitación: si el administrador de la página cambia el diseño o el nombre de las clases CSS, el código fallará. Como alternativa estructurada, existen las <strong>APIs</strong> (<em>Application Programming Interface</em>).</p>
+<p>Las APIs son <strong>puertas de entrada creadas por los administradores de una página web</strong> que permiten el acceso controlado a información seleccionada en formatos amigables y altamente estructurados (como JSON o XML), aunque debido a esto no siempre contienen toda la información que el analista desea.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dimensión Analítica</th>
+<th style="text-align: left;">Web Scraping Tradicional</th>
+<th style="text-align: left;">Acceso por APIs Oficiales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Estabilidad</strong></td>
+<td style="text-align: left;">Baja (sensible a rediseños estéticos de la web)</td>
+<td style="text-align: left;">Alta (los esquemas de datos permanecen estables).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Estructura</strong></td>
+<td style="text-align: left;">No estructurada (requiere transformaciones complejas)</td>
+<td style="text-align: left;">Altamente estructurada (JSON, XML listos para análisis).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Limitaciones</strong></td>
+<td style="text-align: left;">Bloqueos de IP por peticiones masivas</td>
+<td style="text-align: left;">Regulado por cuotas de acceso y claves de autenticación.</td>
+</tr>
+</tbody>
+</table>
+<section id="caso-práctico-consumo-de-la-api-del-banco-mundial" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="caso-práctico-consumo-de-la-api-del-banco-mundial"><span class="header-section-number">3.5.1</span> Caso Práctico: Consumo de la API del Banco Mundial</h3>
+<p>La API del Banco Mundial ofrece acceso libre a más de <strong>16,000 indicadores de series de tiempo</strong> con una cobertura histórica superior a los 50 años para la mayoría de los países. En R, no necesitamos realizar peticiones HTTP manuales para consumir esta API, ya que existe la librería especializada <strong><code>wbstats</code></strong> que encapsula las consultas de manera directa.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar y cargar la librería de acceso a la API del Banco Mundial</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"wbstats"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wbstats)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Buscar indicadores relacionados con el desempleo</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>busqueda_desempleo <span class="ot">&lt;-</span> <span class="fu">wb_search</span>(<span class="st">"unemployment"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Descargar datos de desempleo para Bolivia desde el año 2000</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>datos_bolivia <span class="ot">&lt;-</span> <span class="fu">wb_data</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="st">"BO"</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">indicator =</span> <span class="st">"SL.UEM.TOTL.ZS"</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="dv">2000</span>, </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_date =</span> <span class="dv">2025</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios de Aplicación Práctica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Raspado de Tipo de Cambio Oficial:</strong> Diseñe un script en R utilizando <code>rvest</code> para extraer el precio de compra y venta del dólar estadounidense, así como la fecha de actualización, desde la página oficial del <strong>Banco Central de Bolivia</strong> (https://www.bcb.gob.bo). Asegúrese de guardar los resultados en un data frame estructurado con nombres de atributos limpios.</li>
+<li><strong>Estructuración de Ofertas Laborales:</strong> Utilice la estructura de la plataforma <strong>Trabajópolis</strong> (https://www.trabajopolis.bo) para seleccionar un departamento de Bolivia y armar un data frame que contenga: título del empleo, empresa ofertante y salario (si está disponible). Identifique los desafíos de limpieza de texto asociados a este ejercicio.</li>
+<li><strong>Análisis de Tendencias con gtrendsR:</strong> Instale la librería <code>gtrendsR</code> para consumir la API de Google Trends. Realice una consulta para evaluar en qué meses del año es más frecuente la búsqueda del término “descuentos” o “compras” en Bolivia, y comente cómo esta información apoya la analítica predictiva de una empresa de retail.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Iacus2015" class="csl-entry" role="listitem">
-Iacus, Stefano M., Simon Munzert, Christian Rubba, and Dominic Nyhuis.
-2015. <em>Web Scraping and Text Mining with r</em>. John Wiley &amp;
-Sons.
-</div>
-<div id="ref-mason2010" class="csl-entry" role="listitem">
-Mason, Hilary, and Chris Wiggins. 2010. <span>“A Taxonomy of Data
-Science.”</span> <em>Dataists</em> 22.
-</div>
-<div id="ref-matignon2007" class="csl-entry" role="listitem">
-Matignon, Randall. 2007. <em>Data Mining Using SAS Enterprise Miner: A
-Case Study Approach</em>. John Wiley &amp; Sons.
+Iacus, Stefano M., Simon Munzert, Christian Rubba, and Dominic Nyhuis. 2015. <em>Web Scraping and Text Mining with r</em>. John Wiley &amp; Sons.
 </div>
 <div id="ref-Mitchell2015" class="csl-entry" role="listitem">
-Mitchell, Ryan. 2015. <em>Web Scraping with Python: Collecting Data from
-the Modern Web</em>. O’Reilly Media, Inc.
-</div>
-<div id="ref-pietsch2022" class="csl-entry" role="listitem">
-Pietsch, Wolfgang. 2022. <em>On the Epistemology of Data Science:
-Conceptual Tools for a New Inductivism</em>. Springer Nature.
-</div>
-<div id="ref-shmueli2018" class="csl-entry" role="listitem">
-Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C
-Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts,
-Techniques, and Applications in r</em>. John Wiley &amp; Sons.
-</div>
-<div id="ref-torgo2017" class="csl-entry" role="listitem">
-Torgo, Luis. 2017. <em>Data Mining with r: Learning with Case
-Studies</em>. 2nd ed. CRC Press.
-</div>
-<div id="ref-wickham2014" class="csl-entry" role="listitem">
-Wickham, Hadley. 2014. <em>Advanced r</em>. CRC Press.
+Mitchell, Ryan. 2015. <em>Web Scraping with Python: Collecting Data from the Modern Web</em>. O’Reilly Media, Inc.
 </div>
 </div>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -853,11 +1078,14 @@ Wickham, Hadley. 2014. <em>Advanced r</em>. CRC Press.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./scrap.html" class="pagination-link" aria-label="Adquisición de Datos en la Web: Web Scraping y APIs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span>
+      <a href="./r.html" class="pagination-link" aria-label="El Ecosistema de R y la Computación Estadística">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

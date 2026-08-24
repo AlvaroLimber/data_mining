@@ -27,7 +27,7 @@ book:
       chapters: 
         - fundamentos.qmd
         - r.qmd
-        #- scrape.qmd
+        - scrap.qmd
     #- part: "Parte II: Modelado Múltiple"
      # chapters:
         #- analisis_exploratorio.qmd

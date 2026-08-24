@@ -183,11 +183,77 @@
     ]
   },
   {
+    "objectID": "scrap.html",
+    "href": "scrap.html",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "",
+    "text": "3.1 Captura y Preservación de la Información\nEn el ámbito del análisis de datos, el primer paso crítico consiste en obtener información de calidad mediante un proceso sistemático de captura y preservación. Tradicionalmente, la estadística y la investigación social han dependido de fuentes convencionales como censos, encuestas por muestreo y registros administrativos.\nSin embargo, en el ecosistema digital moderno, la Inteligencia de Negocios y la minería de datos exigen incorporar la captura de información generada en espacios digitales, redes sociales y portales web. Este cambio metodológico demanda del analista mucha paciencia y creatividad, ya que la interacción con áreas externas y el preprocesamiento de datos crudos consumen la mayor parte del esfuerzo técnico.\nLa justificación de este esfuerzo radica en la naturaleza de los datos del mundo real: independientemente de su origen, la mayoría de los datos son ruidosos, inconsistentes y adolecen de valores perdidos. Por ello, aunque la recopilación en la web pueda parecer de bajo costo, la creación de datos de alta calidad mediante limpieza, estandarización e integración representa una inversión considerable para cualquier organización.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
+    "objectID": "scrap.html#captura-y-preservación-de-la-información",
+    "href": "scrap.html#captura-y-preservación-de-la-información",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "",
+    "text": "Datos Web\n\n\n\n\n\n\n\n\n\n\nCaracterística\nEstudio Observacional\nRegistro Transaccional\n\n\n\n\nOrigen\nDiseñado ex profeso (con intensión) para investigar o medir.\nGenerado automáticamente por una operación del día a día.\n\n\nIntención\nAnalítica / Científica.\nOperativa / Administrativa.\n\n\nIntervención\nEl investigador diseña las preguntas o variables a medir.\nEl sistema registra el evento tal como sucede por necesidad operativa.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
+    "objectID": "scrap.html#el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus",
+    "href": "scrap.html#el-ciclo-de-recopilación-de-información-los-5-pasos-de-iacus",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "3.2 El Ciclo de Recopilación de Información (Los 5 Pasos de Iacus)",
+    "text": "3.2 El Ciclo de Recopilación de Información (Los 5 Pasos de Iacus)\nPara evitar sesgos y garantizar que la recolección automática de información de los sitios web sea un proceso científico (Iacus et al. 2015), se debe seguir una secuencia metodológica estructurada:\n[1. Definición de Necesidad] ──&gt; [2. Identificación de Fuentes] ──&gt; [3. Teoría de Generación]\n                                                                            │\n[5. Toma de Decisión y Raspado] &lt;── [4. Balance y Aspecto Legal] &lt;──────────┘\n\nDefinición de la Necesidad de Información: Delimitar con precisión qué datos se requieren para apoyar una mejor toma de decisiones dentro del negocio.\nIdentificación de Fuentes en la Web: Buscar portales digitales que contengan los atributos o propiedades requeridos para el estudio.\nTeoría del Proceso de Generación de Datos: Comprender quién genera el dato, con qué frecuencia se actualiza y qué sesgos potenciales puede contener la plataforma de origen.\nBalance de Ventajas, Desventajas y Legalidad: Evaluar la viabilidad técnica de la captura frente a las políticas de uso del portal y el archivo robots.txt del servidor. https://www.ejemplo.com/robots.txt\nToma de Decisión e Inicio de la Recopilación: Diseñar el script de extracción automatizada resguardando la preservación y consistencia de los datos capturados.\n\n\n\n\n\n\n\nNoteActividad: Planificando la Captura (10 min)\n\n\n\nInstrucción: En grupos de tres estudiantes, elijan un portal de comercio electrónico o de noticias de su país.\n\nDefinan un objetivo de negocio que requiera raspar ese sitio.\nIdentifiquen si los datos que obtendrán son el resultado de un estudio observacional o un registro transaccional.\nMencionen dos posibles inconsistencias o ruidos que esperan encontrar en la data cruda.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
+    "objectID": "scrap.html#fundamentos-tecnológicos-de-la-web-html-y-css",
+    "href": "scrap.html#fundamentos-tecnológicos-de-la-web-html-y-css",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "3.3 Fundamentos Tecnológicos de la Web: HTML y CSS",
+    "text": "3.3 Fundamentos Tecnológicos de la Web: HTML y CSS\nPara realizar la extracción automática de datos sin la intervención de un humano que navegue visualmente (Mitchell 2015), debemos entender el lenguaje con el que están construidas las páginas. El HTML (HyperText Markup Language) es un lenguaje de texto que se utiliza para estructurar y desplegar una página web.\nHTML funciona bajo una estructura jerárquica y entornos de encapsulamiento definidos por etiquetas (tags) y atributos. Por ejemplo:\n&lt;div class=\"oferta\" id=\"sucursal_la_paz\"&gt;\n  &lt;span class=\"producto\"&gt;Laptop de Oficina&lt;/span&gt;\n  &lt;span class=\"precio\"&gt;750.00 USD&lt;/span&gt;\n&lt;/div&gt;\nEn minería de datos, no necesitamos leer todo el código de una página. El diseño estético de la web utiliza hojas de estilo (CSS) que asignan clases (como .producto o .precio) a los elementos. Estas clases actúan como selectores o direcciones postales que le permiten a nuestro código en R extraer quirúrgicamente la información de interés.\n\n\n\nScraping en R",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
+    "objectID": "scrap.html#raspado-web-práctico-en-r-con-rvest",
+    "href": "scrap.html#raspado-web-práctico-en-r-con-rvest",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "3.4 Raspado Web Práctico en R con rvest",
+    "text": "3.4 Raspado Web Práctico en R con rvest\nEn R, la librería diseñada para interactuar con páginas estáticas y realizar raspado web es rvest, la cual forma parte del universo de herramientas de tidyverse. Para facilitar la identificación del selector CSS de cualquier elemento sin inspeccionar manualmente el código, se emplea la extensión de navegador SelectorGadget.\n\nInstalación y CargaFunciones ClaveEjemplo de Raspado\n\n\nPara comenzar a trabajar con rvest, instale el paquete desde el CRAN y cárguelo en su sesión de trabajo junto con el núcleo de tidyverse:\n# Instalación (se ejecuta una sola vez)\ninstall.packages(\"rvest\")\n\n# Carga de librerías en la sesión actual\nlibrary(rvest)\nlibrary(dplyr)\n\n\nLa extracción con rvest se basa en cuatro funciones secuenciales que procesan la información mediante la tubería o pipe (%&gt;%): * read_html(): Carga y analiza la estructura jerárquica del documento HTML. * html_nodes(): Extrae los entornos específicos que coinciden con el selector CSS. * html_text(): Limpia el código de marcado y extrae únicamente el texto plano. * html_table(): Convierte tablas HTML (&lt;table&gt;) directamente en estructuras de datos de R (data frames).\n\n\nA continuación se presenta la sintaxis estándar para estructurar texto extraído de un contenedor web:\nlibrary(rvest)\nlibrary(dplyr)\n\n# 1. Leer el portal web de origen\nurl_portal &lt;- \"https://ejemplo-tienda-bolivia.com\"\nweb_html   &lt;- read_html(url_portal)\n\n# 2. Capturar nodos y transformarlos a un vector de texto limpio\nnombres_productos &lt;- web_html %&gt;%\n  html_nodes(\".producto\") %&gt;%\n  html_text()\n\n\n\n\n\n\n\n\n\nTipEjercicios\n\n\n\n\nObtén la tabla de esta fuente y genera un dataframe. https://www.bcb.gob.bo/tco_reporte_detalle_historico.php?fecha=2026-08-20\nHacer web scraping de un portal de comercio electrónico, clasificados o supermercados locales en Bolivia.\nHacer un web scraping de una biblioteca universitaria digital en Bolivia y capturar una búsqueda de interés.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
+    "objectID": "scrap.html#interfaces-de-programación-de-aplicaciones-apis",
+    "href": "scrap.html#interfaces-de-programación-de-aplicaciones-apis",
+    "title": "3  Adquisición de Datos en la Web: Web Scraping y APIs",
+    "section": "3.5 Interfaces de Programación de Aplicaciones (APIs)",
+    "text": "3.5 Interfaces de Programación de Aplicaciones (APIs)\nAunque el raspado web es una herramienta flexible, tiene una limitación: si el administrador de la página cambia el diseño o el nombre de las clases CSS, el código fallará. Como alternativa estructurada, existen las APIs (Application Programming Interface).\nLas APIs son puertas de entrada creadas por los administradores de una página web que permiten el acceso controlado a información seleccionada en formatos amigables y altamente estructurados (como JSON o XML), aunque debido a esto no siempre contienen toda la información que el analista desea.\n\n\n\n\n\n\n\n\nDimensión Analítica\nWeb Scraping Tradicional\nAcceso por APIs Oficiales\n\n\n\n\nEstabilidad\nBaja (sensible a rediseños estéticos de la web)\nAlta (los esquemas de datos permanecen estables).\n\n\nEstructura\nNo estructurada (requiere transformaciones complejas)\nAltamente estructurada (JSON, XML listos para análisis).\n\n\nLimitaciones\nBloqueos de IP por peticiones masivas\nRegulado por cuotas de acceso y claves de autenticación.\n\n\n\n\n3.5.1 Caso Práctico: Consumo de la API del Banco Mundial\nLa API del Banco Mundial ofrece acceso libre a más de 16,000 indicadores de series de tiempo con una cobertura histórica superior a los 50 años para la mayoría de los países. En R, no necesitamos realizar peticiones HTTP manuales para consumir esta API, ya que existe la librería especializada wbstats que encapsula las consultas de manera directa.\n# Instalar y cargar la librería de acceso a la API del Banco Mundial\ninstall.packages(\"wbstats\")\nlibrary(wbstats)\n\n# Buscar indicadores relacionados con el desempleo\nbusqueda_desempleo &lt;- wb_search(\"unemployment\")\n\n# Descargar datos de desempleo para Bolivia desde el año 2000\ndatos_bolivia &lt;- wb_data(\n  country = \"BO\", \n  indicator = \"SL.UEM.TOTL.ZS\", \n  start_date = 2000, \n  end_date = 2025\n)\n\n\n\n\n\n\nTipEjercicios de Aplicación Práctica\n\n\n\n\nRaspado de Tipo de Cambio Oficial: Diseñe un script en R utilizando rvest para extraer el precio de compra y venta del dólar estadounidense, así como la fecha de actualización, desde la página oficial del Banco Central de Bolivia (https://www.bcb.gob.bo). Asegúrese de guardar los resultados en un data frame estructurado con nombres de atributos limpios.\nEstructuración de Ofertas Laborales: Utilice la estructura de la plataforma Trabajópolis (https://www.trabajopolis.bo) para seleccionar un departamento de Bolivia y armar un data frame que contenga: título del empleo, empresa ofertante y salario (si está disponible). Identifique los desafíos de limpieza de texto asociados a este ejercicio.\nAnálisis de Tendencias con gtrendsR: Instale la librería gtrendsR para consumir la API de Google Trends. Realice una consulta para evaluar en qué meses del año es más frecuente la búsqueda del término “descuentos” o “compras” en Bolivia, y comente cómo esta información apoya la analítica predictiva de una empresa de retail.\n\n\n\n\n\n\n\nIacus, Stefano M., Simon Munzert, Christian Rubba, and Dominic Nyhuis. 2015. Web Scraping and Text Mining with r. John Wiley & Sons.\n\n\nMitchell, Ryan. 2015. Web Scraping with Python: Collecting Data from the Modern Web. O’Reilly Media, Inc.",
+    "crumbs": [
+      "Parte I: Introducción y Fundamentos",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Adquisición de Datos en la Web: Web Scraping y APIs</span>"
+    ]
+  },
+  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "Referencias",
     "section": "",
-    "text": "Chapman, Pete, and Julian ... Clinton. 2000. CRISP-DM 1.0:\nStep-by-Step Data Mining Guide. SPSS Inc.\n\n\nFayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996.\n“From Data Mining to Knowledge Discovery in Databases.”\nAI Magazine 17 (3): 37–37.\n\n\nHand, David J, Heikki Mannila, and Padhraic Smyth. 2001. Principles\nof Data Mining. MIT press.\n\n\nMason, Hilary, and Chris Wiggins. 2010. “A Taxonomy of Data\nScience.” Dataists 22.\n\n\nMatignon, Randall. 2007. Data Mining Using SAS Enterprise Miner: A\nCase Study Approach. John Wiley & Sons.\n\n\nPietsch, Wolfgang. 2022. On the Epistemology of Data Science:\nConceptual Tools for a New Inductivism. Springer Nature.\n\n\nShmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C\nLichtendahl Jr. 2018. Data Mining for Business Analytics: Concepts,\nTechniques, and Applications in r. John Wiley & Sons.\n\n\nTorgo, Luis. 2017. Data Mining with r: Learning with Case\nStudies. 2nd ed. CRC Press.\n\n\nWickham, Hadley. 2014. Advanced r. CRC Press.",
+    "text": "Chapman, Pete, and Julian ... Clinton. 2000. CRISP-DM 1.0:\nStep-by-Step Data Mining Guide. SPSS Inc.\n\n\nFayyad, Usama, Gregory Piatetsky-Shapiro, and Padhraic Smyth. 1996.\n“From Data Mining to Knowledge Discovery in Databases.”\nAI Magazine 17 (3): 37–37.\n\n\nHand, David J, Heikki Mannila, and Padhraic Smyth. 2001. Principles\nof Data Mining. MIT press.\n\n\nIacus, Stefano M., Simon Munzert, Christian Rubba, and Dominic Nyhuis.\n2015. Web Scraping and Text Mining with r. John Wiley &\nSons.\n\n\nMason, Hilary, and Chris Wiggins. 2010. “A Taxonomy of Data\nScience.” Dataists 22.\n\n\nMatignon, Randall. 2007. Data Mining Using SAS Enterprise Miner: A\nCase Study Approach. John Wiley & Sons.\n\n\nMitchell, Ryan. 2015. Web Scraping with Python: Collecting Data from\nthe Modern Web. O’Reilly Media, Inc.\n\n\nPietsch, Wolfgang. 2022. On the Epistemology of Data Science:\nConceptual Tools for a New Inductivism. Springer Nature.\n\n\nShmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C\nLichtendahl Jr. 2018. Data Mining for Business Analytics: Concepts,\nTechniques, and Applications in r. John Wiley & Sons.\n\n\nTorgo, Luis. 2017. Data Mining with r: Learning with Case\nStudies. 2nd ed. CRC Press.\n\n\nWickham, Hadley. 2014. Advanced r. CRC Press.",
     "crumbs": [
       "Referencias"
     ]
