@@ -56,7 +56,7 @@ HTML funciona bajo una **estructura jerárquica y entornos de encapsulamiento** 
 
 En minería de datos, no necesitamos leer todo el código de una página. El diseño estético de la web utiliza hojas de estilo (CSS) que asignan clases (como `.producto` o `.precio`) a los elementos. Estas clases actúan como **selectores o direcciones postales** que le permiten a nuestro código en R extraer quirúrgicamente la información de interés.
 
-![Scraping en R](fig/scrap.jpeg)
+![Scraping en R](fig/scrap1.jpeg)
 
 ## Raspado Web Práctico en R con `rvest`
 
