@@ -49,10 +49,9 @@ Un error común en analistas novatos es trabajar con ficheros sueltos en carpeta
 
 Esta sigue el principio matemático de: 
 
-$$
-f(x)=y\\
-comando(arg1,arg2, \ldots)
-$$
+$$f(x)=y$$
+
+$$comando(arg1,arg2, \ldots)$$
 
 , donde aplicamos una **función** a un **argumento** para obtener un resultado.
 
