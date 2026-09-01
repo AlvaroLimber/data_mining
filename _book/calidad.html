@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alvaro Chirino Gutierrez">
-<meta name="dcterms.date" content="2026-01-01">
 
-<title>Minería de Datos</title>
+<title>4&nbsp; Calidad del Dato y Preparación Inicial – Minería de Datos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -54,7 +87,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./fundamentos.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./scrap.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -96,11 +130,11 @@ div.csl-indent {
 }</script>
 
 
-<meta name="twitter:title" content="Minería de Datos">
+<meta name="twitter:title" content="4&nbsp; Calidad del Dato y Preparación Inicial – Minería de Datos">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/cover.png">
-<meta name="twitter:image-height" content="1264">
-<meta name="twitter:image-width" content="848">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/calidad1.png">
+<meta name="twitter:image-height" content="768">
+<meta name="twitter:image-width" content="1408">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -273,7 +307,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prefacio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./calidad.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -322,7 +356,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prefacio</span></a>
   </div>
 </li>
@@ -366,7 +400,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./calidad.html" class="sidebar-item-text sidebar-link">
+  <a href="./calidad.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></span></a>
   </div>
 </li>
@@ -388,12 +422,14 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prefacio" id="toc-prefacio" class="nav-link active" data-scroll-target="#prefacio">Prefacio</a>
-  <ul class="collapse">
-  <li><a href="#estructura-del-libro" id="toc-estructura-del-libro" class="nav-link" data-scroll-target="#estructura-del-libro">Estructura del libro</a></li>
-  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  </ul></li>
+  <li><a href="#introducción-a-la-calidad-del-dato" id="toc-introducción-a-la-calidad-del-dato" class="nav-link active" data-scroll-target="#introducción-a-la-calidad-del-dato"><span class="header-section-number">4.1</span> Introducción a la Calidad del Dato</a></li>
+  <li><a href="#dimensiones-de-la-calidad-de-los-datos" id="toc-dimensiones-de-la-calidad-de-los-datos" class="nav-link" data-scroll-target="#dimensiones-de-la-calidad-de-los-datos"><span class="header-section-number">4.2</span> Dimensiones de la Calidad de los Datos</a></li>
+  <li><a href="#metadata-y-el-diccionario-de-variables" id="toc-metadata-y-el-diccionario-de-variables" class="nav-link" data-scroll-target="#metadata-y-el-diccionario-de-variables"><span class="header-section-number">4.3</span> Metadata y el Diccionario de Variables</a></li>
+  <li><a href="#ingesta-de-datos-y-exploración-inicial" id="toc-ingesta-de-datos-y-exploración-inicial" class="nav-link" data-scroll-target="#ingesta-de-datos-y-exploración-inicial"><span class="header-section-number">4.4</span> Ingesta de Datos y Exploración Inicial</a></li>
+  <li><a href="#limpieza-de-texto-y-estandarización-de-variables" id="toc-limpieza-de-texto-y-estandarización-de-variables" class="nav-link" data-scroll-target="#limpieza-de-texto-y-estandarización-de-variables"><span class="header-section-number">4.5</span> Limpieza de Texto y Estandarización de Variables</a></li>
+  <li><a href="#adecuación-de-formatos-coerción-de-datos" id="toc-adecuación-de-formatos-coerción-de-datos" class="nav-link" data-scroll-target="#adecuación-de-formatos-coerción-de-datos"><span class="header-section-number">4.6</span> Adecuación de Formatos (Coerción de Datos)</a></li>
+  <li><a href="#transformación-estructural-de-dataframes-reshape-y-pivot" id="toc-transformación-estructural-de-dataframes-reshape-y-pivot" class="nav-link" data-scroll-target="#transformación-estructural-de-dataframes-reshape-y-pivot"><span class="header-section-number">4.7</span> Transformación Estructural de DataFrames: Reshape y Pivot</a></li>
+  <li><a href="#enlace-de-registros-record-linkage" id="toc-enlace-de-registros-record-linkage" class="nav-link" data-scroll-target="#enlace-de-registros-record-linkage"><span class="header-section-number">4.8</span> Enlace de Registros (Record Linkage)</a></li>
   </ul>
 </nav>
     </div>
@@ -401,28 +437,16 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./calidad.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Minería de Datos</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Alvaro Chirino Gutierrez </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -432,35 +456,251 @@ div.csl-indent {
 </header>
 
 
-
-<section id="prefacio" class="level1 unnumbered">
-<h1 class="unnumbered">Prefacio</h1><p><img src="cover.png" title="Minería de Datos" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>Este libro nace con el propósito fundamental de introducir al lector en el mundo de la <strong>Ciencia de Datos</strong> y la <strong>Minería de Datos (MD)</strong> utilizando el lenguaje <strong>R</strong> como herramienta central de computación estadística y visualización. En la era actual del Big Data, los datos masivos por sí mismos carecen de valor; requieren un proceso de refinamiento analítico para convertirse en conocimiento que impulse la innovación.</p>
-<p>El espíritu que guía estas páginas es el de <strong>“aprender haciendo”</strong> (<em>learn by doing</em>). Por ello, el texto no se limita a la descripción de algoritmos, sino que se sumerge en casos de estudio que reflejan los desafíos reales del analista: la interacción con diversas fuentes de datos, la lucha contra el ruido y la incertidumbre, y la necesidad de comunicar resultados técnicos a audiencias de negocios.</p>
-<section id="estructura-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="estructura-del-libro">Estructura del libro</h2>
+<section id="introducción-a-la-calidad-del-dato" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introducción-a-la-calidad-del-dato"><span class="header-section-number">4.1</span> Introducción a la Calidad del Dato</h2>
+<p>El preprocesamiento de datos es una de las fases más complejas, laboriosas y determinantes en cualquier proyecto de minería de datos. En la práctica profesional de la Inteligencia de Negocios, se estima que las tareas de preparación, limpieza y transformación consumen entre el 60% y el 80% del esfuerzo y tiempo total del equipo analítico <span class="citation" data-cites="chapman2000">(<a href="references.html#ref-chapman2000" role="doc-biblioref">Chapman et al. 2000</a>)</span>. Este proceso requiere una combinación de criterio metodológico, conocimiento del negocio y paciencia para interactuar con distintas áreas organizacionales, garantizando que los datos de entrada sean aptos para el modelado algorítmico.</p>
+<p>Un principio rector en esta etapa es entender que, en la minería de datos, <strong>la no información también es información</strong>. La presencia sistemática de valores perdidos, registros vacíos o inconsistencias no debe tratarse simplemente como “ruido” que se elimina de inmediato, sino como un síntoma del proceso de generación de datos que puede aportar información relevante sobre fallas operativas o perfiles específicos de clientes. Así, una base de datos depurada y bien probada en calidad constituye el cimiento indispensable para evitar el fenómeno de <em>garbage in, garbage out</em> en el entrenamiento de modelos predictivos o descriptivos <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/calidad1.png" class="img-fluid figure-img"></p>
+<figcaption>Calidad</figcaption>
+</figure>
+</div>
+</section>
+<section id="dimensiones-de-la-calidad-de-los-datos" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="dimensiones-de-la-calidad-de-los-datos"><span class="header-section-number">4.2</span> Dimensiones de la Calidad de los Datos</h2>
+<p>Para certificar que un conjunto de datos es apto para un proceso de modelado, el analista debe evaluar la información bajo cinco dimensiones de calidad esenciales:</p>
+<ul>
+<li><strong>Precisión (<em>Accuracy</em>):</strong> Evalúa qué tan cercanos están los valores registrados en el dataset respecto a los valores reales del fenómeno físico o económico estudiado <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><strong>Integridad (<em>Completeness</em>):</strong> Analiza la presencia o ausencia de registros vacíos y valores perdidos. Determina si el dataset cuenta con todos los atributos necesarios para responder la pregunta de negocio.</li>
+<li><strong>Consistencia (<em>Consistency</em>):</strong> Verifica la coherencia interna de los datos (por ejemplo, que la fecha de desembolso de un crédito no sea anterior a la fecha de solicitud, o que los saldos y cuentas sean lógicos entre sí).</li>
+<li><strong>Puntualidad (<em>Timeliness</em>):</strong> Mide qué tan actualizada está la información respecto al momento en que se ejecuta el análisis y se toman las decisiones estratégicas.</li>
+<li><strong>Accesibilidad (<em>Accessibility</em>):</strong> Garantiza que los analistas puedan extraer y procesar las variables bajo condiciones técnicas viables, seguras y reproducibles.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad: Diagnóstico Inicial (5 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario de Negocio:</strong> Una cooperativa de ahorro y crédito en Bolivia decide consolidar su base de solicitudes de microcrédito. Al realizar una exploración rápida, se detectan tres situaciones:</p>
 <ol type="1">
-<li><strong>Fundamentos y Adquisición:</strong> Una discusión sobre la epistemología del nuevo inductivismo y técnicas de captura de datos.</li>
-<li><strong>Pre-procesamiento y EDA:</strong> Técnicas de limpieza, transformación y diagnóstico visual, reconociendo que la preparación de los datos es la fase más laboriosa y crítica del proceso.</li>
-<li><strong>Modelado No Supervisado:</strong> Métodos para encontrar estructuras naturales en los datos sin etiquetas previas, incluyendo segmentación (Clustering) y reducción de dimensionalidad (PCA).</li>
+<li>La columna de “Edad” tiene registros con valores de <code>250</code> años y <code>-5</code> años.</li>
+<li>La columna “Cédula de Identidad” presenta duplicados exactos en transacciones que ocurrieron en la misma fecha y hora.</li>
+<li>El campo “Ingreso Mensual” tiene un carácter de interrogación (<code>?</code>) para el 35% de los clientes independientes.</li>
 </ol>
+<p><strong>Instrucción:</strong> Identifique a qué dimensión de la calidad del dato afecta cada uno de los problemas descritos y comente conceptualmente cómo la premisa de que “la no información es información” se aplica al análisis del 35% de los clientes independientes que no reportaron ingresos.</p>
+</div>
+</div>
 </section>
-<section id="reproducibilidad" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h2>
-<p>Un pilar central de esta obra es la <strong>reproducibilidad</strong> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Gracias al uso de <strong>Quarto</strong>, todos los ejemplos incluyen el código necesario para que el lector pueda replicar los análisis, generar sus propios informes dinámicos y dashboards, garantizando que el conocimiento descubierto sea auditable y transparente.</p>
-<p>Este texto está dirigido a estudiantes de economía, inteligencia de negocios y profesionales que deseen transitar de una toma de decisiones intuitiva a una fundamentada en datos.</p>
+<section id="metadata-y-el-diccionario-de-variables" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="metadata-y-el-diccionario-de-variables"><span class="header-section-number">4.3</span> Metadata y el Diccionario de Variables</h2>
+<p>La ingesta y exploración inicial de un dataset no puede ejecutarse a ciegas; requiere el acompañamiento de su <strong>metadata</strong> (datos sobre los datos) para contextualizar el alcance del análisis. De acuerdo con las mejores prácticas de documentación de microdatos, la metadata técnica debe registrar los siguientes elementos estructurales:</p>
+<ul>
+<li><strong>Población Objetivo:</strong> El universo o conjunto de elementos sobre los cuales se desea realizar inferencias (por ejemplo, hogares bolivianos o transacciones activas de tarjetas de crédito).</li>
+<li><strong>Unidad de Análisis:</strong> El objeto individual sobre el cual se recolecta la información (ej. la persona, la empresa o el municipio).</li>
+<li><strong>Unidad de Información:</strong> El informante que reporta los datos (ej. el jefe de hogar en una encuesta de pobreza).</li>
+<li><strong>Unidades Agregadas:</strong> Niveles de consolidación de datos (ej. agregación municipal o departamental).</li>
+<li><strong>Cobertura Espacial y Temporal:</strong> Delimitación geográfica y el período exacto de tiempo que abarcan las observaciones.</li>
+<li><strong>Diseño Estadístico:</strong> Especificación de si el dataset proviene de un censo completo, un muestreo probabilístico o un registro transaccional.</li>
+</ul>
+<p>Asociado a esto, el <strong>Diccionario de Variables</strong> detalla las propiedades específicas de cada columna del dataset, permitiendo clasificar de inmediato las variables en <strong>cualitativas</strong> (nominales u ordinales) y <strong>cuantitativas</strong> (discretas o continuas) para aplicar los tratamientos estadísticos y visuales metodológicamente correctos.</p>
 </section>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>Este apartado se actualizará periódicamente con un listado de fuentes de datos disponibles en el repositorio, con el fin de dar seguimiento a los temas discutidos en el libro.</p>
+<section id="ingesta-de-datos-y-exploración-inicial" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="ingesta-de-datos-y-exploración-inicial"><span class="header-section-number">4.4</span> Ingesta de Datos y Exploración Inicial</h2>
+<p>El flujo técnico de preparación de datos inicia con la importación del dataset externo al entorno de computación estadística de preferencia (R) <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. El primer paso es identificar el formato de origen (ej. archivos planos, hojas de cálculo o archivos de software estadístico comercial).</p>
+<blockquote class="blockquote">
+<p>Note: El scraping web o el consumo API son otras alternativas de esta ingesta de datos</p>
+</blockquote>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Formatos Comunes y Lectura</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Comandos de Diagnóstico Inicial</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Optimización y Selección</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>R proporciona un ecosistema robusto de librerías para la ingesta eficiente de datos:</p>
+<ul>
+<li><strong>Archivos Planos (<code>.csv</code>, <code>.txt</code>):</strong> Se importan mediante la librería <code>readr</code> utilizando funciones como <code>read_csv()</code> o <code>read_delim()</code>.</li>
+<li><strong>Hojas de Cálculo (<code>.xlsx</code>, <code>.xls</code>):</strong> Se procesan a través de la librería <code>readxl</code> con la función <code>read_excel()</code>.</li>
+<li><strong>Microdatos de Software Estadístico (<code>.sav</code> de SPSS, <code>.dta</code> de Stata):</strong> Se leen mediante la librería <code>haven</code> con funciones como <code>read_sav()</code> y <code>read_dta()</code>.</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Una vez leída la base de datos en memoria, es imperativo realizar un reconocimiento inicial de sus dimensiones y tipos de datos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Dimensiones de la base de datos (Filas y Columnas)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_clientes)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Estructura y tipos de atributos (clases de objetos)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_clientes)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Vista preliminar de los primeros registros</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_clientes, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Resumen estadístico univariado</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df_clientes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Para liberar memoria física de la computadora y optimizar los tiempos de procesamiento en grandes conjuntos de datos, se recomienda realizar la <strong>selección de variables</strong> en las etapas iniciales del flujo, eliminando columnas irrelevantes para el modelo de minería de datos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar únicamente las variables requeridas para el análisis</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_reducido <span class="ot">&lt;-</span> df_clientes <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ci, monto_solicitado, estado_civil, ingresos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad grupal:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Examine los siguientes requerimientos, descargue el fichero disponible, impórtelo a R, cree objetos <code>.RData</code> y construya los metadatos correspondientes para un solo caso:</p>
+<ul>
+<li>Resultados del Censo de Población y Vivienda 2024 para el departamento de Oruro</li>
+<li>Última encuesta a hogares disponible</li>
+<li>Resultados a nivel de mesa de la última elección presidencial</li>
+<li>Información sobre bancarización en Bolivia</li>
+<li>Cartografía actualizada de los municipios de Bolivia</li>
+<li>Importaciones y exportaciones de Bolivia para 2026 a nivel de transacciones</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="limpieza-de-texto-y-estandarización-de-variables" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="limpieza-de-texto-y-estandarización-de-variables"><span class="header-section-number">4.5</span> Limpieza de Texto y Estandarización de Variables</h2>
+<p>Las variables que almacenan cadenas de caracteres (<em>strings</em>) suelen ser las más ruidosas debido a errores de transcripción, uso inconsistente de mayúsculas/minúsculas y la presencia de espacios en blanco redundantes. Para estandarizar estas columnas, se recomienda aplicar un flujo de limpieza sistemático:</p>
+<ol type="1">
+<li><strong>Homogeneidad de Caja:</strong> Trabajar todo el texto estrictamente en mayúsculas o en minúsculas para evitar duplicidades categóricas (ej. que R trate a “La Paz”, “la paz” y “LA PAZ” como tres categorías diferentes).</li>
+<li><strong>Eliminación de Espacios Redundantes:</strong> Controlar y limpiar los espacios en blanco adicionales al inicio, al final o entre palabras (ej. corregir “El Alto” a “El Alto”).</li>
+<li><strong>Control de Caracteres Extraños:</strong> Depurar acentos, eñes (<code>ñ</code>) o símbolos especiales que puedan corromper la codificación del archivo al renderizar reportes dinámicos.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de limpieza de texto en variables de categorías geográficas</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_estandarizado <span class="ot">&lt;-</span> df_clientes <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convertir a minúsculas y eliminar espacios en blanco adicionales</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ciudad =</span> <span class="fu">str_to_lower</span>(ciudad),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ciudad =</span> <span class="fu">str_squish</span>(ciudad)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="adecuación-de-formatos-coerción-de-datos" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="adecuación-de-formatos-coerción-de-datos"><span class="header-section-number">4.6</span> Adecuación de Formatos (Coerción de Datos)</h2>
+<p>La adecuación de formatos consiste en cambiar explícitamente la clase o tipo de almacenamiento de una variable en R para que sea coherente con su naturaleza analítica. Por ejemplo, si una variable numérica contiene caracteres no numéricos inesperados (como un signo de interrogación), R la importará por defecto como texto, imposibilitando la ejecución de sumas o promedios.</p>
+<p>Para solucionar esto, aplicamos las funciones de coerción de datos de R base dentro de un flujo estructurado de transformación:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df_adecuado <span class="ot">&lt;-</span> df_clientes <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Coerción a numérico (los valores no numéricos se convertirán en NA)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">monto_compra =</span> <span class="fu">as.numeric</span>(monto_compra),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Coerción a factor estructural (para variables cualitativas nominales u ordinales)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">nivel_riesgo =</span> <span class="fu">as.factor</span>(nivel_riesgo),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Coerción a carácter</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">codigo_sucursal =</span> <span class="fu">as.character</span>(codigo_sucursal),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Estandarización de fechas utilizando la librería lubridate</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">fecha_registro =</span> <span class="fu">ymd</span>(fecha_registro)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="transformación-estructural-de-dataframes-reshape-y-pivot" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="transformación-estructural-de-dataframes-reshape-y-pivot"><span class="header-section-number">4.7</span> Transformación Estructural de DataFrames: Reshape y Pivot</h2>
+<p>La disposición estructural de los datos en un data frame puede modificar radicalmente el tipo de análisis estadístico que se puede realizar sobre ellos. Distinguimos dos formatos de almacenamiento principales <span class="citation" data-cites="wickham2019">(<a href="references.html#ref-wickham2019" role="doc-biblioref">Wickham and Grolemund 2019</a>)</span>:</p>
+<ul>
+<li><strong>Formato Ancho (<em>Wide</em>):</strong> Cada fila representa una observación única y las mediciones repetidas en el tiempo se colocan en columnas distintas (ej. una columna para <code>ventas_2024</code> y otra para <code>ventas_2025</code>).</li>
+<li><strong>Formato Largo (<em>Long</em>):</strong> Cada fila representa una única medición y las variables repetidas se apilan verticalmente bajo una columna de etiqueta (“llave”) y otra de “valor”. Esta estructura cumple con el estándar de <em>Tidy Data</em>.</li>
+</ul>
+<p>Para transitar eficientemente entre estas estructuras según requiera el modelo de minería (por ejemplo, para generar gráficos con <code>ggplot2</code> o construir matrices de covarianza), la librería <code>tidyr</code> proporciona las funciones <code>pivot_longer()</code> y <code>pivot_wider()</code> <span class="citation" data-cites="wickham2019">(<a href="references.html#ref-wickham2019" role="doc-biblioref">Wickham and Grolemund 2019</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pivot.png" class="img-fluid figure-img"></p>
+<figcaption>Pivot</figcaption>
+</figure>
+</div>
+</section>
+<section id="enlace-de-registros-record-linkage" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="enlace-de-registros-record-linkage"><span class="header-section-number">4.8</span> Enlace de Registros (Record Linkage)</h2>
+<p>En la analítica de negocios y la minería de datos, la información rara vez se encuentra concentrada en un único dataset. El <strong>Record Linkage</strong> es el proceso metodológico de concatenar o unir observaciones dispuestas en múltiples bases de datos para enriquecer el contexto analítico o expandir la cobertura de nuestro estudio.</p>
+<p>Este enlace se clasifica en dos direcciones técnicas fundamentales:</p>
+<ol type="1">
+<li><strong>Añadir Observaciones (Append / bind_rows):</strong> Apilar casos de forma vertical para ampliar la cobertura de la muestra. Requiere garantizar rigurosamente que las bases de datos a unir compartan exactamente los mismos atributos y tipos de datos.</li>
+<li><strong>Añadir Atributos (Merge / Joins):</strong> Unir columnas horizontalmente para incorporar nuevas temáticas al dataset original de los mismos sujetos de estudio.</li>
+</ol>
+<p>Para que la unión horizontal sea matemáticamente válida, se requiere identificar un atributo común que actúe como <strong>identificador único o llave de enlace</strong>. El uso correcto del Record Linkage permite mitigar la ausencia de información en fuentes individuales e incluso construir <strong>seudo-paneles</strong> para realizar estudios longitudinales y de tendencias a lo largo del tiempo.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sujeto de Estudio</th>
+<th style="text-align: left;">Llave de Enlace Estándar</th>
+<th style="text-align: left;">Aplicación en Inteligencia de Negocios</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Personas / Clientes</strong></td>
+<td style="text-align: left;">Cédula de Identidad (CI)</td>
+<td style="text-align: left;">Integrar datos demográficos con transacciones bancarias.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Unidades Territoriales</strong></td>
+<td style="text-align: left;">Código Municipal Oficial (010101)</td>
+<td style="text-align: left;">Enlazar indicadores de pobreza municipal con cobertura de servicios.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Operaciones Financieras</strong></td>
+<td style="text-align: left;">Número de Cuenta / Número de Operación</td>
+<td style="text-align: left;">Rastrear el comportamiento de cobros y estados de mora de un crédito.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase: Usando la EH
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Una los datos de las viviendas con las personas</li>
+<li>Incorpore la información de la persona para el modulo de discriminación</li>
+</ul>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-chapman2000" class="csl-entry" role="listitem">
+Chapman, Pete, Julian Clinton, Randy Kerber, et al. 2000. <em>CRISP-DM 1.0: Step-by-Step Data Mining Guide</em>. SPSS Inc.
+</div>
+<div id="ref-tan2019" class="csl-entry" role="listitem">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd (Global Edition). Pearson.
+</div>
 <div id="ref-torgo2017" class="csl-entry" role="listitem">
 Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
 </div>
+<div id="ref-wickham2019" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2019. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. O’Reilly Media.
 </div>
-</section>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -879,10 +1119,13 @@ Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./scrap.html" class="pagination-link" aria-label="Adquisición de Datos en la Web: Web Scraping y APIs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./fundamentos.html" class="pagination-link" aria-label="Fundamentos de la minería de datos">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

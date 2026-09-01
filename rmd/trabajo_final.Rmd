@@ -1,0 +1,40 @@
+---
+title: "Contenido mínimo para el proyecto Final"
+subtitle: "Materia: Minería de Datos 1"
+author: "Docente: MSc. Alvaro Limber Chirino Gutierrez"
+date: "`r format(Sys.Date(), '%Y')`"
+output:
+  pdf_document:
+    toc: false
+    number_sections: true
+---
+
+# Características
+
+- **Tipo de trabajo:** Dashboard
+    - El proyecto es individual.
+    - Debe utilizar alguno de los siguientes datasets:
+        - Censo de población y vivienda
+        - Encuesta a hogares
+        - Encuesta de Demografía y Salud
+        - Importaciones y exportaciones
+        - Registros administrativos públicos
+        - Dataset resultado de web scraping
+    - Se debe definir y seguir un flujo de trabajo; KDD, CRIP-DM, etc.
+    - Debe incorporar algún método visto en la materia.
+- El dashboard debe ser realizado en `flexdashboard`, o generar código en R y presentarlo en PowerBI, Looker Studio u otro.
+- El trabajo debe contar con un repositorio en GitHub.
+- **Entregables en el repositorio de GitHub:**
+    - Código de R
+    - Enlace al dashboard
+    - Informe del proyecto donde se documento el flujo de trabajo (en .rmd o .qmd)
+
+# Contenido mínimo del informe
+
+1. **Introducción y objetivo**
+2. **Descripción del dataset**
+3. **Metodología (flujo de trabajo)**
+4. **Resultados y análisis**
+5. **Referencias** (en formato .bib)
+
+EL informe debe ser de máximo 5 planas.

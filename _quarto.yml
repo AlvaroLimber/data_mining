@@ -28,9 +28,9 @@ book:
         - fundamentos.qmd
         - r.qmd
         - scrap.qmd
-    #- part: "Parte II: Modelado Múltiple"
-     # chapters:
-        #- analisis_exploratorio.qmd
+    - part: "Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)"
+      chapters:
+        - calidad.qmd
         #- modelos.qmd
     - references.qmd
 
