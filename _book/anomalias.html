@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos – Minería de Datos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./calidad.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-43634426a2b20f70ebab780d1f5449e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7ad11678a5bbd983cb93c979fd3d6443.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="5&nbsp; Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos – Minería de Datos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/ruido.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = true;
+    const darkModeDefault = authorPrefersDark;
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./anomalias.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/data_mining/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Minería-de-Datos.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I: Introducción y Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./calidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anomalias.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#la-filosofía-de-las-anomalías-en-minería-de-datos" id="toc-la-filosofía-de-las-anomalías-en-minería-de-datos" class="nav-link active" data-scroll-target="#la-filosofía-de-las-anomalías-en-minería-de-datos"><span class="header-section-number">5.1</span> La Filosofía de las Anomalías en Minería de Datos</a></li>
+  <li><a href="#detección-y-tratamiento-de-valores-atípicos-outliers" id="toc-detección-y-tratamiento-de-valores-atípicos-outliers" class="nav-link" data-scroll-target="#detección-y-tratamiento-de-valores-atípicos-outliers"><span class="header-section-number">5.2</span> Detección y Tratamiento de Valores Atípicos (Outliers)</a>
+  <ul class="collapse">
+  <li><a href="#enfoque-univariante-detección-y-mitigación" id="toc-enfoque-univariante-detección-y-mitigación" class="nav-link" data-scroll-target="#enfoque-univariante-detección-y-mitigación"><span class="header-section-number">5.2.1</span> Enfoque Univariante: Detección y Mitigación</a></li>
+  <li><a href="#enfoque-multivariante-la-dimensión-compleja" id="toc-enfoque-multivariante-la-dimensión-compleja" class="nav-link" data-scroll-target="#enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.7</span> Enfoque Multivariante: La Dimensión Compleja</a></li>
+  </ul></li>
+  <li><a href="#tratamiento-de-valores-perdidos-missing-data" id="toc-tratamiento-de-valores-perdidos-missing-data" class="nav-link" data-scroll-target="#tratamiento-de-valores-perdidos-missing-data"><span class="header-section-number">5.3</span> Tratamiento de Valores Perdidos (Missing Data)</a>
+  <ul class="collapse">
+  <li><a href="#aproximación-formal-e-identificación-de-mecanismos" id="toc-aproximación-formal-e-identificación-de-mecanismos" class="nav-link" data-scroll-target="#aproximación-formal-e-identificación-de-mecanismos"><span class="header-section-number">5.3.1</span> Aproximación Formal e Identificación de Mecanismos</a></li>
+  <li><a href="#diagnóstico-de-patrones-de-pérdida-con-r-mice" id="toc-diagnóstico-de-patrones-de-pérdida-con-r-mice" class="nav-link" data-scroll-target="#diagnóstico-de-patrones-de-pérdida-con-r-mice"><span class="header-section-number">5.3.2</span> Diagnóstico de Patrones de Pérdida con R (<code>mice</code>)</a></li>
+  <li><a href="#conectividad-de-la-pérdida-influx-y-outflux" id="toc-conectividad-de-la-pérdida-influx-y-outflux" class="nav-link" data-scroll-target="#conectividad-de-la-pérdida-influx-y-outflux"><span class="header-section-number">5.3.3</span> Conectividad de la Pérdida: Influx y Outflux</a></li>
+  <li><a href="#técnicas-de-imputación-clásicas-ad-hoc" id="toc-técnicas-de-imputación-clásicas-ad-hoc" class="nav-link" data-scroll-target="#técnicas-de-imputación-clásicas-ad-hoc"><span class="header-section-number">5.3.4</span> Técnicas de Imputación Clásicas (Ad-Hoc)</a></li>
+  <li><a href="#listado-conceptual-de-métodos-de-imputación-avanzados" id="toc-listado-conceptual-de-métodos-de-imputación-avanzados" class="nav-link" data-scroll-target="#listado-conceptual-de-métodos-de-imputación-avanzados"><span class="header-section-number">5.3.5</span> Listado Conceptual de Métodos de Imputación Avanzados</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./anomalias.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="la-filosofía-de-las-anomalías-en-minería-de-datos" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="la-filosofía-de-las-anomalías-en-minería-de-datos"><span class="header-section-number">5.1</span> La Filosofía de las Anomalías en Minería de Datos</h2>
+<p>En el análisis de datos del mundo real, la presencia de anomalías e imperfecciones es una regla y no una excepción. Como señala el estadístico David J. Hand, “debemos desconfiar de cualquier conjunto de datos (grande o pequeño) que parezca perfecto”, ya que la limpieza absoluta suele ocultar problemas de recolección o preprocesamiento inadecuado <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. El analista debe comprender que <strong>la falta de información es información</strong>, y que el comportamiento inusual de una variable puede revelar patrones estratégicos cruciales, como fraudes o fallas de sistema, si se examina con el rigor metodológico apropiado <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p>En el marco del proceso de Descubrimiento de Conocimiento (KDD), las anomalías se dividen principalmente en dos grandes categorías: <strong>valores perdidos</strong> (<em>missing values</em>), que representan la ausencia física de mediciones en ciertos atributos <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>, y <strong>valores atípicos</strong> (<em>outliers</em>), que son observaciones que se desvían de manera extrema de los patrones de variabilidad del resto del conjunto <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Tratar estas imperfecciones de forma mecánica sin evaluar su origen introduce sesgos que invalidan cualquier modelado algorítmico posterior <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<p><img src="fig/ruido.jpeg" class="img-fluid"></p>
+</section>
+<section id="detección-y-tratamiento-de-valores-atípicos-outliers" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="detección-y-tratamiento-de-valores-atípicos-outliers"><span class="header-section-number">5.2</span> Detección y Tratamiento de Valores Atípicos (Outliers)</h2>
+<p>Un valor atípico es una observación que presenta una desviación extrema respecto al patrón general de variabilidad observado en el conjunto de datos <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. La investigación de outliers exige distinguir rigurosamente entre anomalías univariantes y multivariantes <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<section id="enfoque-univariante-detección-y-mitigación" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="enfoque-univariante-detección-y-mitigación"><span class="header-section-number">5.2.1</span> Enfoque Univariante: Detección y Mitigación</h3>
+<p>El análisis univariante examina el comportamiento de los atributos de forma aislada, sin considerar sus interrelaciones <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<section id="métodos-de-detección" class="level4" data-number="5.2.1.1">
+<h4 data-number="5.2.1.1" class="anchored"><span class="header-section-number">5.2.1.1</span> Métodos de Detección</h4>
+<ul>
+<li><strong>Regla del Rango Intercuartílico (IQR):</strong> Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es <span class="math inline">\(IQR = Q3 - Q1\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Los límites inferior y superior se establecen como: <span class="math display">\[[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \dots, Q3 + 1.5 \times IQR]\]</span></li>
+<li><strong>Test Estadístico de Grubbs:</strong> Evalúa la hipótesis nula de que no existen outliers en una variable distribuida normalmente, detectando si el valor más alejado de la media representa una desviación estadísticamente significativa.</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Z-Score (<code>type = "z"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">t-Student (<code>type = "t"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Chi-Cuadrado (<code>type = "chisq"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">IQR (<code>type = "iqr"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">MAD (<code>type = "mad"</code>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="z-score-puntaje-normalizado" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="z-score-puntaje-normalizado"><span class="header-section-number">5.2.2</span> Z-Score / Puntaje Normalizado</h3>
+<p>Mide la distancia estandarizada de cada observación respecto a la media muestral (<span class="math inline">\(\bar{x}\)</span>) en unidades de desviación estándar (<span class="math inline">\(s\)</span>).</p>
+<p><strong>Fórmula:</strong> <span class="math display">\[z_i = \frac{x_i - \bar{x}}{s}\]</span></p>
+<ul>
+<li><strong><span class="math inline">\(\bar{x}\)</span></strong>: Media muestral.</li>
+<li><strong><span class="math inline">\(s\)</span></strong>: Desviación estándar muestral.</li>
+</ul>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="puntuación-t-student" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="puntuación-t-student"><span class="header-section-number">5.2.3</span> Puntuación t-Student</h3>
+<p>Transforma el Z-score a una escala basada en la distribución <span class="math inline">\(t\)</span> de Student con <span class="math inline">\(n-2\)</span> grados de libertad.</p>
+<p><strong>Fórmula:</strong> <span class="math display">\[t_i = \frac{z_i \sqrt{n-2}}{\sqrt{n - 1 - z_i^2}}\]</span></p>
+<ul>
+<li><strong><span class="math inline">\(z_i\)</span></strong>: Z-score de la observación <span class="math inline">\(i\)</span>.</li>
+<li><strong><span class="math inline">\(n\)</span></strong>: Tamaña de la muestra.</li>
+</ul>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="puntuación-chi-cuadrado" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="puntuación-chi-cuadrado"><span class="header-section-number">5.2.4</span> Puntuación Chi-Cuadrado</h3>
+<p>Calcula la distancia al cuadrado respecto a la media dividida por la varianza muestral (<span class="math inline">\(s^2\)</span>). Es equivalente a elevar al cuadrado el Z-score.</p>
+<p><strong>Fórmula:</strong> <span class="math display">\[\chi^2_i = \frac{(x_i - \bar{x})^2}{s^2} = z_i^2\]</span></p>
+</section>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="rango-intercuartílico" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="rango-intercuartílico"><span class="header-section-number">5.2.5</span> Rango Intercuartílico</h3>
+<p>Mide la distancia de los valores que caen fuera de los cuartiles <span class="math inline">\(Q_1\)</span> o <span class="math inline">\(Q_3\)</span>, normalizada por el rango intercuartílico (<span class="math inline">\(IQR\)</span>). Si el dato está dentro del rango intercuartílico, la puntuación es cero.</p>
+<p><strong>Fórmula:</strong> <span class="math display">\[S_i = \begin{cases} \frac{Q_1 - x_i}{IQR} &amp; \text{si } x_i &lt; Q_1 \\ 0 &amp; \text{si } Q_1 \le x_i \le Q_3 \\ \frac{x_i - Q_3}{IQR} &amp; \text{si } x_i &gt; Q_3 \end{cases}\]</span></p>
+<ul>
+<li><strong><span class="math inline">\(IQR\)</span></strong>: <span class="math inline">\(Q_3 - Q_1\)</span> (Rango Intercuartílico).</li>
+</ul>
+</section>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<section id="desviación-absoluta-mediana-medida-robusta" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="desviación-absoluta-mediana-medida-robusta"><span class="header-section-number">5.2.6</span> Desviación Absoluta Mediana (Medida Robusta)</h3>
+<p>Una alternativa robusta al Z-score que sustituye la media por la mediana y la desviación estándar por la MAD, haciéndola inmune al impacto de los propios datos atípicos.</p>
+<p><strong>Fórmula:</strong> <span class="math display">\[\text{Score}_i = \frac{x_i - \tilde{x}}{\text{MAD}(x)}\]</span></p>
+<p>Donde: * <strong><span class="math inline">\(\tilde{x}\)</span></strong>: Mediana de los datos, <span class="math inline">\(\text{mediana}(x)\)</span>. * <strong><span class="math inline">\(\text{MAD}(x)\)</span></strong>: <span class="math inline">\(1.4826 \cdot \text{mediana}(|x_i - \tilde{x}|)\)</span> <em>(El factor <span class="math inline">\(1.4826\)</span> ajusta la escala para aproximarse a la desviación estándar de una distribución normal).</em></p>
+</section>
+</div>
+</div>
+</div>
+</section>
+<section id="prácticas-comunes-de-solución" class="level4" data-number="5.2.6.1">
+<h4 data-number="5.2.6.1" class="anchored" data-anchor-id="prácticas-comunes-de-solución"><span class="header-section-number">5.2.6.1</span> Prácticas Comunes de Solución</h4>
+<ul>
+<li><strong>Tratamiento de Recorte (<em>Trimming</em>):</strong> Eliminar físicamente las observaciones identificadas como outliers univariantes. Se recomienda únicamente si la anomalía es un error de medición irreversible.</li>
+<li><strong>Winsorización:</strong> Reemplazar los valores extremos que superan los límites de percentiles establecidos por los valores límite de dichos percentiles, preservando el tamaño original del dataset.</li>
+<li><strong>Transformaciones Matemáticas:</strong> Aplicar funciones como el logaritmo natural (<span class="math inline">\(\log(x)\)</span>) para comprimir la escala de los valores extremadamente altos, reduciendo la asimetría de la distribución <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ul>
+</section>
+</section>
+<section id="enfoque-multivariante-la-dimensión-compleja" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.7</span> Enfoque Multivariante: La Dimensión Compleja</h3>
+<p>Un registro puede poseer valores perfectamente típicos si se examinan sus variables de forma aislada, pero representar una anomalía severa cuando se analiza el comportamiento conjunto de todos sus atributos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<p><img src="fig/atipico.jpeg" class="img-fluid"></p>
+<section id="visualización-avanzada-matplot-y-chernoff" class="level4" data-number="5.2.7.1">
+<h4 data-number="5.2.7.1" class="anchored" data-anchor-id="visualización-avanzada-matplot-y-chernoff"><span class="header-section-number">5.2.7.1</span> Visualización Avanzada: matplot y Chernoff</h4>
+<p>Para diagnosticar anomalías multivariantes de manera intuitiva, el analista puede recurrir a representaciones gráficas especializadas de alta dimensionalidad <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
+<ul>
+<li><strong>Gráficos de Perfiles con <code>matplot()</code>:</strong> Permiten trazar las observaciones como líneas quebradas a lo largo de los ejes de las variables del dataset, facilitando la identificación de registros que poseen perfiles o tendencias contradictorias respecto al comportamiento general.</li>
+<li><strong>Caras de Chernoff:</strong> Mapean atributos cuantitativos a rasgos faciales (forma de la cara, tamaño de los ojos, curvatura de la boca) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. Permite al ojo humano reconocer de inmediato rostros con expresiones extrañas o aberrantes que representan outliers complejos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Perfiles Paralelos con <code>matplot</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Rostros de Chernoff (<code>aplpack</code>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Uso de gráficos de perfil paralelos sobre las variables continuas del dataset iris:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar y estandarizar las columnas numéricas de iris</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>datos_iris_m <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Configurar un gráfico de perfil paralelo</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">t</span>(datos_iris_m), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.15</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Variables Continuas"</span>, <span class="at">ylab =</span> <span class="st">"Valores Estandarizados"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Gráfico de Perfil Multivariante (Iris)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Representación gráfica icónica utilizando el paquete especializado <code>aplpack</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar y cargar librería aplpack si no está disponible</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aplpack)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar una muestra representativa de observaciones</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>muestra_caras <span class="ot">&lt;-</span> iris[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">51</span><span class="sc">:</span><span class="dv">55</span>, <span class="dv">101</span><span class="sc">:</span><span class="dv">105</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujar caras de Chernoff mapeando variables numéricas a rasgos faciales</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">faces</span>(muestra_caras, <span class="at">face.type =</span> <span class="dv">1</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">main =</span> <span class="st">"Rostros de Chernoff: Identificación Visual de Outliers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="test-multivariantes" class="level4" data-number="5.2.7.2">
+<h4 data-number="5.2.7.2" class="anchored" data-anchor-id="test-multivariantes"><span class="header-section-number">5.2.7.2</span> Test multivariantes</h4>
+<ul>
+<li>Algoritmo BACON<br>
+</li>
+<li>Local Outlier Factor</li>
+</ul>
+</section>
+<section id="listado-de-enfoques-avanzados-de-detección-multivariante" class="level4" data-number="5.2.7.3">
+<h4 data-number="5.2.7.3" class="anchored" data-anchor-id="listado-de-enfoques-avanzados-de-detección-multivariante"><span class="header-section-number">5.2.7.3</span> Listado de Enfoques Avanzados de Detección Multivariante</h4>
+<p>Los siguientes métodos algorítmicos serán desarrollados en profundidad en los capítulos correspondientes de modelado no supervisado: * <strong>Análisis de Componentes Principales (PCA):</strong> Detección basada en las puntuaciones de las primeras componentes (outliers estructurales) o de las últimas componentes (violaciones a las correlaciones lineales) . * <strong>Algoritmo DBSCAN:</strong> Identificación de outliers basados en densidad de vecindad. * <strong>Local Outlier Factor (LOF):</strong> Enfoque basado en el cálculo de densidad local relativa respecto a la densidad de su entorno cercano.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase: El Impacto de la Escala en Outliers (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Contexto:</strong> Un analista de riesgos desea detectar fraudes en transacciones utilizando dos atributos: “Monto de Retiro” (escala de 0 a 5,000 BOB) y “Cantidad de Retiros Diarios” (escala de 0 a 10).</p>
+<p><strong>Instrucción:</strong> Analice la situación y responda:</p>
+<ol type="1">
+<li>Si un usuario realiza un retiro inusual de 4,500 BOB (cerca del límite univariante), ¿por qué este registro podría ocultar un fraude multivariante si no evaluamos su correlación con la cantidad de retiros realizados en la última hora?.</li>
+<li>¿Por qué la distancia euclidiana simple fallaría en detectar anomalías en este escenario si no escalamos previamente ambas variables?.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="tratamiento-de-valores-perdidos-missing-data" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="tratamiento-de-valores-perdidos-missing-data"><span class="header-section-number">5.3</span> Tratamiento de Valores Perdidos (Missing Data)</h2>
+<section id="aproximación-formal-e-identificación-de-mecanismos" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="aproximación-formal-e-identificación-de-mecanismos"><span class="header-section-number">5.3.1</span> Aproximación Formal e Identificación de Mecanismos</h3>
+<p>Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz <span class="math inline">\(Y\)</span> de dimensiones <span class="math inline">\(n \times p\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Sea <span class="math inline">\(R\)</span> una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento <span class="math inline">\(r_{ij} = 1\)</span> si el valor de la variable <span class="math inline">\(y_{ij}\)</span> fue observado, y <span class="math inline">\(r_{ij} = 0\)</span> si es un dato perdido <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Los valores observados se agrupan en el conjunto <span class="math inline">\(Y_{obs}\)</span>, mientras que los registros omitidos se denotan como <span class="math inline">\(Y_{mis}\)</span>, de modo que <span class="math inline">\(Y = (Y_{obs}, Y_{mis})\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p>La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por <span class="math inline">\(\psi\)</span>, expresada como <span class="math inline">\(\Pr(R \mid Y_{obs}, Y_{mis}, \psi)\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:</p>
+<ol type="1">
+<li><strong>Pérdida Completamente al Azar (MCAR - Missing Completely at Random):</strong> La probabilidad de que un dato se pierda es totalmente independiente de los valores de las variables (sean observadas o perdidas) <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)\]</span></li>
+<li><strong>Pérdida al Azar (MAR - Missing at Random):</strong> La probabilidad de pérdida no depende de los valores omitidos <span class="math inline">\(Y_{mis}\)</span>, pero sí puede explicarse por completo a través de otras variables observadas en el dataset (<span class="math inline">\(Y_{obs}\)</span>) <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)\]</span></li>
+<li><strong>Pérdida No al Azar (MNAR - Missing Not at Random):</strong> La probabilidad de que un registro sea omitido depende directamente del valor que hubiese tomado la variable no observada <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Es un mecanismo no ignorable que requiere un modelado explícito de la causa de pérdida. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi)\]</span></li>
+</ol>
+</section>
+<section id="diagnóstico-de-patrones-de-pérdida-con-r-mice" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="diagnóstico-de-patrones-de-pérdida-con-r-mice"><span class="header-section-number">5.3.2</span> Diagnóstico de Patrones de Pérdida con R (<code>mice</code>)</h3>
+<p>Antes de seleccionar una estrategia de imputación, es recomendable aplicar pruebas de diagnóstico visual y estadístico para entender la estructura de la pérdida. El paquete <strong><code>mice</code></strong> (Multivariate Imputation by Chained Equations) proporciona herramientas potentes para examinar la distribución de los datos faltantes.</p>
+<p>La función <code>md.pattern()</code> permite visualizar y retornar la matriz de patrones de pérdida, mostrando qué combinaciones de variables faltantes se presentan con mayor frecuencia y cómo se agrupan las observaciones incompletas.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DMwR2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(algae, <span class="at">package=</span><span class="st">"DMwR2"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar el patrón de datos perdidos para las variables químicas</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>patron_perdidos <span class="ot">&lt;-</span> <span class="fu">md.pattern</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">plot =</span> <span class="cn">TRUE</span>, <span class="at">rotate.names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Sugerencia de Imagen:</strong> Una captura o representación del gráfico de salida de <code>md.pattern()</code>, mostrando en el eje vertical el número de filas con combinaciones específicas de valores perdidos, y en el eje horizontal las variables ordenadas por su nivel de completitud.</p>
+</blockquote>
+<hr>
+</section>
+<section id="conectividad-de-la-pérdida-influx-y-outflux" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="conectividad-de-la-pérdida-influx-y-outflux"><span class="header-section-number">5.3.3</span> Conectividad de la Pérdida: Influx y Outflux</h3>
+<p>Para evaluar la viabilidad de la imputación en un dataset multivariado, se emplean los coeficientes de <strong>Influx</strong> (<span class="math inline">\(I_j\)</span>) y <strong>Outflux</strong> (<span class="math inline">\(O_j\)</span>) desarrollados por van Buuren <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Estas métricas cuantifican la fuerza de conexión de cada variable dentro del sistema de datos faltantes:</p>
+<ul>
+<li><strong>Influx (<span class="math inline">\(I_j\)</span>):</strong> Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con mayor <span class="math inline">\(I_j\)</span> es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica. <span class="math display">\[I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}\]</span></li>
+<li><strong>Outflux (<span class="math inline">\(O_j\)</span>):</strong> Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con alto <span class="math inline">\(O_j\)</span> es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple. <span class="math display">\[O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}\]</span></li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Cálculo de Influx/Outflux en R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Gráfico de Diagnóstico de Flujo</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>El cálculo y visualización de estas métricas se realiza de manera directa utilizando la función <code>flux()</code> del paquete <code>mice</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular métricas de flujo sobre las columnas con variables continuas</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>estadisticas_flujo <span class="ot">&lt;-</span> <span class="fu">flux</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar la tabla de resultados (influx, outflux, proporción de missings)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(estadisticas_flujo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>Es posible generar un “fluxplot” para posicionar visualmente cada variable en función de su Influx y Outflux, facilitando la toma de decisiones sobre qué variables retener o priorizar en los modelos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el flujo de datos faltantes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fluxplot</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">main =</span> <span class="st">"Gráfico de Diagnóstico de Influx y Outflux"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase 1: Análisis de Conectividad (10 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario:</strong> Imagine que un dataset bancario muestra que la variable “Historial de Pagos” posee un alto Influx (<span class="math inline">\(I_j \approx 0.85\)</span>) pero un bajo Outflux (<span class="math inline">\(O_j \approx 0.12\)</span>), mientras que la variable “Nivel de Ingresos” muestra la tendencia opuesta. 1. <strong>Pregunta:</strong> ¿Cuál de las dos variables será más fácil de imputar con alta precisión? 2. <strong>Pregunta:</strong> Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones? <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="técnicas-de-imputación-clásicas-ad-hoc" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="técnicas-de-imputación-clásicas-ad-hoc"><span class="header-section-number">5.3.4</span> Técnicas de Imputación Clásicas (Ad-Hoc)</h3>
+<p>La literatura estadística clásica provee soluciones directas de fácil implementación computacional, las cuales resultan idóneas en este punto del curso debido a que no exigen el entrenamiento de modelos de machine learning avanzados:</p>
+<ul>
+<li><strong>Eliminación por Filas (<em>Listwise Deletion</em>):</strong> Consiste en descartar por completo cualquier observación que contenga al menos un valor perdido <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Solo es metodológicamente válida si el mecanismo es estrictamente MCAR y el tamaño de la pérdida es insignificante.</li>
+<li><strong>Imputación por Tendencia Central (Media o Mediana):</strong> Reemplaza las celdas vacías por la media o mediana de la parte observada de la misma variable <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Su gran riesgo es que reduce artificialmente la varianza de la variable, distorsionando la estructura estadística original <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Imputación por Regresión Simple:</strong> Construye un modelo lineal clásico (<code>lm()</code>) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Eliminación por filas usando R base</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>algae_completos <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(algae)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Imputación simple por mediana</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>algae_mediana <span class="ot">&lt;-</span> algae</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>algae_mediana<span class="sc">$</span>mxPH[<span class="fu">is.na</span>(algae_mediana<span class="sc">$</span>mxPH)] <span class="ot">&lt;-</span> <span class="fu">median</span>(algae_mediana<span class="sc">$</span>mxPH, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Imputación por regresión predictiva simple</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>modelo_lineal <span class="ot">&lt;-</span> <span class="fu">lm</span>(PO4 <span class="sc">~</span> oPO4, <span class="at">data =</span> algae)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>algae<span class="sc">$</span>PO4[<span class="fu">is.na</span>(algae<span class="sc">$</span>PO4)] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo_lineal, <span class="at">newdata =</span> algae[<span class="fu">is.na</span>(algae<span class="sc">$</span>PO4), ])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="listado-conceptual-de-métodos-de-imputación-avanzados" class="level3" data-number="5.3.5">
+<h3 data-number="5.3.5" class="anchored" data-anchor-id="listado-conceptual-de-métodos-de-imputación-avanzados"><span class="header-section-number">5.3.5</span> Listado Conceptual de Métodos de Imputación Avanzados</h3>
+<p>Las técnicas basadas en machine learning se abordarán en detalle en las siguientes secciones del libro. Conceptualice los siguientes métodos como extensiones de este capítulo: * <strong>Imputación No Supervisada por Vecinos Cercanos (k-NN):</strong> Estima el valor perdido calculando la media ponderada de los <span class="math inline">\(k\)</span> registros geométricamente más similares <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. * <strong>Regresión Estocástica:</strong> Reintroduce la variabilidad natural sumando un término de ruido aleatorio (<span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>) extraído de los residuos de la regresión <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. * <strong>Imputación Múltiple (MICE):</strong> Genera múltiples datasets imputados combinando ecuaciones totalmente condicionales, permitiendo modelar la incertidumbre de la imputación de manera formal.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Bloque de Ejercicios: Diagnóstico y Tratamiento de Anomalías
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Diagnóstico Visual de Datos Perdidos:</strong> Cargue las variables numéricas del dataset <code>algae</code> de <code>DMwR2</code>. Utilice el comando <code>md.pattern()</code> del paquete <code>mice</code> para extraer la matriz de patrones de datos perdidos y responda:
+<ol type="a">
+<li>¿Cuántas observaciones completas (<em>complete cases</em>) registra el dataset? <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li>¿Qué combinación o patrón de variables faltantes se presenta con mayor frecuencia?</li>
+</ol></li>
+<li><strong>Cálculo Analítico de Flujo con mice:</strong> Utilizando las variables continuas de <code>algae</code>:
+<ol type="a">
+<li>Ejecute el cálculo de flujo con <code>mice::flux()</code>.</li>
+<li>Identifique las variables con el mayor <strong>Influx</strong> y el mayor <strong>Outflux</strong> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li>Interprete cuál de las variables continuas es el mejor candidato predictor para entrenar modelos de imputación y cuál se beneficiaría más de la imputación basada en la vecindad.</li>
+</ol></li>
+<li><strong>Análisis Multivariante con Mahalanobis:</strong> Utilice las primeras 4 variables numéricas del dataset <code>iris</code> para resolver:
+<ol type="a">
+<li>Calcule la distancia de Mahalanobis para cada una de las 150 observaciones del dataset utilizando la función <code>mahalanobis()</code> de R base <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li>Construya un gráfico Chi-cuadrado ordenando las distancias calculadas frente a los percentiles teóricos de una distribución <span class="math inline">\(\chi^2_4\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li>Identifique visual y analíticamente el número de fila que más se desvía de la línea de normalidad, considerándolo un outlier multivariante sospechoso <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-johnson2014" class="csl-entry" role="listitem">
+Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C. Bruce, Inbal Yahav, Nitin R. Patel, and Kenneth C. Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-tan2019" class="csl-entry" role="listitem">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson Education.
+</div>
+<div id="ref-torgo2017" class="csl-entry" role="listitem">
+Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alvarolimber\.github\.io\/data_mining\/_book");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./calidad.html" class="pagination-link" aria-label="Calidad del Dato y Preparación Inicial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Alvaro Chirino</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/">
+      <i class="bi bi-bluesky" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -152,7 +152,7 @@ La disposición estructural de los datos en un data frame puede modificar radica
 
 Para transitar eficientemente entre estas estructuras según requiera el modelo de minería (por ejemplo, para generar gráficos con `ggplot2` o construir matrices de covarianza), la librería `tidyr` proporciona las funciones `pivot_longer()` y `pivot_wider()` [@wickham2019].
 
-![Pivot](pivot.png)
+![Pivot](fig/pivot.png)
 
 
 ## Enlace de Registros (Record Linkage)

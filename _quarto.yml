@@ -31,6 +31,7 @@ book:
     - part: "Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)"
       chapters:
         - calidad.qmd
+        - anomalias.qmd
         #- modelos.qmd
     - references.qmd
 

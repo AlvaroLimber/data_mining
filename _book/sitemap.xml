@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/index.html</loc>
-    <lastmod>2026-08-16T15:08:49.168Z</lastmod>
+    <lastmod>2026-08-09T22:27:38.463Z</lastmod>
   </url>
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/fundamentos.html</loc>
-    <lastmod>2026-08-16T15:18:42.480Z</lastmod>
+    <lastmod>2026-08-16T19:51:46.337Z</lastmod>
   </url>
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/r.html</loc>
-    <lastmod>2026-08-27T22:29:36.684Z</lastmod>
+    <lastmod>2026-09-06T17:25:54.713Z</lastmod>
   </url>
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/scrap.html</loc>
-    <lastmod>2026-08-27T22:28:58.623Z</lastmod>
+    <lastmod>2026-08-24T01:11:49.275Z</lastmod>
   </url>
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/calidad.html</loc>
-    <lastmod>2026-09-01T16:27:41.355Z</lastmod>
+    <lastmod>2026-09-06T17:26:56.069Z</lastmod>
+  </url>
+  <url>
+    <loc>https://alvarolimber.github.io/data_mining/_book/anomalias.html</loc>
+    <lastmod>2026-09-09T04:18:59.908Z</lastmod>
   </url>
   <url>
     <loc>https://alvarolimber.github.io/data_mining/_book/references.html</loc>
-    <lastmod>2026-08-16T15:08:49.168Z</lastmod>
+    <lastmod>2026-08-09T17:31:00.474Z</lastmod>
   </url>
 </urlset>
