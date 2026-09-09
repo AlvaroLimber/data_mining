@@ -19,12 +19,10 @@ El análisis univariante examina el comportamiento de los atributos de forma ais
 #### Métodos de Detección
 
 *   **Regla del Rango Intercuartílico (IQR):** Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es $IQR = Q3 - Q1$ [@tan2019]. Los límites inferior y superior se establecen como:
-$$[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \dots, Q3 + 1.5 \times IQR]$$
+$$[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]$$
 *   **Test Estadístico de Grubbs:** Evalúa la hipótesis nula de que no existen outliers en una variable distribuida normalmente, detectando si el valor más alejado de la media representa una desviación estadísticamente significativa.
 
 ::: {.panel-tabset}
-
-## Z-Score (`type = "z"`)
 
 ### Z-Score / Puntaje Normalizado
 
@@ -36,8 +34,6 @@ $$z_i = \frac{x_i - \bar{x}}{s}$$
 * **$\bar{x}$**: Media muestral.
 * **$s$**: Desviación estándar muestral.
 
-## t-Student (`type = "t"`)
-
 ### Puntuación t-Student
 
 Transforma el Z-score a una escala basada en la distribución $t$ de Student con $n-2$ grados de libertad.
@@ -48,16 +44,12 @@ $$t_i = \frac{z_i \sqrt{n-2}}{\sqrt{n - 1 - z_i^2}}$$
 * **$z_i$**: Z-score de la observación $i$.
 * **$n$**: Tamaña de la muestra.
 
-## Chi-Cuadrado (`type = "chisq"`)
-
 ### Puntuación Chi-Cuadrado
 
 Calcula la distancia al cuadrado respecto a la media dividida por la varianza muestral ($s^2$). Es equivalente a elevar al cuadrado el Z-score.
 
 **Fórmula:**
 $$\chi^2_i = \frac{(x_i - \bar{x})^2}{s^2} = z_i^2$$
-
-## IQR (`type = "iqr"`)
 
 ### Rango Intercuartílico
 
@@ -68,8 +60,6 @@ $$S_i = \begin{cases} \frac{Q_1 - x_i}{IQR} & \text{si } x_i < Q_1 \\ 0 & \text{
 
 * **$IQR$**: $Q_3 - Q_1$ (Rango Intercuartílico).
 
-## MAD (`type = "mad"`)
-
 ### Desviación Absoluta Mediana (Medida Robusta)
 
 Una alternativa robusta al Z-score que sustituye la media por la mediana y la desviación estándar por la MAD, haciéndola inmune al impacto de los propios datos atípicos.
@@ -78,6 +68,7 @@ Una alternativa robusta al Z-score que sustituye la media por la mediana y la de
 $$\text{Score}_i = \frac{x_i - \tilde{x}}{\text{MAD}(x)}$$
 
 Donde:
+
 * **$\tilde{x}$**: Mediana de los datos, $\text{mediana}(x)$.
 * **$\text{MAD}(x)$**: $1.4826 \cdot \text{mediana}(|x_i - \tilde{x}|)$
   *(El factor $1.4826$ ajusta la escala para aproximarse a la desviación estándar de una distribución normal).*

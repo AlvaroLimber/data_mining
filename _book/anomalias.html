@@ -459,7 +459,7 @@ window.Quarto = {
   <li><a href="#detección-y-tratamiento-de-valores-atípicos-outliers" id="toc-detección-y-tratamiento-de-valores-atípicos-outliers" class="nav-link" data-scroll-target="#detección-y-tratamiento-de-valores-atípicos-outliers"><span class="header-section-number">5.2</span> Detección y Tratamiento de Valores Atípicos (Outliers)</a>
   <ul class="collapse">
   <li><a href="#enfoque-univariante-detección-y-mitigación" id="toc-enfoque-univariante-detección-y-mitigación" class="nav-link" data-scroll-target="#enfoque-univariante-detección-y-mitigación"><span class="header-section-number">5.2.1</span> Enfoque Univariante: Detección y Mitigación</a></li>
-  <li><a href="#enfoque-multivariante-la-dimensión-compleja" id="toc-enfoque-multivariante-la-dimensión-compleja" class="nav-link" data-scroll-target="#enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.7</span> Enfoque Multivariante: La Dimensión Compleja</a></li>
+  <li><a href="#enfoque-multivariante-la-dimensión-compleja" id="toc-enfoque-multivariante-la-dimensión-compleja" class="nav-link" data-scroll-target="#enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.2</span> Enfoque Multivariante: La Dimensión Compleja</a></li>
   </ul></li>
   <li><a href="#tratamiento-de-valores-perdidos-missing-data" id="toc-tratamiento-de-valores-perdidos-missing-data" class="nav-link" data-scroll-target="#tratamiento-de-valores-perdidos-missing-data"><span class="header-section-number">5.3</span> Tratamiento de Valores Perdidos (Missing Data)</a>
   <ul class="collapse">
@@ -508,66 +508,55 @@ window.Quarto = {
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="enfoque-univariante-detección-y-mitigación"><span class="header-section-number">5.2.1</span> Enfoque Univariante: Detección y Mitigación</h3>
 <p>El análisis univariante examina el comportamiento de los atributos de forma aislada, sin considerar sus interrelaciones <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
 <section id="métodos-de-detección" class="level4" data-number="5.2.1.1">
-<h4 data-number="5.2.1.1" class="anchored"><span class="header-section-number">5.2.1.1</span> Métodos de Detección</h4>
+<h4 data-number="5.2.1.1" class="anchored" data-anchor-id="métodos-de-detección"><span class="header-section-number">5.2.1.1</span> Métodos de Detección</h4>
 <ul>
-<li><strong>Regla del Rango Intercuartílico (IQR):</strong> Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es <span class="math inline">\(IQR = Q3 - Q1\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Los límites inferior y superior se establecen como: <span class="math display">\[[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \dots, Q3 + 1.5 \times IQR]\]</span></li>
+<li><strong>Regla del Rango Intercuartílico (IQR):</strong> Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es <span class="math inline">\(IQR = Q3 - Q1\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Los límites inferior y superior se establecen como: <span class="math display">\[[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]\]</span></li>
 <li><strong>Test Estadístico de Grubbs:</strong> Evalúa la hipótesis nula de que no existen outliers en una variable distribuida normalmente, detectando si el valor más alejado de la media representa una desviación estadísticamente significativa.</li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Z-Score (<code>type = "z"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">t-Student (<code>type = "t"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Chi-Cuadrado (<code>type = "chisq"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">IQR (<code>type = "iqr"</code>)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">MAD (<code>type = "mad"</code>)</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Z-Score / Puntaje Normalizado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Puntuación t-Student</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Puntuación Chi-Cuadrado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Rango Intercuartílico</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Desviación Absoluta Mediana (Medida Robusta)</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<section id="z-score-puntaje-normalizado" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="z-score-puntaje-normalizado"><span class="header-section-number">5.2.2</span> Z-Score / Puntaje Normalizado</h3>
 <p>Mide la distancia estandarizada de cada observación respecto a la media muestral (<span class="math inline">\(\bar{x}\)</span>) en unidades de desviación estándar (<span class="math inline">\(s\)</span>).</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[z_i = \frac{x_i - \bar{x}}{s}\]</span></p>
 <ul>
 <li><strong><span class="math inline">\(\bar{x}\)</span></strong>: Media muestral.</li>
 <li><strong><span class="math inline">\(s\)</span></strong>: Desviación estándar muestral.</li>
 </ul>
-</section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<section id="puntuación-t-student" class="level3" data-number="5.2.3">
-<h3 data-number="5.2.3" class="anchored" data-anchor-id="puntuación-t-student"><span class="header-section-number">5.2.3</span> Puntuación t-Student</h3>
 <p>Transforma el Z-score a una escala basada en la distribución <span class="math inline">\(t\)</span> de Student con <span class="math inline">\(n-2\)</span> grados de libertad.</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[t_i = \frac{z_i \sqrt{n-2}}{\sqrt{n - 1 - z_i^2}}\]</span></p>
 <ul>
 <li><strong><span class="math inline">\(z_i\)</span></strong>: Z-score de la observación <span class="math inline">\(i\)</span>.</li>
 <li><strong><span class="math inline">\(n\)</span></strong>: Tamaña de la muestra.</li>
 </ul>
-</section>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<section id="puntuación-chi-cuadrado" class="level3" data-number="5.2.4">
-<h3 data-number="5.2.4" class="anchored" data-anchor-id="puntuación-chi-cuadrado"><span class="header-section-number">5.2.4</span> Puntuación Chi-Cuadrado</h3>
 <p>Calcula la distancia al cuadrado respecto a la media dividida por la varianza muestral (<span class="math inline">\(s^2\)</span>). Es equivalente a elevar al cuadrado el Z-score.</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[\chi^2_i = \frac{(x_i - \bar{x})^2}{s^2} = z_i^2\]</span></p>
-</section>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<section id="rango-intercuartílico" class="level3" data-number="5.2.5">
-<h3 data-number="5.2.5" class="anchored" data-anchor-id="rango-intercuartílico"><span class="header-section-number">5.2.5</span> Rango Intercuartílico</h3>
 <p>Mide la distancia de los valores que caen fuera de los cuartiles <span class="math inline">\(Q_1\)</span> o <span class="math inline">\(Q_3\)</span>, normalizada por el rango intercuartílico (<span class="math inline">\(IQR\)</span>). Si el dato está dentro del rango intercuartílico, la puntuación es cero.</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[S_i = \begin{cases} \frac{Q_1 - x_i}{IQR} &amp; \text{si } x_i &lt; Q_1 \\ 0 &amp; \text{si } Q_1 \le x_i \le Q_3 \\ \frac{x_i - Q_3}{IQR} &amp; \text{si } x_i &gt; Q_3 \end{cases}\]</span></p>
 <ul>
 <li><strong><span class="math inline">\(IQR\)</span></strong>: <span class="math inline">\(Q_3 - Q_1\)</span> (Rango Intercuartílico).</li>
 </ul>
-</section>
 </div>
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<section id="desviación-absoluta-mediana-medida-robusta" class="level3" data-number="5.2.6">
-<h3 data-number="5.2.6" class="anchored" data-anchor-id="desviación-absoluta-mediana-medida-robusta"><span class="header-section-number">5.2.6</span> Desviación Absoluta Mediana (Medida Robusta)</h3>
 <p>Una alternativa robusta al Z-score que sustituye la media por la mediana y la desviación estándar por la MAD, haciéndola inmune al impacto de los propios datos atípicos.</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[\text{Score}_i = \frac{x_i - \tilde{x}}{\text{MAD}(x)}\]</span></p>
-<p>Donde: * <strong><span class="math inline">\(\tilde{x}\)</span></strong>: Mediana de los datos, <span class="math inline">\(\text{mediana}(x)\)</span>. * <strong><span class="math inline">\(\text{MAD}(x)\)</span></strong>: <span class="math inline">\(1.4826 \cdot \text{mediana}(|x_i - \tilde{x}|)\)</span> <em>(El factor <span class="math inline">\(1.4826\)</span> ajusta la escala para aproximarse a la desviación estándar de una distribución normal).</em></p>
-</section>
+<p>Donde:</p>
+<ul>
+<li><strong><span class="math inline">\(\tilde{x}\)</span></strong>: Mediana de los datos, <span class="math inline">\(\text{mediana}(x)\)</span>.</li>
+<li><strong><span class="math inline">\(\text{MAD}(x)\)</span></strong>: <span class="math inline">\(1.4826 \cdot \text{mediana}(|x_i - \tilde{x}|)\)</span> <em>(El factor <span class="math inline">\(1.4826\)</span> ajusta la escala para aproximarse a la desviación estándar de una distribución normal).</em></li>
+</ul>
 </div>
 </div>
 </div>
 </section>
-<section id="prácticas-comunes-de-solución" class="level4" data-number="5.2.6.1">
-<h4 data-number="5.2.6.1" class="anchored" data-anchor-id="prácticas-comunes-de-solución"><span class="header-section-number">5.2.6.1</span> Prácticas Comunes de Solución</h4>
+<section id="prácticas-comunes-de-solución" class="level4" data-number="5.2.1.2">
+<h4 data-number="5.2.1.2" class="anchored" data-anchor-id="prácticas-comunes-de-solución"><span class="header-section-number">5.2.1.2</span> Prácticas Comunes de Solución</h4>
 <ul>
 <li><strong>Tratamiento de Recorte (<em>Trimming</em>):</strong> Eliminar físicamente las observaciones identificadas como outliers univariantes. Se recomienda únicamente si la anomalía es un error de medición irreversible.</li>
 <li><strong>Winsorización:</strong> Reemplazar los valores extremos que superan los límites de percentiles establecidos por los valores límite de dichos percentiles, preservando el tamaño original del dataset.</li>
@@ -575,12 +564,12 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="enfoque-multivariante-la-dimensión-compleja" class="level3" data-number="5.2.7">
-<h3 data-number="5.2.7" class="anchored" data-anchor-id="enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.7</span> Enfoque Multivariante: La Dimensión Compleja</h3>
+<section id="enfoque-multivariante-la-dimensión-compleja" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="enfoque-multivariante-la-dimensión-compleja"><span class="header-section-number">5.2.2</span> Enfoque Multivariante: La Dimensión Compleja</h3>
 <p>Un registro puede poseer valores perfectamente típicos si se examinan sus variables de forma aislada, pero representar una anomalía severa cuando se analiza el comportamiento conjunto de todos sus atributos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
 <p><img src="fig/atipico.jpeg" class="img-fluid"></p>
-<section id="visualización-avanzada-matplot-y-chernoff" class="level4" data-number="5.2.7.1">
-<h4 data-number="5.2.7.1" class="anchored" data-anchor-id="visualización-avanzada-matplot-y-chernoff"><span class="header-section-number">5.2.7.1</span> Visualización Avanzada: matplot y Chernoff</h4>
+<section id="visualización-avanzada-matplot-y-chernoff" class="level4" data-number="5.2.2.1">
+<h4 data-number="5.2.2.1" class="anchored" data-anchor-id="visualización-avanzada-matplot-y-chernoff"><span class="header-section-number">5.2.2.1</span> Visualización Avanzada: matplot y Chernoff</h4>
 <p>Para diagnosticar anomalías multivariantes de manera intuitiva, el analista puede recurrir a representaciones gráficas especializadas de alta dimensionalidad <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
 <ul>
 <li><strong>Gráficos de Perfiles con <code>matplot()</code>:</strong> Permiten trazar las observaciones como líneas quebradas a lo largo de los ejes de las variables del dataset, facilitando la identificación de registros que poseen perfiles o tendencias contradictorias respecto al comportamiento general.</li>
@@ -614,16 +603,16 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="test-multivariantes" class="level4" data-number="5.2.7.2">
-<h4 data-number="5.2.7.2" class="anchored" data-anchor-id="test-multivariantes"><span class="header-section-number">5.2.7.2</span> Test multivariantes</h4>
+<section id="test-multivariantes" class="level4" data-number="5.2.2.2">
+<h4 data-number="5.2.2.2" class="anchored" data-anchor-id="test-multivariantes"><span class="header-section-number">5.2.2.2</span> Test multivariantes</h4>
 <ul>
 <li>Algoritmo BACON<br>
 </li>
 <li>Local Outlier Factor</li>
 </ul>
 </section>
-<section id="listado-de-enfoques-avanzados-de-detección-multivariante" class="level4" data-number="5.2.7.3">
-<h4 data-number="5.2.7.3" class="anchored" data-anchor-id="listado-de-enfoques-avanzados-de-detección-multivariante"><span class="header-section-number">5.2.7.3</span> Listado de Enfoques Avanzados de Detección Multivariante</h4>
+<section id="listado-de-enfoques-avanzados-de-detección-multivariante" class="level4" data-number="5.2.2.3">
+<h4 data-number="5.2.2.3" class="anchored" data-anchor-id="listado-de-enfoques-avanzados-de-detección-multivariante"><span class="header-section-number">5.2.2.3</span> Listado de Enfoques Avanzados de Detección Multivariante</h4>
 <p>Los siguientes métodos algorítmicos serán desarrollados en profundidad en los capítulos correspondientes de modelado no supervisado: * <strong>Análisis de Componentes Principales (PCA):</strong> Detección basada en las puntuaciones de las primeras componentes (outliers estructurales) o de las últimas componentes (violaciones a las correlaciones lineales) . * <strong>Algoritmo DBSCAN:</strong> Identificación de outliers basados en densidad de vecindad. * <strong>Local Outlier Factor (LOF):</strong> Enfoque basado en el cálculo de densidad local relativa respecto a la densidad de su entorno cercano.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
