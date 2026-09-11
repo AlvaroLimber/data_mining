@@ -2,9 +2,9 @@
 
 ## La Filosofía de las Anomalías en Minería de Datos
 
-En el análisis de datos del mundo real, la presencia de anomalías e imperfecciones es una regla y no una excepción. Como señala el estadístico David J. Hand, "debemos desconfiar de cualquier conjunto de datos (grande o pequeño) que parezca perfecto", ya que la limpieza absoluta suele ocultar problemas de recolección o preprocesamiento inadecuado [@torgo2017]. El analista debe comprender que **la falta de información es información**, y que el comportamiento inusual de una variable puede revelar patrones estratégicos cruciales, como fraudes o fallas de sistema, si se examina con el rigor metodológico apropiado [@torgo2017].
+En el análisis de datos del mundo real, la presencia de anomalías e imperfecciones es una regla y no una excepción. Como señala el estadístico David J. Hand, "debemos desconfiar de cualquier conjunto de datos (grande o pequeño) que parezca perfecto", ya que la limpieza absoluta suele ocultar problemas de recolección o preprocesamiento inadecuado. El analista debe comprender que **la falta de información es información**, y que el comportamiento inusual de una variable puede revelar patrones estratégicos cruciales, como fraudes o fallas de sistema, si se examina con el rigor metodológico apropiado.
 
-En el marco del proceso de Descubrimiento de Conocimiento (KDD), las anomalías se dividen principalmente en dos grandes categorías: **valores perdidos** (*missing values*), que representan la ausencia física de mediciones en ciertos atributos [@torgo2017], y **valores atípicos** (*outliers*), que son observaciones que se desvían de manera extrema de los patrones de variabilidad del resto del conjunto [@tan2019]. Tratar estas imperfecciones de forma mecánica sin evaluar su origen introduce sesgos que invalidan cualquier modelado algorítmico posterior [@shmueli2018].
+En el marco del proceso de Descubrimiento de Conocimiento (KDD), las anomalías se dividen principalmente en dos grandes categorías: **valores perdidos** (*missing values*), que representan la ausencia física de mediciones en ciertos atributos, y **valores atípicos** (*outliers*), que son observaciones que se desvían de manera extrema de los patrones de variabilidad del resto del conjunto [@tan2019]. Tratar estas imperfecciones de forma mecánica sin evaluar su origen introduce sesgos que invalidan cualquier modelado algorítmico posterior [@shmueli2018].
 
 ![](fig/ruido.jpeg)
 
@@ -18,7 +18,7 @@ El análisis univariante examina el comportamiento de los atributos de forma ais
 
 #### Métodos de Detección
 
-*   **Regla del Rango Intercuartílico (IQR):** Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es $IQR = Q3 - Q1$ [@tan2019]. Los límites inferior y superior se establecen como:
+*   **Regla del Rango Intercuartílico (IQR):** Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es $IQR = Q3 - Q1$. Los límites inferior y superior se establecen como:
 $$[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]$$. Una aplicación visual es usar un diagrama de cajas.
 
 Otro camino es analizar transformaciones sobre los datos para identificar valores alejados de los esperados, los mas comunes:
@@ -58,7 +58,7 @@ En R se puede usar la librería outliers para la identificación y la creación 
 
 *   **Tratamiento de Recorte (*Trimming*):** Eliminar físicamente las observaciones identificadas como outliers univariantes. Se recomienda únicamente si la anomalía es un error de medición irreversible.
 *   **Winsorización:** Reemplazar los valores extremos que superan los límites de percentiles establecidos por los valores límite de dichos percentiles, preservando el tamaño original del dataset.
-*   **Transformaciones Matemáticas:** Aplicar funciones como el logaritmo natural ($\log(x)$) para comprimir la escala de los valores extremadamente altos, reduciendo la asimetría de la distribución [@tan2019].
+*   **Transformaciones Matemáticas:** Aplicar funciones como el logaritmo natural ($\log(x)$) para comprimir la escala de los valores extremadamente altos, reduciendo la asimetría de la distribución.
 
 ### Enfoque Multivariante: La Dimensión Compleja
 
@@ -71,7 +71,7 @@ Un registro puede poseer valores perfectamente típicos si se examinan sus varia
 Para diagnosticar anomalías multivariantes de manera intuitiva, el analista puede recurrir a representaciones gráficas especializadas de alta dimensionalidad [@johnson2014]:
 
 *   **Gráficos de Perfiles con `matplot()`:** Permiten trazar las observaciones como líneas quebradas a lo largo de los ejes de las variables del dataset, facilitando la identificación de registros que poseen perfiles o tendencias contradictorias respecto al comportamiento general.
-*   **Caras de Chernoff:** Mapean atributos cuantitativos a rasgos faciales (forma de la cara, tamaño de los ojos, curvatura de la boca) [@johnson2014]. Permite al ojo humano reconocer de inmediato rostros con expresiones extrañas o aberrantes que representan outliers complejos [@johnson2014].
+*   **Caras de Chernoff:** Mapean atributos cuantitativos a rasgos faciales (forma de la cara, tamaño de los ojos, curvatura de la boca). Permite al ojo humano reconocer de inmediato rostros con expresiones extrañas o aberrantes que representan outliers complejos .
 
 ::: {.panel-tabset}
 
@@ -105,8 +105,6 @@ faces(muestra_caras, face.type = 1,
 #### Test multivariantes
 
 1. **Determinante de Covarianza Mínima (MCD)**
-
-**Fundamento Matemático**
 
 Dado un conjunto de $n$ observaciones en $p$ dimensiones, $X \in \mathbb{R}^{n \times p}$, el estimador MCD busca encontrar un subconjunto $H \subset \{1, \dots, n\}$ de tamaño $h$ (donde $\frac{n+p+1}{2} \le h < n$, habitualmente $h = \lfloor 0.75n \rfloor$) que minimice el determinante de la matriz de covarianza muestral calculada sobre $H$:
 
@@ -201,7 +199,7 @@ Los siguientes métodos algorítmicos serán desarrollados en profundidad en los
 
 ### Aproximación Formal e Identificación de Mecanismos
 
-Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz $Y$ de dimensiones $n \times p$ [@torgo2017]. Sea $R$ una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento $r_{ij} = 1$ si el valor de la variable $y_{ij}$ fue observado, y $r_{ij} = 0$ si es un dato perdido. Los valores observados se agrupan en el conjunto $Y_{obs}$, mientras que los registros omitidos se denotan como $Y_{mis}$, de modo que $Y = (Y_{obs}, Y_{mis})$ [@torgo2017].
+Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz $Y$ de dimensiones $n \times p$. Sea $R$ una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento $r_{ij} = 1$ si el valor de la variable $y_{ij}$ fue observado, y $r_{ij} = 0$ si es un dato perdido. Los valores observados se agrupan en el conjunto $Y_{obs}$, mientras que los registros omitidos se denotan como $Y_{mis}$, de modo que $Y = (Y_{obs}, Y_{mis})$.
 
 La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por $\psi$, expresada como $\Pr(R \mid Y_{obs}, Y_{mis}, \psi)$. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:
 
@@ -209,7 +207,7 @@ La probabilidad de pérdida de datos se modela bajo una distribución condiciona
 $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)$$
 2.  **Pérdida al Azar (MAR - Missing at Random):** La probabilidad de pérdida no depende de los valores omitidos $Y_{mis}$, pero sí puede explicarse por completo a través de otras variables observadas en el dataset ($Y_{obs}$).
 $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)$$
-3.  **Pérdida No al Azar (MNAR - Missing Not at Random):** La probabilidad de que un registro sea omitido depende directamente del valor que hubiese tomado la variable no observada [@torgo2017]. Es un mecanismo no ignorable que requiere un modelado explícito de la causa de pérdida.
+3.  **Pérdida No al Azar (MNAR - Missing Not at Random):** La probabilidad de que un registro sea omitido depende directamente del valor que hubiese tomado la variable no observada. Es un mecanismo no ignorable que requiere un modelado explícito de la causa de pérdida.
 $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi)$$
 
 ### Diagnóstico de Patrones de Pérdida con R (`mice`)
@@ -274,8 +272,8 @@ fluxplot(algae[, 4:11], main = "Gráfico de Diagnóstico de Influx y Outflux")
 
 La literatura estadística clásica provee soluciones directas de fácil implementación computacional, las cuales resultan idóneas en este punto del curso debido a que no exigen el entrenamiento de modelos de machine learning avanzados:
 
-*   **Eliminación por Filas (*Listwise Deletion*):** Consiste en descartar por completo cualquier observación que contenga al menos un valor perdido [@torgo2017]. Solo es metodológicamente válida si el mecanismo es estrictamente MCAR y el tamaño de la pérdida es insignificante.
-*   **Imputación por Tendencia Central (Media o Mediana):** Reemplaza las celdas vacías por la media o mediana de la parte observada de la misma variable [@torgo2017]. Su gran riesgo es que reduce artificialmente la varianza de la variable, distorsionando la estructura estadística original [@shmueli2018].
+*   **Eliminación por Filas (*Listwise Deletion*):** Consiste en descartar por completo cualquier observación que contenga al menos un valor perdido. Solo es metodológicamente válida si el mecanismo es estrictamente MCAR y el tamaño de la pérdida es insignificante.
+*   **Imputación por Tendencia Central (Media o Mediana):** Reemplaza las celdas vacías por la media o mediana de la parte observada de la misma variable. Su gran riesgo es que reduce artificialmente la varianza de la variable, distorsionando la estructura estadística original [@shmueli2018].
 *   **Imputación por Regresión Simple:** Construye un modelo lineal clásico (`lm()`) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas.
 
 ### Listado Conceptual de Métodos de Imputación Avanzados
