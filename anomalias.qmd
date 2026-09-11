@@ -19,8 +19,9 @@ El análisis univariante examina el comportamiento de los atributos de forma ais
 #### Métodos de Detección
 
 *   **Regla del Rango Intercuartílico (IQR):** Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es $IQR = Q3 - Q1$ [@tan2019]. Los límites inferior y superior se establecen como:
-$$[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]$$
-*   **Test Estadístico de Grubbs:** Evalúa la hipótesis nula de que no existen outliers en una variable distribuida normalmente, detectando si el valor más alejado de la media representa una desviación estadísticamente significativa.
+$$[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]$$. Una aplicación visual es usar un diagrama de cajas.
+
+Otro camino es analizar transformaciones sobre los datos para identificar valores alejados de los esperados, los mas comunes:
 
 ::: {.panel-tabset}
 
@@ -33,32 +34,6 @@ $$z_i = \frac{x_i - \bar{x}}{s}$$
 
 * **$\bar{x}$**: Media muestral.
 * **$s$**: Desviación estándar muestral.
-
-### Puntuación t-Student
-
-Transforma el Z-score a una escala basada en la distribución $t$ de Student con $n-2$ grados de libertad.
-
-**Fórmula:**
-$$t_i = \frac{z_i \sqrt{n-2}}{\sqrt{n - 1 - z_i^2}}$$
-
-* **$z_i$**: Z-score de la observación $i$.
-* **$n$**: Tamaña de la muestra.
-
-### Puntuación Chi-Cuadrado
-
-Calcula la distancia al cuadrado respecto a la media dividida por la varianza muestral ($s^2$). Es equivalente a elevar al cuadrado el Z-score.
-
-**Fórmula:**
-$$\chi^2_i = \frac{(x_i - \bar{x})^2}{s^2} = z_i^2$$
-
-### Rango Intercuartílico
-
-Mide la distancia de los valores que caen fuera de los cuartiles $Q_1$ o $Q_3$, normalizada por el rango intercuartílico ($IQR$). Si el dato está dentro del rango intercuartílico, la puntuación es cero.
-
-**Fórmula:**
-$$S_i = \begin{cases} \frac{Q_1 - x_i}{IQR} & \text{si } x_i < Q_1 \\ 0 & \text{si } Q_1 \le x_i \le Q_3 \\ \frac{x_i - Q_3}{IQR} & \text{si } x_i > Q_3 \end{cases}$$
-
-* **$IQR$**: $Q_3 - Q_1$ (Rango Intercuartílico).
 
 ### Desviación Absoluta Mediana (Medida Robusta)
 
@@ -73,6 +48,10 @@ Donde:
 * **$\text{MAD}(x)$**: $1.4826 \cdot \text{mediana}(|x_i - \tilde{x}|)$
   *(El factor $1.4826$ ajusta la escala para aproximarse a la desviación estándar de una distribución normal).*
 
+:::
+
+::: .callout-tip
+En R se puede usar la librería outliers para la identificación y la creación de los scores.
 :::
 
 #### Prácticas Comunes de Solución
@@ -125,18 +104,91 @@ faces(muestra_caras, face.type = 1,
 
 #### Test multivariantes
 
-- Algoritmo BACON   
-- Local Outlier Factor 
+1. **Determinante de Covarianza Mínima (MCD)**
+
+**Fundamento Matemático**
+
+Dado un conjunto de $n$ observaciones en $p$ dimensiones, $X \in \mathbb{R}^{n \times p}$, el estimador MCD busca encontrar un subconjunto $H \subset \{1, \dots, n\}$ de tamaño $h$ (donde $\frac{n+p+1}{2} \le h < n$, habitualmente $h = \lfloor 0.75n \rfloor$) que minimice el determinante de la matriz de covarianza muestral calculada sobre $H$:
+
+$$\min_{H} \det(\mathbf{S}_H)$$
+
+Los estimadores robustos de localización ($\boldsymbol{\hat{\mu}}_{\text{MCD}}$) y dispersión ($\mathbf{S}_{\text{MCD}}$) corresponden a la media y covarianza calculadas exclusivamente sobre el subconjunto óptimo $H$:
+
+$$\boldsymbol{\hat{\mu}}_{H} = \frac{1}{h} \sum_{i \in H} x_i$$
+
+$$\mathbf{S}_H = \frac{1}{h - 1} \sum_{i \in H} (x_i - \boldsymbol{\hat{\mu}}_H)(x_i - \boldsymbol{\hat{\mu}}_H)^T$$
+
+Tras aplicar un factor de corrección por consistencia a $\mathbf{S}_H$, la **Distancia de Mahalanobis Robusta** para cada observación $x_i$ se define como:
+
+$$d_i = \sqrt{(x_i - \boldsymbol{\hat{\mu}}_{\text{MCD}})^T \mathbf{S}_{\text{MCD}}^{-1} (x_i - \boldsymbol{\hat{\mu}}_{\text{MCD}})}$$
+
+Un punto $x_i$ se clasifica como *outlier* si $d_i^2 > \chi^2_{p,\, 1-\alpha}$.
+
+**Ejemplo en R (MCD)**
+
+```R
+install.packages("robustbase")
+library(robustbase)
+
+set.seed(42)
+n <- 200
+p <- 2
+datos_sanos <- matrix(rnorm(n * p), ncol = p)
+outliers <- matrix(runif(20, min = 5, max = 8), ncol = p)
+dataset <- rbind(datos_sanos, outliers)
+
+# 2. Ajuste del modelo MCD
+modelo_mcd <- covMcd(dataset, alpha = 0.75)
+
+# 3. Distancias robustas y detección
+distancias_mcd <- modelo_mcd$mah
+umbral_critico <- qchisq(0.975, df = p)
+indices_outliers_mcd <- which(distancias_mcd > umbral_critico)
+
+cat("Outliers detectados por MCD:", length(indices_outliers_mcd), "\n")
+```
+2. **Algoritmo BACON**
+
+BACON (*Blocked Adaptive Computationally-efficient Outlier Nominator*)
+
+1. **Inicialización:** Se selecciona un subconjunto inicial $H_0$ de tamaño $m_0 = c \cdot p$ (usualmente con $c=4$ o $c=5$), integrado por las observaciones con menor distancia respecto a un estimador inicial no paramétrico (como la mediana multivariante).
+2. **Estimación:** En la iteración $k$, se calcula la media $\bar{x}_{H_k}$ y la matriz de covarianza $\mathbf{S}_{H_k}$ solo con los elementos de $H_k$.
+3. **Distancia:** Se calcula la distancia de Mahalanobis para **todas** las $n$ observaciones de la base de datos respecto al bloque actual:
+
+$$d_i(k) = \sqrt{(x_i - \bar{x}_{H_k})^T \mathbf{S}_{H_k}^{-1} (x_i - \bar{x}_{H_k})}$$
+
+4. **Actualización:** Se redefine el subconjunto $H_{k+1}$ incluyendo a todos los puntos cuya distancia cumple:
+
+$$d_i(k) < c_{n,p} \sqrt{\chi^2_{p,\, 1 - \alpha/n}}$$
+
+*(donde $c_{n,p}$ representa un factor de corrección de tamaño muestral).*
+5. **Convergencia:** El ciclo se repite hasta que el conjunto no cambie ($H_{k+1} = H_k$). Todos los puntos fuera de $H_{\text{final}}$ son declarados atípicos.
+
+**Ejemplo en R (BACON)**
+
+```R
+install.packages("wbacon")
+library(wbacon)
+
+# 1. Aplicación sobre el mismo dataset
+modelo_bacon <- bacon(dataset, alpha = 0.05)
+
+# 2. Identificación de outliers (elementos fuera del subconjunto final)
+indices_outliers_bacon <- which(!modelo_bacon$subset)
+
+cat("Outliers detectados por BACON:", length(indices_outliers_bacon), "\n")
+```
 
 #### Listado de Enfoques Avanzados de Detección Multivariante
 
 Los siguientes métodos algorítmicos serán desarrollados en profundidad en los capítulos correspondientes de modelado no supervisado:
+
 *   **Análisis de Componentes Principales (PCA):** Detección basada en las puntuaciones de las primeras componentes (outliers estructurales) o de las últimas componentes (violaciones a las correlaciones lineales) .
-*   **Algoritmo DBSCAN:** Identificación de outliers basados en densidad de vecindad.
-*   **Local Outlier Factor (LOF):** Enfoque basado en el cálculo de densidad local relativa respecto a la densidad de su entorno cercano.
+*   **Algoritmos de agrupamiento:** Los outliers multivariantes se asocian en algún grupo.
 
 ::: {.callout-important}
 ### Actividad de Clase: El Impacto de la Escala en Outliers (10 min)
+
 **Contexto:** Un analista de riesgos desea detectar fraudes en transacciones utilizando dos atributos: "Monto de Retiro" (escala de 0 a 5,000 BOB) y "Cantidad de Retiros Diarios" (escala de 0 a 10).
 
 **Instrucción:** Analice la situación y responda:
@@ -149,16 +201,16 @@ Los siguientes métodos algorítmicos serán desarrollados en profundidad en los
 
 ### Aproximación Formal e Identificación de Mecanismos
 
-Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz $Y$ de dimensiones $n \times p$ [@torgo2017]. Sea $R$ una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento $r_{ij} = 1$ si el valor de la variable $y_{ij}$ fue observado, y $r_{ij} = 0$ si es un dato perdido [@torgo2017]. Los valores observados se agrupan en el conjunto $Y_{obs}$, mientras que los registros omitidos se denotan como $Y_{mis}$, de modo que $Y = (Y_{obs}, Y_{mis})$ [@torgo2017].
+Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz $Y$ de dimensiones $n \times p$ [@torgo2017]. Sea $R$ una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento $r_{ij} = 1$ si el valor de la variable $y_{ij}$ fue observado, y $r_{ij} = 0$ si es un dato perdido. Los valores observados se agrupan en el conjunto $Y_{obs}$, mientras que los registros omitidos se denotan como $Y_{mis}$, de modo que $Y = (Y_{obs}, Y_{mis})$ [@torgo2017].
 
-La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por $\psi$, expresada como $\Pr(R \mid Y_{obs}, Y_{mis}, \psi)$ [@torgo2017]. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:
+La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por $\psi$, expresada como $\Pr(R \mid Y_{obs}, Y_{mis}, \psi)$. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:
 
-1.  **Pérdida Completamente al Azar (MCAR - Missing Completely at Random):** La probabilidad de que un dato se pierda es totalmente independiente de los valores de las variables (sean observadas o perdidas) [@torgo2017].
-    $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)$$
-2.  **Pérdida al Azar (MAR - Missing at Random):** La probabilidad de pérdida no depende de los valores omitidos $Y_{mis}$, pero sí puede explicarse por completo a través de otras variables observadas en el dataset ($Y_{obs}$) [@torgo2017].
-    $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)$$
+1.  **Pérdida Completamente al Azar (MCAR - Missing Completely at Random):** La probabilidad de que un dato se pierda es totalmente independiente de los valores de las variables (sean observadas o perdidas).
+$$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)$$
+2.  **Pérdida al Azar (MAR - Missing at Random):** La probabilidad de pérdida no depende de los valores omitidos $Y_{mis}$, pero sí puede explicarse por completo a través de otras variables observadas en el dataset ($Y_{obs}$).
+$$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)$$
 3.  **Pérdida No al Azar (MNAR - Missing Not at Random):** La probabilidad de que un registro sea omitido depende directamente del valor que hubiese tomado la variable no observada [@torgo2017]. Es un mecanismo no ignorable que requiere un modelado explícito de la causa de pérdida.
-    $$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi)$$
+$$\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi)$$
 
 ### Diagnóstico de Patrones de Pérdida con R (`mice`)
 
@@ -175,22 +227,21 @@ data(algae, package="DMwR2")
 patron_perdidos <- md.pattern(algae[, 4:11], plot = TRUE, rotate.names = TRUE)
 ```
 
-> **Sugerencia de Imagen:** Una captura o representación del gráfico de salida de `md.pattern()`, mostrando en el eje vertical el número de filas con combinaciones específicas de valores perdidos, y en el eje horizontal las variables ordenadas por su nivel de completitud.
-
----
-
 ### Conectividad de la Pérdida: Influx y Outflux
 
-Para evaluar la viabilidad de la imputación en un dataset multivariado, se emplean los coeficientes de **Influx** ($I_j$) y **Outflux** ($O_j$) desarrollados por van Buuren [@torgo2017]. Estas métricas cuantifican la fuerza de conexión de cada variable dentro del sistema de datos faltantes:
+Para evaluar la viabilidad de la imputación en un dataset multivariado, se emplean los coeficientes de **Influx** ($I_j$) y **Outflux** ($O_j$) desarrollados por van Buuren. Estas métricas cuantifican la fuerza de conexión de cada variable dentro del sistema de datos faltantes:
 
-*   **Influx ($I_j$):** Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables [@torgo2017]. Una variable con mayor $I_j$ es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica.
-    $$I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}$$
+*   **Influx ($I_j$):** Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables. Una variable con mayor $I_j$ es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica.
+
+$$I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}$$
 *   **Outflux ($O_j$):** Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes [@torgo2017]. Una variable con alto $O_j$ es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.
-    $$O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}$$
+
+$$O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}$$
 
 ::: {.panel-tabset}
 
 ### Cálculo de Influx/Outflux en R
+
 El cálculo y visualización de estas métricas se realiza de manera directa utilizando la función `flux()` del paquete `mice`:
 ```r
 library(mice)
@@ -203,23 +254,21 @@ print(estadisticas_flujo)
 ```
 
 ### Gráfico de Diagnóstico de Flujo
+
 Es posible generar un "fluxplot" para posicionar visualmente cada variable en función de su Influx y Outflux, facilitando la toma de decisiones sobre qué variables retener o priorizar en los modelos:
+
 ```r
 # Graficar el flujo de datos faltantes
 fluxplot(algae[, 4:11], main = "Gráfico de Diagnóstico de Influx y Outflux")
 ```
 :::
 
----
-
 ::: {.callout-note}
 ### Actividad de Clase 1: Análisis de Conectividad (10 min)
 **Escenario:** Imagine que un dataset bancario muestra que la variable "Historial de Pagos" posee un alto Influx ($I_j \approx 0.85$) pero un bajo Outflux ($O_j \approx 0.12$), mientras que la variable "Nivel de Ingresos" muestra la tendencia opuesta.
 1.  **Pregunta:** ¿Cuál de las dos variables será más fácil de imputar con alta precisión?
-2.  **Pregunta:** Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones? [@torgo2017].
+2.  **Pregunta:** Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones?.
 :::
-
----
 
 ### Técnicas de Imputación Clásicas (Ad-Hoc)
 
@@ -227,40 +276,22 @@ La literatura estadística clásica provee soluciones directas de fácil impleme
 
 *   **Eliminación por Filas (*Listwise Deletion*):** Consiste en descartar por completo cualquier observación que contenga al menos un valor perdido [@torgo2017]. Solo es metodológicamente válida si el mecanismo es estrictamente MCAR y el tamaño de la pérdida es insignificante.
 *   **Imputación por Tendencia Central (Media o Mediana):** Reemplaza las celdas vacías por la media o mediana de la parte observada de la misma variable [@torgo2017]. Su gran riesgo es que reduce artificialmente la varianza de la variable, distorsionando la estructura estadística original [@shmueli2018].
-*   **Imputación por Regresión Simple:** Construye un modelo lineal clásico (`lm()`) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas [@torgo2017].
-
-```r
-# 1. Eliminación por filas usando R base
-algae_completos <- na.omit(algae)
-
-# 2. Imputación simple por mediana
-algae_mediana <- algae
-algae_mediana$mxPH[is.na(algae_mediana$mxPH)] <- median(algae_mediana$mxPH, na.rm = TRUE)
-
-# 3. Imputación por regresión predictiva simple
-modelo_lineal <- lm(PO4 ~ oPO4, data = algae)
-algae$PO4[is.na(algae$PO4)] <- predict(modelo_lineal, newdata = algae[is.na(algae$PO4), ])
-```
+*   **Imputación por Regresión Simple:** Construye un modelo lineal clásico (`lm()`) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas.
 
 ### Listado Conceptual de Métodos de Imputación Avanzados
 
-Las técnicas basadas en machine learning se abordarán en detalle en las siguientes secciones del libro. Conceptualice los siguientes métodos como extensiones de este capítulo:
-*   **Imputación No Supervisada por Vecinos Cercanos (k-NN):** Estima el valor perdido calculando la media ponderada de los $k$ registros geométricamente más similares [@torgo2017].
-*   **Regresión Estocástica:** Reintroduce la variabilidad natural sumando un término de ruido aleatorio ($\epsilon \sim N(0, \sigma^2)$) extraído de los residuos de la regresión [@torgo2017].
+*   **Imputación No Supervisada por Vecinos Cercanos (k-NN):** Estima el valor perdido calculando la media ponderada de los $k$ registros geométricamente más similares.
+*   **Regresión Estocástica:** Reintroduce la variabilidad natural sumando un término de ruido aleatorio ($\epsilon \sim N(0, \sigma^2)$) extraído de los residuos de la regresión.
 *   **Imputación Múltiple (MICE):** Genera múltiples datasets imputados combinando ecuaciones totalmente condicionales, permitiendo modelar la incertidumbre de la imputación de manera formal.
 
 ::: {.callout-tip}
 ### Bloque de Ejercicios: Diagnóstico y Tratamiento de Anomalías
 
 1.  **Diagnóstico Visual de Datos Perdidos:** Cargue las variables numéricas del dataset `algae` de `DMwR2`. Utilice el comando `md.pattern()` del paquete `mice` para extraer la matriz de patrones de datos perdidos y responda:
-    a) ¿Cuántas observaciones completas (*complete cases*) registra el dataset? [@torgo2017].
+    a) ¿Cuántas observaciones completas (*complete cases*) registra el dataset?.
     b) ¿Qué combinación o patrón de variables faltantes se presenta con mayor frecuencia?
 2.  **Cálculo Analítico de Flujo con mice:** Utilizando las variables continuas de `algae`:
     a) Ejecute el cálculo de flujo con `mice::flux()`.
-    b) Identifique las variables con el mayor **Influx** y el mayor **Outflux** [@torgo2017].
+    b) Identifique las variables con el mayor **Influx** y el mayor **Outflux**.
     c) Interprete cuál de las variables continuas es el mejor candidato predictor para entrenar modelos de imputación y cuál se beneficiaría más de la imputación basada en la vecindad.
-3.  **Análisis Multivariante con Mahalanobis:** Utilice las primeras 4 variables numéricas del dataset `iris` para resolver:
-    a) Calcule la distancia de Mahalanobis para cada una de las 150 observaciones del dataset utilizando la función `mahalanobis()` de R base [@johnson2014].
-    b) Construya un gráfico Chi-cuadrado ordenando las distancias calculadas frente a los percentiles teóricos de una distribución $\chi^2_4$ [@johnson2014].
-    c) Identifique visual y analíticamente el número de fila que más se desvía de la línea de normalidad, considerándolo un outlier multivariante sospechoso [@johnson2014].
 :::

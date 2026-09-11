@@ -510,11 +510,11 @@ window.Quarto = {
 <section id="métodos-de-detección" class="level4" data-number="5.2.1.1">
 <h4 data-number="5.2.1.1" class="anchored" data-anchor-id="métodos-de-detección"><span class="header-section-number">5.2.1.1</span> Métodos de Detección</h4>
 <ul>
-<li><strong>Regla del Rango Intercuartílico (IQR):</strong> Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es <span class="math inline">\(IQR = Q3 - Q1\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Los límites inferior y superior se establecen como: <span class="math display">\[[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]\]</span></li>
-<li><strong>Test Estadístico de Grubbs:</strong> Evalúa la hipótesis nula de que no existen outliers en una variable distribuida normalmente, detectando si el valor más alejado de la media representa una desviación estadísticamente significativa.</li>
+<li><strong>Regla del Rango Intercuartílico (IQR):</strong> Define límites de control basados en la dispersión robusta de los datos. El rango intercuartílico es <span class="math inline">\(IQR = Q3 - Q1\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Los límites inferior y superior se establecen como: <span class="math display">\[[\text{Límite Inferior}, \text{Límite Superior}] = [Q1 - 1.5 \times IQR, \quad Q3 + 1.5 \times IQR]\]</span>. Una aplicación visual es usar un diagrama de cajas.</li>
 </ul>
+<p>Otro camino es analizar transformaciones sobre los datos para identificar valores alejados de los esperados, los mas comunes:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Z-Score / Puntaje Normalizado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Puntuación t-Student</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Puntuación Chi-Cuadrado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Rango Intercuartílico</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Desviación Absoluta Mediana (Medida Robusta)</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Z-Score / Puntaje Normalizado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Desviación Absoluta Mediana (Medida Robusta)</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Mide la distancia estandarizada de cada observación respecto a la media muestral (<span class="math inline">\(\bar{x}\)</span>) en unidades de desviación estándar (<span class="math inline">\(s\)</span>).</p>
@@ -525,25 +525,6 @@ window.Quarto = {
 </ul>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Transforma el Z-score a una escala basada en la distribución <span class="math inline">\(t\)</span> de Student con <span class="math inline">\(n-2\)</span> grados de libertad.</p>
-<p><strong>Fórmula:</strong> <span class="math display">\[t_i = \frac{z_i \sqrt{n-2}}{\sqrt{n - 1 - z_i^2}}\]</span></p>
-<ul>
-<li><strong><span class="math inline">\(z_i\)</span></strong>: Z-score de la observación <span class="math inline">\(i\)</span>.</li>
-<li><strong><span class="math inline">\(n\)</span></strong>: Tamaña de la muestra.</li>
-</ul>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p>Calcula la distancia al cuadrado respecto a la media dividida por la varianza muestral (<span class="math inline">\(s^2\)</span>). Es equivalente a elevar al cuadrado el Z-score.</p>
-<p><strong>Fórmula:</strong> <span class="math display">\[\chi^2_i = \frac{(x_i - \bar{x})^2}{s^2} = z_i^2\]</span></p>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<p>Mide la distancia de los valores que caen fuera de los cuartiles <span class="math inline">\(Q_1\)</span> o <span class="math inline">\(Q_3\)</span>, normalizada por el rango intercuartílico (<span class="math inline">\(IQR\)</span>). Si el dato está dentro del rango intercuartílico, la puntuación es cero.</p>
-<p><strong>Fórmula:</strong> <span class="math display">\[S_i = \begin{cases} \frac{Q_1 - x_i}{IQR} &amp; \text{si } x_i &lt; Q_1 \\ 0 &amp; \text{si } Q_1 \le x_i \le Q_3 \\ \frac{x_i - Q_3}{IQR} &amp; \text{si } x_i &gt; Q_3 \end{cases}\]</span></p>
-<ul>
-<li><strong><span class="math inline">\(IQR\)</span></strong>: <span class="math inline">\(Q_3 - Q_1\)</span> (Rango Intercuartílico).</li>
-</ul>
-</div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <p>Una alternativa robusta al Z-score que sustituye la media por la mediana y la desviación estándar por la MAD, haciéndola inmune al impacto de los propios datos atípicos.</p>
 <p><strong>Fórmula:</strong> <span class="math display">\[\text{Score}_i = \frac{x_i - \tilde{x}}{\text{MAD}(x)}\]</span></p>
 <p>Donde:</p>
@@ -553,6 +534,9 @@ window.Quarto = {
 </ul>
 </div>
 </div>
+</div>
+<div class=".callout-tip">
+<p>En R se puede usar la librería outliers para la identificación y la creación de los scores.</p>
 </div>
 </section>
 <section id="prácticas-comunes-de-solución" class="level4" data-number="5.2.1.2">
@@ -605,15 +589,72 @@ window.Quarto = {
 </section>
 <section id="test-multivariantes" class="level4" data-number="5.2.2.2">
 <h4 data-number="5.2.2.2" class="anchored" data-anchor-id="test-multivariantes"><span class="header-section-number">5.2.2.2</span> Test multivariantes</h4>
-<ul>
-<li>Algoritmo BACON<br>
-</li>
-<li>Local Outlier Factor</li>
-</ul>
+<ol type="1">
+<li><strong>Determinante de Covarianza Mínima (MCD)</strong></li>
+</ol>
+<p><strong>Fundamento Matemático</strong></p>
+<p>Dado un conjunto de <span class="math inline">\(n\)</span> observaciones en <span class="math inline">\(p\)</span> dimensiones, <span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span>, el estimador MCD busca encontrar un subconjunto <span class="math inline">\(H \subset \{1, \dots, n\}\)</span> de tamaño <span class="math inline">\(h\)</span> (donde <span class="math inline">\(\frac{n+p+1}{2} \le h &lt; n\)</span>, habitualmente <span class="math inline">\(h = \lfloor 0.75n \rfloor\)</span>) que minimice el determinante de la matriz de covarianza muestral calculada sobre <span class="math inline">\(H\)</span>:</p>
+<p><span class="math display">\[\min_{H} \det(\mathbf{S}_H)\]</span></p>
+<p>Los estimadores robustos de localización (<span class="math inline">\(\boldsymbol{\hat{\mu}}_{\text{MCD}}\)</span>) y dispersión (<span class="math inline">\(\mathbf{S}_{\text{MCD}}\)</span>) corresponden a la media y covarianza calculadas exclusivamente sobre el subconjunto óptimo <span class="math inline">\(H\)</span>:</p>
+<p><span class="math display">\[\boldsymbol{\hat{\mu}}_{H} = \frac{1}{h} \sum_{i \in H} x_i\]</span></p>
+<p><span class="math display">\[\mathbf{S}_H = \frac{1}{h - 1} \sum_{i \in H} (x_i - \boldsymbol{\hat{\mu}}_H)(x_i - \boldsymbol{\hat{\mu}}_H)^T\]</span></p>
+<p>Tras aplicar un factor de corrección por consistencia a <span class="math inline">\(\mathbf{S}_H\)</span>, la <strong>Distancia de Mahalanobis Robusta</strong> para cada observación <span class="math inline">\(x_i\)</span> se define como:</p>
+<p><span class="math display">\[d_i = \sqrt{(x_i - \boldsymbol{\hat{\mu}}_{\text{MCD}})^T \mathbf{S}_{\text{MCD}}^{-1} (x_i - \boldsymbol{\hat{\mu}}_{\text{MCD}})}\]</span></p>
+<p>Un punto <span class="math inline">\(x_i\)</span> se clasifica como <em>outlier</em> si <span class="math inline">\(d_i^2 &gt; \chi^2_{p,\, 1-\alpha}\)</span>.</p>
+<p><strong>Ejemplo en R (MCD)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"robustbase"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robustbase)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>datos_sanos <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p), <span class="at">ncol =</span> p)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">20</span>, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">max =</span> <span class="dv">8</span>), <span class="at">ncol =</span> p)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">rbind</span>(datos_sanos, outliers)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Ajuste del modelo MCD</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>modelo_mcd <span class="ot">&lt;-</span> <span class="fu">covMcd</span>(dataset, <span class="at">alpha =</span> <span class="fl">0.75</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Distancias robustas y detección</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>distancias_mcd <span class="ot">&lt;-</span> modelo_mcd<span class="sc">$</span>mah</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>umbral_critico <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> p)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>indices_outliers_mcd <span class="ot">&lt;-</span> <span class="fu">which</span>(distancias_mcd <span class="sc">&gt;</span> umbral_critico)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Outliers detectados por MCD:"</span>, <span class="fu">length</span>(indices_outliers_mcd), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li><strong>Algoritmo BACON</strong></li>
+</ol>
+<p>BACON (<em>Blocked Adaptive Computationally-efficient Outlier Nominator</em>)</p>
+<ol type="1">
+<li><strong>Inicialización:</strong> Se selecciona un subconjunto inicial <span class="math inline">\(H_0\)</span> de tamaño <span class="math inline">\(m_0 = c \cdot p\)</span> (usualmente con <span class="math inline">\(c=4\)</span> o <span class="math inline">\(c=5\)</span>), integrado por las observaciones con menor distancia respecto a un estimador inicial no paramétrico (como la mediana multivariante).</li>
+<li><strong>Estimación:</strong> En la iteración <span class="math inline">\(k\)</span>, se calcula la media <span class="math inline">\(\bar{x}_{H_k}\)</span> y la matriz de covarianza <span class="math inline">\(\mathbf{S}_{H_k}\)</span> solo con los elementos de <span class="math inline">\(H_k\)</span>.</li>
+<li><strong>Distancia:</strong> Se calcula la distancia de Mahalanobis para <strong>todas</strong> las <span class="math inline">\(n\)</span> observaciones de la base de datos respecto al bloque actual:</li>
+</ol>
+<p><span class="math display">\[d_i(k) = \sqrt{(x_i - \bar{x}_{H_k})^T \mathbf{S}_{H_k}^{-1} (x_i - \bar{x}_{H_k})}\]</span></p>
+<ol start="4" type="1">
+<li><strong>Actualización:</strong> Se redefine el subconjunto <span class="math inline">\(H_{k+1}\)</span> incluyendo a todos los puntos cuya distancia cumple:</li>
+</ol>
+<p><span class="math display">\[d_i(k) &lt; c_{n,p} \sqrt{\chi^2_{p,\, 1 - \alpha/n}}\]</span></p>
+<p><em>(donde <span class="math inline">\(c_{n,p}\)</span> representa un factor de corrección de tamaño muestral).</em> 5. <strong>Convergencia:</strong> El ciclo se repite hasta que el conjunto no cambie (<span class="math inline">\(H_{k+1} = H_k\)</span>). Todos los puntos fuera de <span class="math inline">\(H_{\text{final}}\)</span> son declarados atípicos.</p>
+<p><strong>Ejemplo en R (BACON)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"wbacon"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wbacon)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Aplicación sobre el mismo dataset</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>modelo_bacon <span class="ot">&lt;-</span> <span class="fu">bacon</span>(dataset, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Identificación de outliers (elementos fuera del subconjunto final)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>indices_outliers_bacon <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span>modelo_bacon<span class="sc">$</span>subset)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Outliers detectados por BACON:"</span>, <span class="fu">length</span>(indices_outliers_bacon), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="listado-de-enfoques-avanzados-de-detección-multivariante" class="level4" data-number="5.2.2.3">
 <h4 data-number="5.2.2.3" class="anchored" data-anchor-id="listado-de-enfoques-avanzados-de-detección-multivariante"><span class="header-section-number">5.2.2.3</span> Listado de Enfoques Avanzados de Detección Multivariante</h4>
-<p>Los siguientes métodos algorítmicos serán desarrollados en profundidad en los capítulos correspondientes de modelado no supervisado: * <strong>Análisis de Componentes Principales (PCA):</strong> Detección basada en las puntuaciones de las primeras componentes (outliers estructurales) o de las últimas componentes (violaciones a las correlaciones lineales) . * <strong>Algoritmo DBSCAN:</strong> Identificación de outliers basados en densidad de vecindad. * <strong>Local Outlier Factor (LOF):</strong> Enfoque basado en el cálculo de densidad local relativa respecto a la densidad de su entorno cercano.</p>
+<p>Los siguientes métodos algorítmicos serán desarrollados en profundidad en los capítulos correspondientes de modelado no supervisado:</p>
+<ul>
+<li><strong>Análisis de Componentes Principales (PCA):</strong> Detección basada en las puntuaciones de las primeras componentes (outliers estructurales) o de las últimas componentes (violaciones a las correlaciones lineales) .</li>
+<li><strong>Algoritmos de agrupamiento:</strong> Los outliers multivariantes se asocian en algún grupo.</li>
+</ul>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -639,11 +680,11 @@ window.Quarto = {
 <h2 data-number="5.3" class="anchored" data-anchor-id="tratamiento-de-valores-perdidos-missing-data"><span class="header-section-number">5.3</span> Tratamiento de Valores Perdidos (Missing Data)</h2>
 <section id="aproximación-formal-e-identificación-de-mecanismos" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="aproximación-formal-e-identificación-de-mecanismos"><span class="header-section-number">5.3.1</span> Aproximación Formal e Identificación de Mecanismos</h3>
-<p>Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz <span class="math inline">\(Y\)</span> de dimensiones <span class="math inline">\(n \times p\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Sea <span class="math inline">\(R\)</span> una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento <span class="math inline">\(r_{ij} = 1\)</span> si el valor de la variable <span class="math inline">\(y_{ij}\)</span> fue observado, y <span class="math inline">\(r_{ij} = 0\)</span> si es un dato perdido <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Los valores observados se agrupan en el conjunto <span class="math inline">\(Y_{obs}\)</span>, mientras que los registros omitidos se denotan como <span class="math inline">\(Y_{mis}\)</span>, de modo que <span class="math inline">\(Y = (Y_{obs}, Y_{mis})\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
-<p>La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por <span class="math inline">\(\psi\)</span>, expresada como <span class="math inline">\(\Pr(R \mid Y_{obs}, Y_{mis}, \psi)\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:</p>
+<p>Para estructurar matemáticamente el problema de los datos incompletos, definimos una base de datos como una matriz <span class="math inline">\(Y\)</span> de dimensiones <span class="math inline">\(n \times p\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Sea <span class="math inline">\(R\)</span> una matriz de respuesta binaria de dimensiones idénticas, donde cada elemento <span class="math inline">\(r_{ij} = 1\)</span> si el valor de la variable <span class="math inline">\(y_{ij}\)</span> fue observado, y <span class="math inline">\(r_{ij} = 0\)</span> si es un dato perdido. Los valores observados se agrupan en el conjunto <span class="math inline">\(Y_{obs}\)</span>, mientras que los registros omitidos se denotan como <span class="math inline">\(Y_{mis}\)</span>, de modo que <span class="math inline">\(Y = (Y_{obs}, Y_{mis})\)</span> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p>La probabilidad de pérdida de datos se modela bajo una distribución condicional parametrizada por <span class="math inline">\(\psi\)</span>, expresada como <span class="math inline">\(\Pr(R \mid Y_{obs}, Y_{mis}, \psi)\)</span>. Basándonos en esta formulación, clasificamos los procesos de pérdida en tres mecanismos fundamentales:</p>
 <ol type="1">
-<li><strong>Pérdida Completamente al Azar (MCAR - Missing Completely at Random):</strong> La probabilidad de que un dato se pierda es totalmente independiente de los valores de las variables (sean observadas o perdidas) <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)\]</span></li>
-<li><strong>Pérdida al Azar (MAR - Missing at Random):</strong> La probabilidad de pérdida no depende de los valores omitidos <span class="math inline">\(Y_{mis}\)</span>, pero sí puede explicarse por completo a través de otras variables observadas en el dataset (<span class="math inline">\(Y_{obs}\)</span>) <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)\]</span></li>
+<li><strong>Pérdida Completamente al Azar (MCAR - Missing Completely at Random):</strong> La probabilidad de que un dato se pierda es totalmente independiente de los valores de las variables (sean observadas o perdidas). <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid \psi)\]</span></li>
+<li><strong>Pérdida al Azar (MAR - Missing at Random):</strong> La probabilidad de pérdida no depende de los valores omitidos <span class="math inline">\(Y_{mis}\)</span>, pero sí puede explicarse por completo a través de otras variables observadas en el dataset (<span class="math inline">\(Y_{obs}\)</span>). <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi) = \Pr(R = 0 \mid Y_{obs}, \psi)\]</span></li>
 <li><strong>Pérdida No al Azar (MNAR - Missing Not at Random):</strong> La probabilidad de que un registro sea omitido depende directamente del valor que hubiese tomado la variable no observada <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Es un mecanismo no ignorable que requiere un modelado explícito de la causa de pérdida. <span class="math display">\[\Pr(R = 0 \mid Y_{obs}, Y_{mis}, \psi)\]</span></li>
 </ol>
 </section>
@@ -651,45 +692,41 @@ window.Quarto = {
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="diagnóstico-de-patrones-de-pérdida-con-r-mice"><span class="header-section-number">5.3.2</span> Diagnóstico de Patrones de Pérdida con R (<code>mice</code>)</h3>
 <p>Antes de seleccionar una estrategia de imputación, es recomendable aplicar pruebas de diagnóstico visual y estadístico para entender la estructura de la pérdida. El paquete <strong><code>mice</code></strong> (Multivariate Imputation by Chained Equations) proporciona herramientas potentes para examinar la distribución de los datos faltantes.</p>
 <p>La función <code>md.pattern()</code> permite visualizar y retornar la matriz de patrones de pérdida, mostrando qué combinaciones de variables faltantes se presentan con mayor frecuencia y cómo se agrupan las observaciones incompletas.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DMwR2)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(algae, <span class="at">package=</span><span class="st">"DMwR2"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar el patrón de datos perdidos para las variables químicas</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>patron_perdidos <span class="ot">&lt;-</span> <span class="fu">md.pattern</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">plot =</span> <span class="cn">TRUE</span>, <span class="at">rotate.names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<blockquote class="blockquote">
-<p><strong>Sugerencia de Imagen:</strong> Una captura o representación del gráfico de salida de <code>md.pattern()</code>, mostrando en el eje vertical el número de filas con combinaciones específicas de valores perdidos, y en el eje horizontal las variables ordenadas por su nivel de completitud.</p>
-</blockquote>
-<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DMwR2)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(algae, <span class="at">package=</span><span class="st">"DMwR2"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar el patrón de datos perdidos para las variables químicas</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>patron_perdidos <span class="ot">&lt;-</span> <span class="fu">md.pattern</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">plot =</span> <span class="cn">TRUE</span>, <span class="at">rotate.names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="conectividad-de-la-pérdida-influx-y-outflux" class="level3" data-number="5.3.3">
 <h3 data-number="5.3.3" class="anchored" data-anchor-id="conectividad-de-la-pérdida-influx-y-outflux"><span class="header-section-number">5.3.3</span> Conectividad de la Pérdida: Influx y Outflux</h3>
-<p>Para evaluar la viabilidad de la imputación en un dataset multivariado, se emplean los coeficientes de <strong>Influx</strong> (<span class="math inline">\(I_j\)</span>) y <strong>Outflux</strong> (<span class="math inline">\(O_j\)</span>) desarrollados por van Buuren <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Estas métricas cuantifican la fuerza de conexión de cada variable dentro del sistema de datos faltantes:</p>
+<p>Para evaluar la viabilidad de la imputación en un dataset multivariado, se emplean los coeficientes de <strong>Influx</strong> (<span class="math inline">\(I_j\)</span>) y <strong>Outflux</strong> (<span class="math inline">\(O_j\)</span>) desarrollados por van Buuren. Estas métricas cuantifican la fuerza de conexión de cada variable dentro del sistema de datos faltantes:</p>
 <ul>
-<li><strong>Influx (<span class="math inline">\(I_j\)</span>):</strong> Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con mayor <span class="math inline">\(I_j\)</span> es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica. <span class="math display">\[I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}\]</span></li>
-<li><strong>Outflux (<span class="math inline">\(O_j\)</span>):</strong> Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con alto <span class="math inline">\(O_j\)</span> es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple. <span class="math display">\[O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}\]</span></li>
+<li><strong>Influx (<span class="math inline">\(I_j\)</span>):</strong> Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables. Una variable con mayor <span class="math inline">\(I_j\)</span> es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica.</li>
 </ul>
+<p><span class="math display">\[I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}\]</span> * <strong>Outflux (<span class="math inline">\(O_j\)</span>):</strong> Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con alto <span class="math inline">\(O_j\)</span> es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.</p>
+<p><span class="math display">\[O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}\]</span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Cálculo de Influx/Outflux en R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Gráfico de Diagnóstico de Flujo</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>El cálculo y visualización de estas métricas se realiza de manera directa utilizando la función <code>flux()</code> del paquete <code>mice</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular métricas de flujo sobre las columnas con variables continuas</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>estadisticas_flujo <span class="ot">&lt;-</span> <span class="fu">flux</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>])</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar la tabla de resultados (influx, outflux, proporción de missings)</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(estadisticas_flujo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular métricas de flujo sobre las columnas con variables continuas</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>estadisticas_flujo <span class="ot">&lt;-</span> <span class="fu">flux</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar la tabla de resultados (influx, outflux, proporción de missings)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(estadisticas_flujo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <p>Es posible generar un “fluxplot” para posicionar visualmente cada variable en función de su Influx y Outflux, facilitando la toma de decisiones sobre qué variables retener o priorizar en los modelos:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el flujo de datos faltantes</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fluxplot</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">main =</span> <span class="st">"Gráfico de Diagnóstico de Influx y Outflux"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar el flujo de datos faltantes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fluxplot</span>(algae[, <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">main =</span> <span class="st">"Gráfico de Diagnóstico de Influx y Outflux"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
-<hr>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -700,10 +737,9 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Escenario:</strong> Imagine que un dataset bancario muestra que la variable “Historial de Pagos” posee un alto Influx (<span class="math inline">\(I_j \approx 0.85\)</span>) pero un bajo Outflux (<span class="math inline">\(O_j \approx 0.12\)</span>), mientras que la variable “Nivel de Ingresos” muestra la tendencia opuesta. 1. <strong>Pregunta:</strong> ¿Cuál de las dos variables será más fácil de imputar con alta precisión? 2. <strong>Pregunta:</strong> Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones? <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p><strong>Escenario:</strong> Imagine que un dataset bancario muestra que la variable “Historial de Pagos” posee un alto Influx (<span class="math inline">\(I_j \approx 0.85\)</span>) pero un bajo Outflux (<span class="math inline">\(O_j \approx 0.12\)</span>), mientras que la variable “Nivel de Ingresos” muestra la tendencia opuesta. 1. <strong>Pregunta:</strong> ¿Cuál de las dos variables será más fácil de imputar con alta precisión? 2. <strong>Pregunta:</strong> Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones?.</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="técnicas-de-imputación-clásicas-ad-hoc" class="level3" data-number="5.3.4">
 <h3 data-number="5.3.4" class="anchored" data-anchor-id="técnicas-de-imputación-clásicas-ad-hoc"><span class="header-section-number">5.3.4</span> Técnicas de Imputación Clásicas (Ad-Hoc)</h3>
@@ -711,22 +747,16 @@ window.Quarto = {
 <ul>
 <li><strong>Eliminación por Filas (<em>Listwise Deletion</em>):</strong> Consiste en descartar por completo cualquier observación que contenga al menos un valor perdido <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Solo es metodológicamente válida si el mecanismo es estrictamente MCAR y el tamaño de la pérdida es insignificante.</li>
 <li><strong>Imputación por Tendencia Central (Media o Mediana):</strong> Reemplaza las celdas vacías por la media o mediana de la parte observada de la misma variable <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Su gran riesgo es que reduce artificialmente la varianza de la variable, distorsionando la estructura estadística original <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
-<li><strong>Imputación por Regresión Simple:</strong> Construye un modelo lineal clásico (<code>lm()</code>) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li><strong>Imputación por Regresión Simple:</strong> Construye un modelo lineal clásico (<code>lm()</code>) donde la variable con datos perdidos actúa como variable objetivo y se predice a partir de variables observadas completas.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Eliminación por filas usando R base</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>algae_completos <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(algae)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Imputación simple por mediana</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>algae_mediana <span class="ot">&lt;-</span> algae</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>algae_mediana<span class="sc">$</span>mxPH[<span class="fu">is.na</span>(algae_mediana<span class="sc">$</span>mxPH)] <span class="ot">&lt;-</span> <span class="fu">median</span>(algae_mediana<span class="sc">$</span>mxPH, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Imputación por regresión predictiva simple</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>modelo_lineal <span class="ot">&lt;-</span> <span class="fu">lm</span>(PO4 <span class="sc">~</span> oPO4, <span class="at">data =</span> algae)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>algae<span class="sc">$</span>PO4[<span class="fu">is.na</span>(algae<span class="sc">$</span>PO4)] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo_lineal, <span class="at">newdata =</span> algae[<span class="fu">is.na</span>(algae<span class="sc">$</span>PO4), ])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="listado-conceptual-de-métodos-de-imputación-avanzados" class="level3" data-number="5.3.5">
 <h3 data-number="5.3.5" class="anchored" data-anchor-id="listado-conceptual-de-métodos-de-imputación-avanzados"><span class="header-section-number">5.3.5</span> Listado Conceptual de Métodos de Imputación Avanzados</h3>
-<p>Las técnicas basadas en machine learning se abordarán en detalle en las siguientes secciones del libro. Conceptualice los siguientes métodos como extensiones de este capítulo: * <strong>Imputación No Supervisada por Vecinos Cercanos (k-NN):</strong> Estima el valor perdido calculando la media ponderada de los <span class="math inline">\(k\)</span> registros geométricamente más similares <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. * <strong>Regresión Estocástica:</strong> Reintroduce la variabilidad natural sumando un término de ruido aleatorio (<span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>) extraído de los residuos de la regresión <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. * <strong>Imputación Múltiple (MICE):</strong> Genera múltiples datasets imputados combinando ecuaciones totalmente condicionales, permitiendo modelar la incertidumbre de la imputación de manera formal.</p>
+<ul>
+<li><strong>Imputación No Supervisada por Vecinos Cercanos (k-NN):</strong> Estima el valor perdido calculando la media ponderada de los <span class="math inline">\(k\)</span> registros geométricamente más similares.</li>
+<li><strong>Regresión Estocástica:</strong> Reintroduce la variabilidad natural sumando un término de ruido aleatorio (<span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>) extraído de los residuos de la regresión.</li>
+<li><strong>Imputación Múltiple (MICE):</strong> Genera múltiples datasets imputados combinando ecuaciones totalmente condicionales, permitiendo modelar la incertidumbre de la imputación de manera formal.</li>
+</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -740,20 +770,14 @@ window.Quarto = {
 <ol type="1">
 <li><strong>Diagnóstico Visual de Datos Perdidos:</strong> Cargue las variables numéricas del dataset <code>algae</code> de <code>DMwR2</code>. Utilice el comando <code>md.pattern()</code> del paquete <code>mice</code> para extraer la matriz de patrones de datos perdidos y responda:
 <ol type="a">
-<li>¿Cuántas observaciones completas (<em>complete cases</em>) registra el dataset? <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li>¿Cuántas observaciones completas (<em>complete cases</em>) registra el dataset?.</li>
 <li>¿Qué combinación o patrón de variables faltantes se presenta con mayor frecuencia?</li>
 </ol></li>
 <li><strong>Cálculo Analítico de Flujo con mice:</strong> Utilizando las variables continuas de <code>algae</code>:
 <ol type="a">
 <li>Ejecute el cálculo de flujo con <code>mice::flux()</code>.</li>
-<li>Identifique las variables con el mayor <strong>Influx</strong> y el mayor <strong>Outflux</strong> <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li>Identifique las variables con el mayor <strong>Influx</strong> y el mayor <strong>Outflux</strong>.</li>
 <li>Interprete cuál de las variables continuas es el mejor candidato predictor para entrenar modelos de imputación y cuál se beneficiaría más de la imputación basada en la vecindad.</li>
-</ol></li>
-<li><strong>Análisis Multivariante con Mahalanobis:</strong> Utilice las primeras 4 variables numéricas del dataset <code>iris</code> para resolver:
-<ol type="a">
-<li>Calcule la distancia de Mahalanobis para cada una de las 150 observaciones del dataset utilizando la función <code>mahalanobis()</code> de R base <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
-<li>Construya un gráfico Chi-cuadrado ordenando las distancias calculadas frente a los percentiles teóricos de una distribución <span class="math inline">\(\chi^2_4\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
-<li>Identifique visual y analíticamente el número de fila que más se desvía de la línea de normalidad, considerándolo un outlier multivariante sospechoso <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
 </ol></li>
 </ol>
 </div>
