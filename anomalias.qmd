@@ -218,11 +218,8 @@ La función `md.pattern()` permite visualizar y retornar la matriz de patrones d
 
 ```r
 library(mice)
-library(DMwR2)
-data(algae, package="DMwR2")
-
-# Visualizar el patrón de datos perdidos para las variables químicas
-patron_perdidos <- md.pattern(algae[, 4:11], plot = TRUE, rotate.names = TRUE)
+# Visualizar el patrón de datos perdidos 
+md.pattern(airquality)
 ```
 
 ### Conectividad de la Pérdida: Influx y Outflux
@@ -243,12 +240,7 @@ $$O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{i
 El cálculo y visualización de estas métricas se realiza de manera directa utilizando la función `flux()` del paquete `mice`:
 ```r
 library(mice)
-
-# Calcular métricas de flujo sobre las columnas con variables continuas
-estadisticas_flujo <- flux(algae[, 4:11])
-
-# Mostrar la tabla de resultados (influx, outflux, proporción de missings)
-print(estadisticas_flujo)
+flux(airquality)
 ```
 
 ### Gráfico de Diagnóstico de Flujo
@@ -257,7 +249,7 @@ Es posible generar un "fluxplot" para posicionar visualmente cada variable en fu
 
 ```r
 # Graficar el flujo de datos faltantes
-fluxplot(algae[, 4:11], main = "Gráfico de Diagnóstico de Influx y Outflux")
+fluxplot(airquality, main = "Gráfico de Diagnóstico de Influx y Outflux")
 ```
 :::
 
@@ -267,6 +259,32 @@ fluxplot(algae[, 4:11], main = "Gráfico de Diagnóstico de Influx y Outflux")
 1.  **Pregunta:** ¿Cuál de las dos variables será más fácil de imputar con alta precisión?
 2.  **Pregunta:** Si planea construir modelos predictivos para estimar otras variables del dataset, ¿cuál de las dos variables aportará mayor estabilidad y poder predictor para las imputaciones?.
 :::
+
+Ejemplo en R:
+
+```r
+library(mice)
+library(naniar)
+datos <- airquality
+# A. OBTENER LA MATRIZ DE RESPUESTA
+matriz_R <- is.na(datos) * 1
+head(matriz_R)
+patrones <- md.pattern(datos, plot = TRUE)
+print(patrones) 
+# B. PRUEBA ESTADÍSTICA PARA MCAR (Test de Little)
+# El Test de Little evalúa la hipótesis nula (H0): Los datos son MCAR.
+test_little <- mcar_test(datos)
+print(test_little)
+mcar_test(datos[,c("Ozone", "Temp")])
+# C. DIAGNÓSTICO VISUAL PARA MAR 
+# Si los datos no son MCAR, ¿cómo vemos si son MAR?
+# Margin plot de VIM (muy útil en conjunto con mice)
+library(VIM)
+marginplot(datos[, c("Ozone", "Temp")], 
+           main = "Dependencia entre ausencia de Ozono y Temperatura")
+# Si los diagramas de caja rojos (faltantes) y azules (observados) son muy distintos,
+# la pérdida en Ozono depende fuertemente de la Temperatura (Evidencia de MAR).
+```
 
 ### Técnicas de Imputación Clásicas (Ad-Hoc)
 

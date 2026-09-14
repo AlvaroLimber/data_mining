@@ -32,6 +32,7 @@ book:
       chapters:
         - calidad.qmd
         - anomalias.qmd
+        - visualizacion.qmd
         #- modelos.qmd
     - references.qmd
 
