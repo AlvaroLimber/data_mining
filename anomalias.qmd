@@ -89,6 +89,7 @@ matplot(t(datos_iris_m), type = "l", lty = 1, col = rgb(0, 0, 0, 0.15),
 
 ### Rostros de Chernoff (`aplpack`)
 Representación gráfica icónica utilizando el paquete especializado `aplpack`:
+
 ```r
 # Instalar y cargar librería aplpack si no está disponible
 library(aplpack)
@@ -229,7 +230,7 @@ Para evaluar la viabilidad de la imputación en un dataset multivariado, se empl
 *   **Influx ($I_j$):** Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables. Una variable con mayor $I_j$ es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica.
 
 $$I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}$$
-*   **Outflux ($O_j$):** Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes [@torgo2017]. Una variable con alto $O_j$ es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.
+*   **Outflux ($O_j$):** Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes. Una variable con alto $O_j$ es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.
 
 $$O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}$$
 

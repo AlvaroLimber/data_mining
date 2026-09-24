@@ -102,8 +102,8 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-79b2a251c468d745a9db49bec9721a9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c5cafcc9f36f1bf0e906d3b5335c86ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-be67d91eaee7ee535f133f4b8a0584b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-40d2b7ce583afdaabd40688eef35f9b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -443,7 +443,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./visualizacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span></a>
   </div>
 </li>
       </ul>
@@ -710,7 +710,7 @@ window.Quarto = {
 <ul>
 <li><strong>Influx (<span class="math inline">\(I_j\)</span>):</strong> Mide qué tan bien conectada está una variable incompleta con los datos observados de las demás variables. Una variable con mayor <span class="math inline">\(I_j\)</span> es más fácil de imputar debido a que cuenta con un fuerte respaldo de datos observados en su vecindad algorítmica.</li>
 </ul>
-<p><span class="math display">\[I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}\]</span> * <strong>Outflux (<span class="math inline">\(O_j\)</span>):</strong> Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una variable con alto <span class="math inline">\(O_j\)</span> es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.</p>
+<p><span class="math display">\[I_j = \frac{\sum_j^p\sum_k^p\sum_i^n (1-r_{ij})r_{ik}}{\sum_k^p\sum_i^n r_{ik}}\]</span> * <strong>Outflux (<span class="math inline">\(O_j\)</span>):</strong> Cuantifica la utilidad de una variable para servir como predictora en los modelos de imputación de otras variables faltantes. Una variable con alto <span class="math inline">\(O_j\)</span> es un activo predictivo valioso dentro del flujo de trabajo de imputación múltiple.</p>
 <p><span class="math display">\[O_j = \frac{\sum_j^p\sum_k^p\sum_i^n r_{ij}(1-r_{ik})}{\sum_k^p\sum_i^n 1-r_{ij}}\]</span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Cálculo de Influx/Outflux en R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Gráfico de Diagnóstico de Flujo</a></li></ul>
@@ -811,13 +811,10 @@ window.Quarto = {
 Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
 </div>
 <div id="ref-shmueli2018" class="csl-entry" role="listitem">
-Shmueli, Galit, Peter C. Bruce, Inbal Yahav, Nitin R. Patel, and Kenneth C. Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
 </div>
 <div id="ref-tan2019" class="csl-entry" role="listitem">
-Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson Education.
-</div>
-<div id="ref-torgo2017" class="csl-entry" role="listitem">
-Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson.
 </div>
 </div>
 </section>
@@ -1244,8 +1241,8 @@ Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./visualizacion.html" class="pagination-link" aria-label="Visualización de Datos, Dashboards y Data Storytelling">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./visualizacion.html" class="pagination-link" aria-label="Visualización de Datos, Gramática de Gráficos y Data Storytelling">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

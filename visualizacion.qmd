@@ -1,64 +1,87 @@
-# Visualización de Datos, Dashboards y Data Storytelling
+# Visualización de Datos, Gramática de Gráficos y Data Storytelling
 
-## Fundamentos y Psicología de la Visualización de Datos
+## Fundamentos de la Visualización y Psicología Perceptiva
 
-La visualización de datos es el puente cognitivo entre el procesamiento analítico y la toma de decisiones estratégicas. En el marco de la Inteligencia de Negocios y la minería de datos, los usuarios procesan, comprenden y recuerdan representaciones visualmente estructuradas de manera significativamente más rápida que la información en tablas numéricas no estructuradas [@few2009]. Este fenómeno se fundamenta en la **psicología** perceptiva, la **estadística** y el **diseño** gráfico, disciplinas que convergen para reducir la carga cognitiva del observador [@tufte2001].
+En la minería de datos y la Inteligencia de Negocios, la visualización no es un accesorio estético al final del análisis, sino una herramienta cognitiva fundamental para la exploración, el diagnóstico y la comunicación de hallazgos [@shmueli2018]. La mente humana procesa patrones visuales (formas, colores, posiciones y tendencias) de manera infinitamente más rápida e intuitiva que al inspeccionar tablas numéricas no estructuradas [@few2009]. Una representación gráfica bien concebida permite revelar estructuras ocultas, identificar agrupamientos naturales y detectar anomalías complejas de un vistazo [@tan2019].
 
-Al diseñar una representación gráfica, el objetivo principal es maximizar la eficiencia en la transmisión de información. Edward Tufte introdujo el concepto del **ratio dato-tinta** (*data-ink ratio*), el cual establece que la mayor parte de la tinta (o píxeles en una pantalla) debe dedicarse a mostrar datos sustanciales, eliminando elementos decorativos redundantes o distractores. Cuando se satura un gráfico con colores innecesarios, líneas de cuadrícula pesadas o efectos tridimensionales sin significado, se genera el problema conocido como "sopa de espagueti" (*rainbow spaghetti*), donde la abundancia visual sofoca la capacidad de extracción de patrones [@abbott2024].
+La ciencia de la visualización se nutre de la interacción entre la **psicología perceptiva**, la **estadística** y el **diseño gráfico** [@cleveland1993]. Al diseñar gráficos analíticos, el objetivo primario debe ser minimizar la **carga cognitiva innecesaria**, permitiendo que la audiencia dedique su capacidad mental a interpretar el mensaje de negocio en lugar de descifrar la mecánica del gráfico [@few2009; @tufte2001]. Asimismo, se debe cuidar el ratio dato-tinta (*data-ink ratio*) formulado por Edward Tufte y evitar la "sopa de espagueti" (*rainbow spaghetti*), caracterizada por el uso descontrolado de colores y elementos sin jerarquía [@tufte2001; @abbott2024].
 
-### Atributos Preatentivos y Principios Gestalt
+### Atributos Pre-atentivos
+Los atributos pre-atentivos son propiedades visuales que el cerebro humano procesa de forma subconsciente e instantánea en menos de 250 milisegundos, antes de que ocurra la atención consciente [@few2009; @knaflic2015]. Al construir gráficos analíticos, el diseñador debe apalancarse en cuatro categorías de atributos pre-atentivos para guiar la mirada del espectador [@few2009]:
 
-El sistema visual humano procesa ciertos atributos de manera inconsciente e instantánea antes de que la atención consciente intervenga. Estos **atributos preatentivos** abarcan la posición espacial, la forma, el tamaño y el color (tono e intensidad) [@knaflic2015]. Al modificar estratégicamente una de estas propiedades —por ejemplo, aplicando un color de acento único sobre una serie en tonos grises—, el analista puede guiar la mirada del espectador directamente hacia el hallazgo clave (*takeaway*).
+* **Posición Espacial:** El atributo más preciso para la estimación cuantitativa de magnitudes (ejes X e Y) [@cleveland1993].
+* **Forma y Tamaño:** Longitud de barras, área de puntos o símbolos diferenciados para indicar categorías o volúmenes [@few2009].
+* **Color (Tono e Intensidad):** Utilizado para destacar un dato crítico (*takeaway*) o representar gradientes continuos [@knaflic2015].
+* **Movimiento y Transparencia (`alpha`):** Para diferenciar capas de información o mitigar el traslape de puntos en gráficos densos [@shmueli2018].
 
-Complementariamente, los **principios de la psicología Gestalt** explican cómo la mente humana agrupa elementos individuales en un todo organizado:
+Aplicar estratégicamente los atributos pre-atentivos permite crear contraste visual, recordando la regla fundamental de Knaflic: *"Si todo resalta, nada resalta"* [@knaflic2015].
 
-* **Proximidad:** Tendemos a percibir los objetos que están físicamente cercanos entre sí como parte de un mismo grupo.
-* **Similitud:** Los elementos que comparten atributos visuales (mismo color, forma o tamaño) son asociados automáticamente como pertenecientes a la misma categoría.
-* **Encierro (*Enclosure*):** Elementos delimitados por un borde o un fondo sombreado son percibidos como un bloque de información diferenciado.
-* **Conexión:** Los objetos conectados por líneas continuas se perciben como vinculados jerárquicamente o temporalmente.
-* **Continuidad:** La mente prefiere seguir trayectorias suaves y continuas en lugar de cambios bruscos de dirección.
+### Leyes de la Gestalt Aplicadas a Gráficos
+La psicología de la Gestalt describe cómo la mente humana organiza elementos visuales individuales en un todo estructurado [@few2009]. En el diseño de gráficos y tableros, destacan seis principios esenciales [@few2009; @knaflic2015]:
+
+1. **Proximidad:** Los objetos que están físicamente cerca se perciben como parte de un mismo grupo (ej. barras agrupadas en un histograma).
+2. **Semejanza (Similitud):** Los elementos que comparten atributos de color, forma o tamaño se perciben como pertenecientes a la misma categoría.
+3. **Encierro (Cierre):** Las áreas delimitadas por un fondo de color o borde suave se perciben como una unidad temática separada.
+4. **Conexión:** Los puntos unidos por una línea continua se perciben como una secuencia o serie coherente (ej. gráficos de líneas temporales).
+5. **Continuidad:** La mirada sigue naturalmente la trayectoria más suave a lo largo de un eje o curva.
+6. **Figura-Fondo:** El cerebro distingue automáticamente el sujeto principal del fondo, lo que exige eliminar cuadrículas oscuras y fondos recargados para optimizar el *data-ink ratio* [@tufte2001].
 
 ![](fig/vis1.jpeg)
 
-## Guía Taxonómica de Tipos de Visualización
+## Guía Taxonómica de Tipos de Visualización (*Chart Chooser*)
 
-Elegir el tipo de gráfico adecuado depende del propósito analítico y de la estructura de las variables a representar. A continuación, se presenta una clasificación estandarizada de las visualizaciones más utilizadas en la minería de datos y la analítica corporativa.
+Seleccionar el tipo de gráfico adecuado depende de la naturaleza de las variables y del objetivo analítico de la comunicación [@knaflic2015; @abbott2024].
 
 ### 1. Comparación y Categorías
 
-* **Gráficos de Barras (Verticales y Horizontales):** Son el estándar de excelencia para comparar magnitudes discretas . Las barras horizontales son ideales cuando las etiquetas categóricas son largas. *Regla de oro:* Los gráficos de barras deben iniciar estrictamente en una línea base de cero para evitar distorsionar visualmente las proporciones.
-* **Barras Apiladas (*Stacked Bars*) y 100% Apiladas:** Permiten evaluar la composición interna de categorías secundarias. Las barras 100% apiladas son eficientes para comparar proporciones relativas entre grupos .
-* **Gráficos de Cascada (*Waterfall Charts*):** Utilizados ampliamente en finanzas y auditoría para mostrar el impacto acumulativo de adiciones y deducciones sobre una cantidad inicial.
+* **Barras Horizontales o Verticales:** La herramienta más versátil para comparar magnitudes entre categorías discretas [@knaflic2015]. Las barras horizontales son ideales cuando los nombres de las categorías son largos [@abbott2024].
+* **Barras Apiladas y 100% Apiladas:** Permiten comparar totales generales y la composición relativa por subgrupos [@knaflic2015].
+* **Gráfico de Cascada (*Waterfall Chart*):** Excelente para mostrar cómo un valor inicial aumenta o disminuye secuencialmente a través de factores intermedios [@knaflic2015; @knaflic2020].
 
-### 2. Tendencia y Series Temporales
+### 2. Tendencia y Series de Tiempo
 
-* **Gráficos de Líneas:** Son la opción idónea para mostrar la evolución continua de atributos cuantitativos a lo largo del tiempo.
-* **Gráficos de Pendiente (*Slopegraphs*):** Variación de los gráficos de líneas restringida a dos puntos temporales o comparaciones de grupos, permitiendo visualizar de inmediato cambios relativos en la magnitud o el rango (*ranking*).
+* **Gráficos de Líneas:** La elección estándar para visualizar la evolución continua de métricas a lo largo del tiempo [@knaflic2015; @shmueli2018].
+* **Gráficos de Pendiente (*Slopegraph*):** Muy útiles para comparar la variación de múltiples categorías entre dos puntos en el tiempo [@knaflic2015].
 
-### 3. Distribución de Variables
+### 3. Distribución
 
-* **Histogramas y Diagramas de Densidad:** Muestran la forma, simetría y modalidad de la distribución de una variable continua.
-* **Diagramas de Caja (*Boxplots*) y Violín (*Violin Plots*):** Resumen la distribución mediante estadísticos robustos (mediana, cuartiles y atípicos). El gráfico de violín combina la caja con una estimación suavizada de la densidad.
+* **Histogramas y Curvas de Densidad:** Para evaluar la forma, simetría y modas de distribuciones cuantitativas continuas [@shmueli2018; @pimpler2018].
+* **Gráficos de Caja (*Boxplots*) y Violín:** Ideales para comparar la dispersión, la mediana, los cuartiles y los valores atípicos entre grupos [@shmueli2018; @pimpler2018].
 
 ### 4. Relación y Correlación
 
-* **Gráficos de Dispersión (*Scatterplots*):** Muestran la relación bi-variante entre dos variables numéricas, revelando tendencias lineales, no lineales o agrupamientos.
-* **Mapas de Calor (*Heatmaps*):** Utilizan la intensidad del color sobre una matriz para representar la correlación entre variables numéricas o la frecuencia entre variables categóricas.
+* **Gráficos de Dispersión (*Scatterplots*):** Evalúan la relación bivariante entre dos variables continuas, permitiendo identificar tendencias y anomalías [@shmueli2018].
+* **Mapas de Calor (*Heatmaps*):** Mapean matrices de intensidad o correlación utilizando graduaciones de color [@shmueli2018; @johnson2014].
 
-### 5. Composición y Parte-Todo
+### 5. Composición y Parte de un Todo
 
-* **Gráficos de Rosca (*Donut Charts*) y Minigráficos (*Waffle/Square Area Charts*):** Se recomiendan para transmitir porcentajes simples con no más de dos o tres segmentos. *Advertencia:* Se deben evitar los gráficos de pastel (*pie charts*) saturados de categorías y las representaciones en 3D, ya que el ojo humano es ineficiente estimando ángulos y áreas.
+* **Gráficos de Rosca (*Donut Chart*) y Waffle:** Alternativas preferibles al gráfico de pastel tradicional, recomendando limitar las categorías a un máximo de 2 o 3 [@knaflic2015; @abbott2024].
 
-::: {.callout-note}
-### Actividad: Selección Crítica del Gráfico (10 min)
-**Escenario de Negocio:** Un equipo de marketing desea presentar los siguientes tres hallazgos a la junta directiva:
+## Principios de Diseño, Audiencia y Data Storytelling
 
-1. El rendimiento porcentual mensual de 5 campañas publicitarias durante los últimos 12 meses.
-2. La relación entre la edad de los clientes y el monto total consumido en la tienda en línea.
-3. La proporción de clientes satisfechos versus insatisfechos con el servicio de entrega.
+El **Data Storytelling** es el arte de estructurar los hallazgos analíticos dentro de una narrativa coherente y persuasiva, conectando los datos con las decisiones estratégicas de la organización [@knaflic2015]. Un gráfico aislado muestra *qué* ocurrió; el Data Storytelling explica *por qué* importa y *qué acción* se debe tomar al respecto [@provost2013; @knaflic2020].
 
-**Instrucción:** En parejas, determinen qué tipo de gráfico es el más adecuado para cada uno de los tres requerimientos de información, justificando su elección.
-:::
+### La Audiencia 
+
+Un error recurrente al construir gráficos, tableros y reportes es enfocarse únicamente en la disponibilidad de los datos o en la complejidad técnica de las herramientas [@abbott2024]. Como enfatizan Desireé Abbott y Cole Nussbaumer Knaflic, **el éxito de una visualización no se mide por su sofisticación, sino por la comprensión y acción de su audiencia** [@knaflic2015; @abbott2024].
+
+> *"Lo más importante que debes tener en cuenta al crear una visualización es conocer a tu audiencia. Todo gira en torno a ellos. Puedes crear la visualización más hermosa utilizando las últimas técnicas, pero si no satisface las necesidades de tu audiencia y ellos no comprenden el mensaje, habrás perdido tu tiempo por completo."*  
+> — Desireé Abbott (*Everyday Data Visualization*, 2024) [@abbott2024]
+
+Para colocar a la audiencia en el centro de la historia, el analista debe responder cuatro preguntas clave antes de trazar el primer gráfico [@knaflic2015]:
+
+1. **¿Quién** es la audiencia específica y cuál es su nivel de conocimiento técnico?
+2. **¿Qué** le preocupa o qué problema de negocio necesita resolver?
+3. **¿Cómo** respaldan los datos la solución propuesta?
+4. **¿Qué acción concreta** debe tomar tras ver la presentación o tablero?
+
+### Adaptación por Perfil de Usuario
+Al diseñar historias visuales, se deben diferenciar dos perfiles de audiencia principales [@abbott2024; @erl2016]:
+
+* **Audiencia Ejecutiva (Alta Gerencia):** Dispone de tiempo limitado y requiere una comprensión inmediata del estado estratégico y financiero de la organización. Para este grupo, se deben priorizar las **Tarjetas de KPIs** (*KPI Cards*) con números principales de gran tamaño (*BANs - Big-Ass Numbers*), acompañados de contexto comparativo directo (variación % respecto a metas, periodos anteriores o semáforos de estado).
+* **Audiencia Operativa y Analítica:** Requiere capacidades de exploración interactiva, filtrado dinámico y profundización (*drill-down*) para investigar las causas raíz de las desviaciones operativas.
+* **Audiencia Académica, Científica y Técnica:** Exige el máximo rigor metodológico, la reproducibilidad del análisis y la validez estadística. Para este grupo, la visualización debe incorporar intervalos de confianza, medidas de dispersión, pruebas de hipótesis, la especificación de supuestos y la documentación completa de las fuentes de datos.
+* **Público en General, Sociedad Civil y Clientes (Divulgación y Comunicación Pública):** Presenta una diversidad heterogénea en alfabetización de datos (*data literacy*) [@abbott2024]. Requiere la máxima reducción de la carga cognitiva y de la jerga técnica, priorizando la claridad narrativa, metáforas o analogías intuitivas, elementos visuales de alto impacto y un enfoque centrado en las implicaciones sociales o personales del hallazgo.
 
 ## KPIs y Diseño de Dashboards
 
@@ -208,17 +231,7 @@ server <- function(input, output) {
 ::: {.callout-tip}
 ### Ejercicios de Aplicación Práctica (Para portafolio de clase)
 
-1. **Rediseño de Gráfico con Storytelling (`ggplot2`):** Cargue el dataset `iris` o un dataset corporativo similar. Diseñe un gráfico de dispersión con `ggplot2` que cumpla con los siguientes criterios de *Data Storytelling*:
-   * Utilice tonos de gris para todas las observaciones excepto para la especie *virginica*, la cual debe llevar un color de acento azul.
-   * Elimine las líneas de cuadrícula secundarias utilizando `theme_minimal()`.
-   * Añada un título directo orientativo (*action title*) y una anotación de texto (`annotate()`) que explique un patrón sobresaliente.
-
-2. **Dashboard de Resumen de KPIs con `flexdashboard`:** Utilizando la librería `flexdashboard`, construya un tablero en formato R Markdown / Quarto que presente:
-   * Dos tarjetas de indicadores (*valueBox*) en la parte superior con íconos vectoriales.
-   * Un panel izquierdo con un gráfico de barras de ventas por categoría.
-   * Un panel derecho con un gráfico de dispersión de tendencias.
-
-3. **Aplicación Reactiva Básica con `shiny`:** Escriba un script en R que implemente un prototipo de Shiny con las siguientes características:
-   * Un menú desplegable (`selectInput`) que permita al usuario seleccionar un departamento o región.
-   * Un gráfico dinámico (`renderPlot`) que actualice de forma reactiva la distribución de ingresos del departamento seleccionado mediante un histograma estilizado con `ggplot2`.
+1. **Gráfico Estilizado de Storytelling con `ggplot2`:** Con el dataset `iris`, construya un gráfico de dispersión entre `Sepal.Length` y `Petal.Length`. Resalte únicamente los puntos de la especie *Setosa* en azul brillante y atenúe las demás especies en gris claro. Añada un título narrativo orientado a la acción y elimine el ruido visual del fondo.
+2. **Estructuración de un Dashboard con `flexdashboard`:** Cree un archivo `.Rmd` o `.qmd` con plantilla `flexdashboard`. Incluya dos tarjetas de valores (`valueBox`) con métricas clave y dos gráficos de `ggplot2` dispuestos en columnas paralelas para el análisis de la discriminación según la última encuesta a hogares disponible.
+3. **Prototipo Reactivo en `shiny`:** Desarrolle una aplicación de `shiny` que permita al usuario seleccionar dinámicamente mediante un control desplegable (`selectInput`) qué departamento explorar respecto el perfil de los emigrantes en Bolivia según el censo 2024.
 :::

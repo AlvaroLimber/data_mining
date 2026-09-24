@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Visualización de Datos, Dashboards y Data Storytelling – Minería de Datos</title>
+<title>6&nbsp; Visualización de Datos, Gramática de Gráficos y Data Storytelling – Minería de Datos</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -102,8 +102,8 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-79b2a251c468d745a9db49bec9721a9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c5cafcc9f36f1bf0e906d3b5335c86ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-be67d91eaee7ee535f133f4b8a0584b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-40d2b7ce583afdaabd40688eef35f9b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -133,7 +133,7 @@ div.csl-indent {
 }</script>
 
 
-<meta name="twitter:title" content="6&nbsp; Visualización de Datos, Dashboards y Data Storytelling – Minería de Datos">
+<meta name="twitter:title" content="6&nbsp; Visualización de Datos, Gramática de Gráficos y Data Storytelling – Minería de Datos">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/vis1.jpeg">
 <meta name="twitter:card" content="summary_large_image">
@@ -308,7 +308,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./visualizacion.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./visualizacion.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -414,7 +414,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./visualizacion.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span></a>
   </div>
 </li>
       </ul>
@@ -435,29 +435,35 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#fundamentos-y-psicología-de-la-visualización-de-datos" id="toc-fundamentos-y-psicología-de-la-visualización-de-datos" class="nav-link active" data-scroll-target="#fundamentos-y-psicología-de-la-visualización-de-datos"><span class="header-section-number">6.1</span> Fundamentos y Psicología de la Visualización de Datos</a>
+  <li><a href="#fundamentos-de-la-visualización-y-psicología-perceptiva" id="toc-fundamentos-de-la-visualización-y-psicología-perceptiva" class="nav-link active" data-scroll-target="#fundamentos-de-la-visualización-y-psicología-perceptiva"><span class="header-section-number">6.1</span> Fundamentos de la Visualización y Psicología Perceptiva</a>
   <ul class="collapse">
-  <li><a href="#atributos-preatentivos-y-principios-gestalt" id="toc-atributos-preatentivos-y-principios-gestalt" class="nav-link" data-scroll-target="#atributos-preatentivos-y-principios-gestalt"><span class="header-section-number">6.1.1</span> Atributos Preatentivos y Principios Gestalt</a></li>
+  <li><a href="#atributos-pre-atentivos" id="toc-atributos-pre-atentivos" class="nav-link" data-scroll-target="#atributos-pre-atentivos"><span class="header-section-number">6.1.1</span> Atributos Pre-atentivos</a></li>
+  <li><a href="#leyes-de-la-gestalt-aplicadas-a-gráficos" id="toc-leyes-de-la-gestalt-aplicadas-a-gráficos" class="nav-link" data-scroll-target="#leyes-de-la-gestalt-aplicadas-a-gráficos"><span class="header-section-number">6.1.2</span> Leyes de la Gestalt Aplicadas a Gráficos</a></li>
   </ul></li>
-  <li><a href="#guía-taxonómica-de-tipos-de-visualización" id="toc-guía-taxonómica-de-tipos-de-visualización" class="nav-link" data-scroll-target="#guía-taxonómica-de-tipos-de-visualización"><span class="header-section-number">6.2</span> Guía Taxonómica de Tipos de Visualización</a>
+  <li><a href="#guía-taxonómica-de-tipos-de-visualización-chart-chooser" id="toc-guía-taxonómica-de-tipos-de-visualización-chart-chooser" class="nav-link" data-scroll-target="#guía-taxonómica-de-tipos-de-visualización-chart-chooser"><span class="header-section-number">6.2</span> Guía Taxonómica de Tipos de Visualización (<em>Chart Chooser</em>)</a>
   <ul class="collapse">
   <li><a href="#comparación-y-categorías" id="toc-comparación-y-categorías" class="nav-link" data-scroll-target="#comparación-y-categorías"><span class="header-section-number">6.2.1</span> 1. Comparación y Categorías</a></li>
-  <li><a href="#tendencia-y-series-temporales" id="toc-tendencia-y-series-temporales" class="nav-link" data-scroll-target="#tendencia-y-series-temporales"><span class="header-section-number">6.2.2</span> 2. Tendencia y Series Temporales</a></li>
-  <li><a href="#distribución-de-variables" id="toc-distribución-de-variables" class="nav-link" data-scroll-target="#distribución-de-variables"><span class="header-section-number">6.2.3</span> 3. Distribución de Variables</a></li>
+  <li><a href="#tendencia-y-series-de-tiempo" id="toc-tendencia-y-series-de-tiempo" class="nav-link" data-scroll-target="#tendencia-y-series-de-tiempo"><span class="header-section-number">6.2.2</span> 2. Tendencia y Series de Tiempo</a></li>
+  <li><a href="#distribución" id="toc-distribución" class="nav-link" data-scroll-target="#distribución"><span class="header-section-number">6.2.3</span> 3. Distribución</a></li>
   <li><a href="#relación-y-correlación" id="toc-relación-y-correlación" class="nav-link" data-scroll-target="#relación-y-correlación"><span class="header-section-number">6.2.4</span> 4. Relación y Correlación</a></li>
-  <li><a href="#composición-y-parte-todo" id="toc-composición-y-parte-todo" class="nav-link" data-scroll-target="#composición-y-parte-todo"><span class="header-section-number">6.2.5</span> 5. Composición y Parte-Todo</a></li>
+  <li><a href="#composición-y-parte-de-un-todo" id="toc-composición-y-parte-de-un-todo" class="nav-link" data-scroll-target="#composición-y-parte-de-un-todo"><span class="header-section-number">6.2.5</span> 5. Composición y Parte de un Todo</a></li>
   </ul></li>
-  <li><a href="#kpis-y-diseño-de-dashboards" id="toc-kpis-y-diseño-de-dashboards" class="nav-link" data-scroll-target="#kpis-y-diseño-de-dashboards"><span class="header-section-number">6.3</span> KPIs y Diseño de Dashboards</a>
+  <li><a href="#principios-de-diseño-audiencia-y-data-storytelling" id="toc-principios-de-diseño-audiencia-y-data-storytelling" class="nav-link" data-scroll-target="#principios-de-diseño-audiencia-y-data-storytelling"><span class="header-section-number">6.3</span> Principios de Diseño, Audiencia y Data Storytelling</a>
   <ul class="collapse">
-  <li><a href="#indicadores-clave-de-rendimiento-kpis" id="toc-indicadores-clave-de-rendimiento-kpis" class="nav-link" data-scroll-target="#indicadores-clave-de-rendimiento-kpis"><span class="header-section-number">6.3.1</span> Indicadores Clave de Rendimiento (KPIs)</a></li>
-  <li><a href="#principios-de-maquetación-y-la-regla-de-shneiderman" id="toc-principios-de-maquetación-y-la-regla-de-shneiderman" class="nav-link" data-scroll-target="#principios-de-maquetación-y-la-regla-de-shneiderman"><span class="header-section-number">6.3.2</span> Principios de Maquetación y la Regla de Shneiderman</a></li>
-  <li><a href="#ecosistema-de-herramientas-de-visualización" id="toc-ecosistema-de-herramientas-de-visualización" class="nav-link" data-scroll-target="#ecosistema-de-herramientas-de-visualización"><span class="header-section-number">6.3.3</span> Ecosistema de Herramientas de Visualización</a></li>
+  <li><a href="#la-audiencia" id="toc-la-audiencia" class="nav-link" data-scroll-target="#la-audiencia"><span class="header-section-number">6.3.1</span> La Audiencia</a></li>
+  <li><a href="#adaptación-por-perfil-de-usuario" id="toc-adaptación-por-perfil-de-usuario" class="nav-link" data-scroll-target="#adaptación-por-perfil-de-usuario"><span class="header-section-number">6.3.2</span> Adaptación por Perfil de Usuario</a></li>
   </ul></li>
-  <li><a href="#implementación-en-r-de-ggplot2-a-dashboards-web" id="toc-implementación-en-r-de-ggplot2-a-dashboards-web" class="nav-link" data-scroll-target="#implementación-en-r-de-ggplot2-a-dashboards-web"><span class="header-section-number">6.4</span> Implementación en R: De <code>ggplot2</code> a Dashboards Web</a>
+  <li><a href="#kpis-y-diseño-de-dashboards" id="toc-kpis-y-diseño-de-dashboards" class="nav-link" data-scroll-target="#kpis-y-diseño-de-dashboards"><span class="header-section-number">6.4</span> KPIs y Diseño de Dashboards</a>
   <ul class="collapse">
-  <li><a href="#la-gramática-de-gráficos-con-ggplot2" id="toc-la-gramática-de-gráficos-con-ggplot2" class="nav-link" data-scroll-target="#la-gramática-de-gráficos-con-ggplot2"><span class="header-section-number">6.4.1</span> La Gramática de Gráficos con <code>ggplot2</code></a></li>
+  <li><a href="#indicadores-clave-de-rendimiento-kpis" id="toc-indicadores-clave-de-rendimiento-kpis" class="nav-link" data-scroll-target="#indicadores-clave-de-rendimiento-kpis"><span class="header-section-number">6.4.1</span> Indicadores Clave de Rendimiento (KPIs)</a></li>
+  <li><a href="#principios-de-maquetación-y-la-regla-de-shneiderman" id="toc-principios-de-maquetación-y-la-regla-de-shneiderman" class="nav-link" data-scroll-target="#principios-de-maquetación-y-la-regla-de-shneiderman"><span class="header-section-number">6.4.2</span> Principios de Maquetación y la Regla de Shneiderman</a></li>
+  <li><a href="#ecosistema-de-herramientas-de-visualización" id="toc-ecosistema-de-herramientas-de-visualización" class="nav-link" data-scroll-target="#ecosistema-de-herramientas-de-visualización"><span class="header-section-number">6.4.3</span> Ecosistema de Herramientas de Visualización</a></li>
   </ul></li>
-  <li><a href="#cápsula-de-ejercicios" id="toc-cápsula-de-ejercicios" class="nav-link" data-scroll-target="#cápsula-de-ejercicios"><span class="header-section-number">6.5</span> Cápsula de Ejercicios</a></li>
+  <li><a href="#implementación-en-r-de-ggplot2-a-dashboards-web" id="toc-implementación-en-r-de-ggplot2-a-dashboards-web" class="nav-link" data-scroll-target="#implementación-en-r-de-ggplot2-a-dashboards-web"><span class="header-section-number">6.5</span> Implementación en R: De <code>ggplot2</code> a Dashboards Web</a>
+  <ul class="collapse">
+  <li><a href="#la-gramática-de-gráficos-con-ggplot2" id="toc-la-gramática-de-gráficos-con-ggplot2" class="nav-link" data-scroll-target="#la-gramática-de-gráficos-con-ggplot2"><span class="header-section-number">6.5.1</span> La Gramática de Gráficos con <code>ggplot2</code></a></li>
+  </ul></li>
+  <li><a href="#cápsula-de-ejercicios" id="toc-cápsula-de-ejercicios" class="nav-link" data-scroll-target="#cápsula-de-ejercicios"><span class="header-section-number">6.6</span> Cápsula de Ejercicios</a></li>
   </ul>
 </nav>
     </div>
@@ -465,9 +471,9 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./visualizacion.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./visualizacion.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Dashboards y Data Storytelling</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></h1>
 </div>
 
 
@@ -484,87 +490,108 @@ div.csl-indent {
 </header>
 
 
-<section id="fundamentos-y-psicología-de-la-visualización-de-datos" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="fundamentos-y-psicología-de-la-visualización-de-datos"><span class="header-section-number">6.1</span> Fundamentos y Psicología de la Visualización de Datos</h2>
-<p>La visualización de datos es el puente cognitivo entre el procesamiento analítico y la toma de decisiones estratégicas. En el marco de la Inteligencia de Negocios y la minería de datos, los usuarios procesan, comprenden y recuerdan representaciones visualmente estructuradas de manera significativamente más rápida que la información en tablas numéricas no estructuradas <span class="citation" data-cites="few2009">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>)</span>. Este fenómeno se fundamenta en la <strong>psicología</strong> perceptiva, la <strong>estadística</strong> y el <strong>diseño</strong> gráfico, disciplinas que convergen para reducir la carga cognitiva del observador <span class="citation" data-cites="tufte2001">(<a href="references.html#ref-tufte2001" role="doc-biblioref">Tufte 2001</a>)</span>.</p>
-<p>Al diseñar una representación gráfica, el objetivo principal es maximizar la eficiencia en la transmisión de información. Edward Tufte introdujo el concepto del <strong>ratio dato-tinta</strong> (<em>data-ink ratio</em>), el cual establece que la mayor parte de la tinta (o píxeles en una pantalla) debe dedicarse a mostrar datos sustanciales, eliminando elementos decorativos redundantes o distractores. Cuando se satura un gráfico con colores innecesarios, líneas de cuadrícula pesadas o efectos tridimensionales sin significado, se genera el problema conocido como “sopa de espagueti” (<em>rainbow spaghetti</em>), donde la abundancia visual sofoca la capacidad de extracción de patrones <span class="citation" data-cites="abbott2024">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</p>
-<section id="atributos-preatentivos-y-principios-gestalt" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="atributos-preatentivos-y-principios-gestalt"><span class="header-section-number">6.1.1</span> Atributos Preatentivos y Principios Gestalt</h3>
-<p>El sistema visual humano procesa ciertos atributos de manera inconsciente e instantánea antes de que la atención consciente intervenga. Estos <strong>atributos preatentivos</strong> abarcan la posición espacial, la forma, el tamaño y el color (tono e intensidad) <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>. Al modificar estratégicamente una de estas propiedades —por ejemplo, aplicando un color de acento único sobre una serie en tonos grises—, el analista puede guiar la mirada del espectador directamente hacia el hallazgo clave (<em>takeaway</em>).</p>
-<p>Complementariamente, los <strong>principios de la psicología Gestalt</strong> explican cómo la mente humana agrupa elementos individuales en un todo organizado:</p>
+<section id="fundamentos-de-la-visualización-y-psicología-perceptiva" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="fundamentos-de-la-visualización-y-psicología-perceptiva"><span class="header-section-number">6.1</span> Fundamentos de la Visualización y Psicología Perceptiva</h2>
+<p>En la minería de datos y la Inteligencia de Negocios, la visualización no es un accesorio estético al final del análisis, sino una herramienta cognitiva fundamental para la exploración, el diagnóstico y la comunicación de hallazgos <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. La mente humana procesa patrones visuales (formas, colores, posiciones y tendencias) de manera infinitamente más rápida e intuitiva que al inspeccionar tablas numéricas no estructuradas <span class="citation" data-cites="few2009">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>)</span>. Una representación gráfica bien concebida permite revelar estructuras ocultas, identificar agrupamientos naturales y detectar anomalías complejas de un vistazo <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>La ciencia de la visualización se nutre de la interacción entre la <strong>psicología perceptiva</strong>, la <strong>estadística</strong> y el <strong>diseño gráfico</strong> <span class="citation" data-cites="cleveland1993">(<a href="references.html#ref-cleveland1993" role="doc-biblioref">Cleveland 1993</a>)</span>. Al diseñar gráficos analíticos, el objetivo primario debe ser minimizar la <strong>carga cognitiva innecesaria</strong>, permitiendo que la audiencia dedique su capacidad mental a interpretar el mensaje de negocio en lugar de descifrar la mecánica del gráfico <span class="citation" data-cites="few2009 tufte2001">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>; <a href="references.html#ref-tufte2001" role="doc-biblioref">Tufte 2001</a>)</span>. Asimismo, se debe cuidar el ratio dato-tinta (<em>data-ink ratio</em>) formulado por Edward Tufte y evitar la “sopa de espagueti” (<em>rainbow spaghetti</em>), caracterizada por el uso descontrolado de colores y elementos sin jerarquía <span class="citation" data-cites="tufte2001 abbott2024">(<a href="references.html#ref-tufte2001" role="doc-biblioref">Tufte 2001</a>; <a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</p>
+<section id="atributos-pre-atentivos" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="atributos-pre-atentivos"><span class="header-section-number">6.1.1</span> Atributos Pre-atentivos</h3>
+<p>Los atributos pre-atentivos son propiedades visuales que el cerebro humano procesa de forma subconsciente e instantánea en menos de 250 milisegundos, antes de que ocurra la atención consciente <span class="citation" data-cites="few2009 knaflic2015">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>; <a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>. Al construir gráficos analíticos, el diseñador debe apalancarse en cuatro categorías de atributos pre-atentivos para guiar la mirada del espectador <span class="citation" data-cites="few2009">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>)</span>:</p>
 <ul>
-<li><strong>Proximidad:</strong> Tendemos a percibir los objetos que están físicamente cercanos entre sí como parte de un mismo grupo.</li>
-<li><strong>Similitud:</strong> Los elementos que comparten atributos visuales (mismo color, forma o tamaño) son asociados automáticamente como pertenecientes a la misma categoría.</li>
-<li><strong>Encierro (<em>Enclosure</em>):</strong> Elementos delimitados por un borde o un fondo sombreado son percibidos como un bloque de información diferenciado.</li>
-<li><strong>Conexión:</strong> Los objetos conectados por líneas continuas se perciben como vinculados jerárquicamente o temporalmente.</li>
-<li><strong>Continuidad:</strong> La mente prefiere seguir trayectorias suaves y continuas en lugar de cambios bruscos de dirección.</li>
+<li><strong>Posición Espacial:</strong> El atributo más preciso para la estimación cuantitativa de magnitudes (ejes X e Y) <span class="citation" data-cites="cleveland1993">(<a href="references.html#ref-cleveland1993" role="doc-biblioref">Cleveland 1993</a>)</span>.</li>
+<li><strong>Forma y Tamaño:</strong> Longitud de barras, área de puntos o símbolos diferenciados para indicar categorías o volúmenes <span class="citation" data-cites="few2009">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>)</span>.</li>
+<li><strong>Color (Tono e Intensidad):</strong> Utilizado para destacar un dato crítico (<em>takeaway</em>) o representar gradientes continuos <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>.</li>
+<li><strong>Movimiento y Transparencia (<code>alpha</code>):</strong> Para diferenciar capas de información o mitigar el traslape de puntos en gráficos densos <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
 </ul>
+<p>Aplicar estratégicamente los atributos pre-atentivos permite crear contraste visual, recordando la regla fundamental de Knaflic: <em>“Si todo resalta, nada resalta”</em> <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>.</p>
+</section>
+<section id="leyes-de-la-gestalt-aplicadas-a-gráficos" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="leyes-de-la-gestalt-aplicadas-a-gráficos"><span class="header-section-number">6.1.2</span> Leyes de la Gestalt Aplicadas a Gráficos</h3>
+<p>La psicología de la Gestalt describe cómo la mente humana organiza elementos visuales individuales en un todo estructurado <span class="citation" data-cites="few2009">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>)</span>. En el diseño de gráficos y tableros, destacan seis principios esenciales <span class="citation" data-cites="few2009 knaflic2015">(<a href="references.html#ref-few2009" role="doc-biblioref">Few 2009</a>; <a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>:</p>
+<ol type="1">
+<li><strong>Proximidad:</strong> Los objetos que están físicamente cerca se perciben como parte de un mismo grupo (ej. barras agrupadas en un histograma).</li>
+<li><strong>Semejanza (Similitud):</strong> Los elementos que comparten atributos de color, forma o tamaño se perciben como pertenecientes a la misma categoría.</li>
+<li><strong>Encierro (Cierre):</strong> Las áreas delimitadas por un fondo de color o borde suave se perciben como una unidad temática separada.</li>
+<li><strong>Conexión:</strong> Los puntos unidos por una línea continua se perciben como una secuencia o serie coherente (ej. gráficos de líneas temporales).</li>
+<li><strong>Continuidad:</strong> La mirada sigue naturalmente la trayectoria más suave a lo largo de un eje o curva.</li>
+<li><strong>Figura-Fondo:</strong> El cerebro distingue automáticamente el sujeto principal del fondo, lo que exige eliminar cuadrículas oscuras y fondos recargados para optimizar el <em>data-ink ratio</em> <span class="citation" data-cites="tufte2001">(<a href="references.html#ref-tufte2001" role="doc-biblioref">Tufte 2001</a>)</span>.</li>
+</ol>
 <p><img src="fig/vis1.jpeg" class="img-fluid"></p>
 </section>
 </section>
-<section id="guía-taxonómica-de-tipos-de-visualización" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="guía-taxonómica-de-tipos-de-visualización"><span class="header-section-number">6.2</span> Guía Taxonómica de Tipos de Visualización</h2>
-<p>Elegir el tipo de gráfico adecuado depende del propósito analítico y de la estructura de las variables a representar. A continuación, se presenta una clasificación estandarizada de las visualizaciones más utilizadas en la minería de datos y la analítica corporativa.</p>
+<section id="guía-taxonómica-de-tipos-de-visualización-chart-chooser" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="guía-taxonómica-de-tipos-de-visualización-chart-chooser"><span class="header-section-number">6.2</span> Guía Taxonómica de Tipos de Visualización (<em>Chart Chooser</em>)</h2>
+<p>Seleccionar el tipo de gráfico adecuado depende de la naturaleza de las variables y del objetivo analítico de la comunicación <span class="citation" data-cites="knaflic2015 abbott2024">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>; <a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</p>
 <section id="comparación-y-categorías" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="comparación-y-categorías"><span class="header-section-number">6.2.1</span> 1. Comparación y Categorías</h3>
 <ul>
-<li><strong>Gráficos de Barras (Verticales y Horizontales):</strong> Son el estándar de excelencia para comparar magnitudes discretas . Las barras horizontales son ideales cuando las etiquetas categóricas son largas. <em>Regla de oro:</em> Los gráficos de barras deben iniciar estrictamente en una línea base de cero para evitar distorsionar visualmente las proporciones.</li>
-<li><strong>Barras Apiladas (<em>Stacked Bars</em>) y 100% Apiladas:</strong> Permiten evaluar la composición interna de categorías secundarias. Las barras 100% apiladas son eficientes para comparar proporciones relativas entre grupos .</li>
-<li><strong>Gráficos de Cascada (<em>Waterfall Charts</em>):</strong> Utilizados ampliamente en finanzas y auditoría para mostrar el impacto acumulativo de adiciones y deducciones sobre una cantidad inicial.</li>
+<li><strong>Barras Horizontales o Verticales:</strong> La herramienta más versátil para comparar magnitudes entre categorías discretas <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>. Las barras horizontales son ideales cuando los nombres de las categorías son largos <span class="citation" data-cites="abbott2024">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</li>
+<li><strong>Barras Apiladas y 100% Apiladas:</strong> Permiten comparar totales generales y la composición relativa por subgrupos <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>.</li>
+<li><strong>Gráfico de Cascada (<em>Waterfall Chart</em>):</strong> Excelente para mostrar cómo un valor inicial aumenta o disminuye secuencialmente a través de factores intermedios <span class="citation" data-cites="knaflic2015 knaflic2020">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>, <a href="references.html#ref-knaflic2020" role="doc-biblioref">2020</a>)</span>.</li>
 </ul>
 </section>
-<section id="tendencia-y-series-temporales" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="tendencia-y-series-temporales"><span class="header-section-number">6.2.2</span> 2. Tendencia y Series Temporales</h3>
+<section id="tendencia-y-series-de-tiempo" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="tendencia-y-series-de-tiempo"><span class="header-section-number">6.2.2</span> 2. Tendencia y Series de Tiempo</h3>
 <ul>
-<li><strong>Gráficos de Líneas:</strong> Son la opción idónea para mostrar la evolución continua de atributos cuantitativos a lo largo del tiempo.</li>
-<li><strong>Gráficos de Pendiente (<em>Slopegraphs</em>):</strong> Variación de los gráficos de líneas restringida a dos puntos temporales o comparaciones de grupos, permitiendo visualizar de inmediato cambios relativos en la magnitud o el rango (<em>ranking</em>).</li>
+<li><strong>Gráficos de Líneas:</strong> La elección estándar para visualizar la evolución continua de métricas a lo largo del tiempo <span class="citation" data-cites="knaflic2015 shmueli2018">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Gráficos de Pendiente (<em>Slopegraph</em>):</strong> Muy útiles para comparar la variación de múltiples categorías entre dos puntos en el tiempo <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>.</li>
 </ul>
 </section>
-<section id="distribución-de-variables" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="distribución-de-variables"><span class="header-section-number">6.2.3</span> 3. Distribución de Variables</h3>
+<section id="distribución" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="distribución"><span class="header-section-number">6.2.3</span> 3. Distribución</h3>
 <ul>
-<li><strong>Histogramas y Diagramas de Densidad:</strong> Muestran la forma, simetría y modalidad de la distribución de una variable continua.</li>
-<li><strong>Diagramas de Caja (<em>Boxplots</em>) y Violín (<em>Violin Plots</em>):</strong> Resumen la distribución mediante estadísticos robustos (mediana, cuartiles y atípicos). El gráfico de violín combina la caja con una estimación suavizada de la densidad.</li>
+<li><strong>Histogramas y Curvas de Densidad:</strong> Para evaluar la forma, simetría y modas de distribuciones cuantitativas continuas <span class="citation" data-cites="shmueli2018 pimpler2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-pimpler2018" role="doc-biblioref">Pimpler 2018</a>)</span>.</li>
+<li><strong>Gráficos de Caja (<em>Boxplots</em>) y Violín:</strong> Ideales para comparar la dispersión, la mediana, los cuartiles y los valores atípicos entre grupos <span class="citation" data-cites="shmueli2018 pimpler2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-pimpler2018" role="doc-biblioref">Pimpler 2018</a>)</span>.</li>
 </ul>
 </section>
 <section id="relación-y-correlación" class="level3" data-number="6.2.4">
 <h3 data-number="6.2.4" class="anchored" data-anchor-id="relación-y-correlación"><span class="header-section-number">6.2.4</span> 4. Relación y Correlación</h3>
 <ul>
-<li><strong>Gráficos de Dispersión (<em>Scatterplots</em>):</strong> Muestran la relación bi-variante entre dos variables numéricas, revelando tendencias lineales, no lineales o agrupamientos.</li>
-<li><strong>Mapas de Calor (<em>Heatmaps</em>):</strong> Utilizan la intensidad del color sobre una matriz para representar la correlación entre variables numéricas o la frecuencia entre variables categóricas.</li>
+<li><strong>Gráficos de Dispersión (<em>Scatterplots</em>):</strong> Evalúan la relación bivariante entre dos variables continuas, permitiendo identificar tendencias y anomalías <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Mapas de Calor (<em>Heatmaps</em>):</strong> Mapean matrices de intensidad o correlación utilizando graduaciones de color <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
 </ul>
 </section>
-<section id="composición-y-parte-todo" class="level3" data-number="6.2.5">
-<h3 data-number="6.2.5" class="anchored" data-anchor-id="composición-y-parte-todo"><span class="header-section-number">6.2.5</span> 5. Composición y Parte-Todo</h3>
+<section id="composición-y-parte-de-un-todo" class="level3" data-number="6.2.5">
+<h3 data-number="6.2.5" class="anchored" data-anchor-id="composición-y-parte-de-un-todo"><span class="header-section-number">6.2.5</span> 5. Composición y Parte de un Todo</h3>
 <ul>
-<li><strong>Gráficos de Rosca (<em>Donut Charts</em>) y Minigráficos (<em>Waffle/Square Area Charts</em>):</strong> Se recomiendan para transmitir porcentajes simples con no más de dos o tres segmentos. <em>Advertencia:</em> Se deben evitar los gráficos de pastel (<em>pie charts</em>) saturados de categorías y las representaciones en 3D, ya que el ojo humano es ineficiente estimando ángulos y áreas.</li>
+<li><strong>Gráficos de Rosca (<em>Donut Chart</em>) y Waffle:</strong> Alternativas preferibles al gráfico de pastel tradicional, recomendando limitar las categorías a un máximo de 2 o 3 <span class="citation" data-cites="knaflic2015 abbott2024">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>; <a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Actividad: Selección Crítica del Gráfico (10 min)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Escenario de Negocio:</strong> Un equipo de marketing desea presentar los siguientes tres hallazgos a la junta directiva:</p>
+</section>
+</section>
+<section id="principios-de-diseño-audiencia-y-data-storytelling" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="principios-de-diseño-audiencia-y-data-storytelling"><span class="header-section-number">6.3</span> Principios de Diseño, Audiencia y Data Storytelling</h2>
+<p>El <strong>Data Storytelling</strong> es el arte de estructurar los hallazgos analíticos dentro de una narrativa coherente y persuasiva, conectando los datos con las decisiones estratégicas de la organización <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>. Un gráfico aislado muestra <em>qué</em> ocurrió; el Data Storytelling explica <em>por qué</em> importa y <em>qué acción</em> se debe tomar al respecto <span class="citation" data-cites="provost2013 knaflic2020">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-knaflic2020" role="doc-biblioref">Knaflic 2020</a>)</span>.</p>
+<section id="la-audiencia" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="la-audiencia"><span class="header-section-number">6.3.1</span> La Audiencia</h3>
+<p>Un error recurrente al construir gráficos, tableros y reportes es enfocarse únicamente en la disponibilidad de los datos o en la complejidad técnica de las herramientas <span class="citation" data-cites="abbott2024">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>. Como enfatizan Desireé Abbott y Cole Nussbaumer Knaflic, <strong>el éxito de una visualización no se mide por su sofisticación, sino por la comprensión y acción de su audiencia</strong> <span class="citation" data-cites="knaflic2015 abbott2024">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>; <a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>.</p>
+<blockquote class="blockquote">
+<p><em>“Lo más importante que debes tener en cuenta al crear una visualización es conocer a tu audiencia. Todo gira en torno a ellos. Puedes crear la visualización más hermosa utilizando las últimas técnicas, pero si no satisface las necesidades de tu audiencia y ellos no comprenden el mensaje, habrás perdido tu tiempo por completo.”</em><br>
+— Desireé Abbott (<em>Everyday Data Visualization</em>, 2024) <span class="citation" data-cites="abbott2024">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span></p>
+</blockquote>
+<p>Para colocar a la audiencia en el centro de la historia, el analista debe responder cuatro preguntas clave antes de trazar el primer gráfico <span class="citation" data-cites="knaflic2015">(<a href="references.html#ref-knaflic2015" role="doc-biblioref">Knaflic 2015</a>)</span>:</p>
 <ol type="1">
-<li>El rendimiento porcentual mensual de 5 campañas publicitarias durante los últimos 12 meses.</li>
-<li>La relación entre la edad de los clientes y el monto total consumido en la tienda en línea.</li>
-<li>La proporción de clientes satisfechos versus insatisfechos con el servicio de entrega.</li>
+<li><strong>¿Quién</strong> es la audiencia específica y cuál es su nivel de conocimiento técnico?</li>
+<li><strong>¿Qué</strong> le preocupa o qué problema de negocio necesita resolver?</li>
+<li><strong>¿Cómo</strong> respaldan los datos la solución propuesta?</li>
+<li><strong>¿Qué acción concreta</strong> debe tomar tras ver la presentación o tablero?</li>
 </ol>
-<p><strong>Instrucción:</strong> En parejas, determinen qué tipo de gráfico es el más adecuado para cada uno de los tres requerimientos de información, justificando su elección.</p>
-</div>
-</div>
+</section>
+<section id="adaptación-por-perfil-de-usuario" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="adaptación-por-perfil-de-usuario"><span class="header-section-number">6.3.2</span> Adaptación por Perfil de Usuario</h3>
+<p>Al diseñar historias visuales, se deben diferenciar dos perfiles de audiencia principales <span class="citation" data-cites="abbott2024 erl2016">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>; <a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>:</p>
+<ul>
+<li><strong>Audiencia Ejecutiva (Alta Gerencia):</strong> Dispone de tiempo limitado y requiere una comprensión inmediata del estado estratégico y financiero de la organización. Para este grupo, se deben priorizar las <strong>Tarjetas de KPIs</strong> (<em>KPI Cards</em>) con números principales de gran tamaño (<em>BANs - Big-Ass Numbers</em>), acompañados de contexto comparativo directo (variación % respecto a metas, periodos anteriores o semáforos de estado).</li>
+<li><strong>Audiencia Operativa y Analítica:</strong> Requiere capacidades de exploración interactiva, filtrado dinámico y profundización (<em>drill-down</em>) para investigar las causas raíz de las desviaciones operativas.</li>
+<li><strong>Audiencia Académica, Científica y Técnica:</strong> Exige el máximo rigor metodológico, la reproducibilidad del análisis y la validez estadística. Para este grupo, la visualización debe incorporar intervalos de confianza, medidas de dispersión, pruebas de hipótesis, la especificación de supuestos y la documentación completa de las fuentes de datos.</li>
+<li><strong>Público en General, Sociedad Civil y Clientes (Divulgación y Comunicación Pública):</strong> Presenta una diversidad heterogénea en alfabetización de datos (<em>data literacy</em>) <span class="citation" data-cites="abbott2024">(<a href="references.html#ref-abbott2024" role="doc-biblioref">Abbott 2024</a>)</span>. Requiere la máxima reducción de la carga cognitiva y de la jerga técnica, priorizando la claridad narrativa, metáforas o analogías intuitivas, elementos visuales de alto impacto y un enfoque centrado en las implicaciones sociales o personales del hallazgo.</li>
+</ul>
 </section>
 </section>
-<section id="kpis-y-diseño-de-dashboards" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="kpis-y-diseño-de-dashboards"><span class="header-section-number">6.3</span> KPIs y Diseño de Dashboards</h2>
+<section id="kpis-y-diseño-de-dashboards" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="kpis-y-diseño-de-dashboards"><span class="header-section-number">6.4</span> KPIs y Diseño de Dashboards</h2>
 <p>En el entorno operativo de la Inteligencia de Negocios, la información consolidada se consume principalmente a través de <strong>cuadros de mando o Dashboards</strong>. Un dashboard es una interfaz gráfica de monitoreo que sintetiza múltiples fuentes de datos para evaluar el estado de una organización en tiempo real o en intervalos periódicos <span class="citation" data-cites="erl2016">(<a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>.</p>
-<section id="indicadores-clave-de-rendimiento-kpis" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="indicadores-clave-de-rendimiento-kpis"><span class="header-section-number">6.3.1</span> Indicadores Clave de Rendimiento (KPIs)</h3>
+<section id="indicadores-clave-de-rendimiento-kpis" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="indicadores-clave-de-rendimiento-kpis"><span class="header-section-number">6.4.1</span> Indicadores Clave de Rendimiento (KPIs)</h3>
 <p>El corazón de un dashboard reside en los <strong>KPIs</strong> (<em>Key Performance Indicators</em>), métricas cuantificables que miden el nivel de desempeño de un proceso crítico de negocio. Para que un KPI sea numéricamente informativo, no debe presentarse como un valor aislado; debe acompañarse de contexto comparativo:</p>
 <ul>
 <li><strong>Tarjetas de KPI (<em>KPI Cards</em>):</strong> Muestran la métrica principal resaltada en tipografía de gran tamaño.</li>
@@ -577,8 +604,8 @@ div.csl-indent {
   │  📈 ────────/\─/──                           │
   └──────────────────────────────────────────────┘</code></pre>
 </section>
-<section id="principios-de-maquetación-y-la-regla-de-shneiderman" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="principios-de-maquetación-y-la-regla-de-shneiderman"><span class="header-section-number">6.3.2</span> Principios de Maquetación y la Regla de Shneiderman</h3>
+<section id="principios-de-maquetación-y-la-regla-de-shneiderman" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="principios-de-maquetación-y-la-regla-de-shneiderman"><span class="header-section-number">6.4.2</span> Principios de Maquetación y la Regla de Shneiderman</h3>
 <p>El diseño de un dashboard debe seguir un principio de estructuración visual jerárquica. Para guiar al usuario sin abrumarlo, se aplica el paradigma de Ben Shneiderman (<em>Visual Information-Seeking Mantra</em>):</p>
 <blockquote class="blockquote">
 <p><em>“Overview first, zoom and filter, then details-on-demand.”</em> (Visión general primero, zoom y filtrado, luego detalles bajo demanda).</p>
@@ -589,8 +616,8 @@ div.csl-indent {
 <li><strong>Nivel Inferior (Detalles bajo Demanda):</strong> Tablas detalladas o componentes de desglose a los que el usuario accede únicamente cuando requiere investigar una anomalía.</li>
 </ol>
 </section>
-<section id="ecosistema-de-herramientas-de-visualización" class="level3" data-number="6.3.3">
-<h3 data-number="6.3.3" class="anchored" data-anchor-id="ecosistema-de-herramientas-de-visualización"><span class="header-section-number">6.3.3</span> Ecosistema de Herramientas de Visualización</h3>
+<section id="ecosistema-de-herramientas-de-visualización" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="ecosistema-de-herramientas-de-visualización"><span class="header-section-number">6.4.3</span> Ecosistema de Herramientas de Visualización</h3>
 <p>Actualmente existe una amplia variedad de plataformas para la construcción de soluciones visuales, las cuales se clasifican según su flexibilidad y nivel de código:</p>
 <ul>
 <li><strong>Hojas de Cálculo (Excel, Google Sheets):</strong> Accesibles y ubicuas, idóneas para análisis ad-hoc y gráficos simples.</li>
@@ -599,11 +626,11 @@ div.csl-indent {
 </ul>
 </section>
 </section>
-<section id="implementación-en-r-de-ggplot2-a-dashboards-web" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="implementación-en-r-de-ggplot2-a-dashboards-web"><span class="header-section-number">6.4</span> Implementación en R: De <code>ggplot2</code> a Dashboards Web</h2>
+<section id="implementación-en-r-de-ggplot2-a-dashboards-web" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="implementación-en-r-de-ggplot2-a-dashboards-web"><span class="header-section-number">6.5</span> Implementación en R: De <code>ggplot2</code> a Dashboards Web</h2>
 <p>El ecosistema de R destaca por su capacidad para llevar análisis estadísticos y modelos de minería directamente a reportes y tableros interactivos.</p>
-<section id="la-gramática-de-gráficos-con-ggplot2" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="la-gramática-de-gráficos-con-ggplot2"><span class="header-section-number">6.4.1</span> La Gramática de Gráficos con <code>ggplot2</code></h3>
+<section id="la-gramática-de-gráficos-con-ggplot2" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="la-gramática-de-gráficos-con-ggplot2"><span class="header-section-number">6.5.1</span> La Gramática de Gráficos con <code>ggplot2</code></h3>
 <p>La librería <code>ggplot2</code> implementa la teoría de la <strong>Gramática de Gráficos</strong> formulada por Leland Wilkinson <span class="citation" data-cites="wilkinson2005 wickham2016">(<a href="references.html#ref-wilkinson2005" role="doc-biblioref">Wilkinson 2005</a>; <a href="references.html#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span>. Bajo este paradigma, un gráfico no es una figura estática monolítica, sino la superposición secuencial de <strong>capas independientes</strong> vinculadas mediante el operador <code>+</code> <span class="citation" data-cites="wickham2016">(<a href="references.html#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span>:</p>
 <ol type="1">
 <li><strong>Data:</strong> El dataset estructurado en formato data frame o tibble.</li>
@@ -695,8 +722,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="cápsula-de-ejercicios" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="cápsula-de-ejercicios"><span class="header-section-number">6.5</span> Cápsula de Ejercicios</h2>
+<section id="cápsula-de-ejercicios" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="cápsula-de-ejercicios"><span class="header-section-number">6.6</span> Cápsula de Ejercicios</h2>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -708,23 +735,9 @@ div.csl-indent {
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>Rediseño de Gráfico con Storytelling (<code>ggplot2</code>):</strong> Cargue el dataset <code>iris</code> o un dataset corporativo similar. Diseñe un gráfico de dispersión con <code>ggplot2</code> que cumpla con los siguientes criterios de <em>Data Storytelling</em>:
-<ul>
-<li>Utilice tonos de gris para todas las observaciones excepto para la especie <em>virginica</em>, la cual debe llevar un color de acento azul.</li>
-<li>Elimine las líneas de cuadrícula secundarias utilizando <code>theme_minimal()</code>.</li>
-<li>Añada un título directo orientativo (<em>action title</em>) y una anotación de texto (<code>annotate()</code>) que explique un patrón sobresaliente.</li>
-</ul></li>
-<li><strong>Dashboard de Resumen de KPIs con <code>flexdashboard</code>:</strong> Utilizando la librería <code>flexdashboard</code>, construya un tablero en formato R Markdown / Quarto que presente:
-<ul>
-<li>Dos tarjetas de indicadores (<em>valueBox</em>) en la parte superior con íconos vectoriales.</li>
-<li>Un panel izquierdo con un gráfico de barras de ventas por categoría.</li>
-<li>Un panel derecho con un gráfico de dispersión de tendencias.</li>
-</ul></li>
-<li><strong>Aplicación Reactiva Básica con <code>shiny</code>:</strong> Escriba un script en R que implemente un prototipo de Shiny con las siguientes características:
-<ul>
-<li>Un menú desplegable (<code>selectInput</code>) que permita al usuario seleccionar un departamento o región.</li>
-<li>Un gráfico dinámico (<code>renderPlot</code>) que actualice de forma reactiva la distribución de ingresos del departamento seleccionado mediante un histograma estilizado con <code>ggplot2</code>.</li>
-</ul></li>
+<li><strong>Gráfico Estilizado de Storytelling con <code>ggplot2</code>:</strong> Con el dataset <code>iris</code>, construya un gráfico de dispersión entre <code>Sepal.Length</code> y <code>Petal.Length</code>. Resalte únicamente los puntos de la especie <em>Setosa</em> en azul brillante y atenúe las demás especies en gris claro. Añada un título narrativo orientado a la acción y elimine el ruido visual del fondo.</li>
+<li><strong>Estructuración de un Dashboard con <code>flexdashboard</code>:</strong> Cree un archivo <code>.Rmd</code> o <code>.qmd</code> con plantilla <code>flexdashboard</code>. Incluya dos tarjetas de valores (<code>valueBox</code>) con métricas clave y dos gráficos de <code>ggplot2</code> dispuestos en columnas paralelas para el análisis de la discriminación según la última encuesta a hogares disponible.</li>
+<li><strong>Prototipo Reactivo en <code>shiny</code>:</strong> Desarrolle una aplicación de <code>shiny</code> que permita al usuario seleccionar dinámicamente mediante un control desplegable (<code>selectInput</code>) qué departamento explorar respecto el perfil de los emigrantes en Bolivia según el censo 2024.</li>
 </ol>
 </div>
 </div>
@@ -734,14 +747,35 @@ div.csl-indent {
 <div id="ref-abbott2024" class="csl-entry" role="listitem">
 Abbott, Desireé. 2024. <em>Everyday Data Visualization</em>. Manning Publications.
 </div>
+<div id="ref-cleveland1993" class="csl-entry" role="listitem">
+Cleveland, William S. 1993. <em>Visualizing Data</em>. Hobart Press.
+</div>
 <div id="ref-erl2016" class="csl-entry" role="listitem">
 Erl, Thomas, Wajid Khattak, and Paul Buhler. 2016. <em>Big Data Fundamentals: Concepts, Drivers &amp; Techniques</em>. Prentice Hall.
 </div>
 <div id="ref-few2009" class="csl-entry" role="listitem">
 Few, Stephen. 2009. <em>Now You See It: Simple Visualization Techniques for Quantitative Analysis</em>. Analytics Press.
 </div>
+<div id="ref-johnson2014" class="csl-entry" role="listitem">
+Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
 <div id="ref-knaflic2015" class="csl-entry" role="listitem">
 Knaflic, Cole Nussbaumer. 2015. <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-knaflic2020" class="csl-entry" role="listitem">
+Knaflic, Cole Nussbaumer. 2020. <em>Storytelling with Data: Let’s Practice!</em> John Wiley &amp; Sons.
+</div>
+<div id="ref-pimpler2018" class="csl-entry" role="listitem">
+Pimpler, Eric. 2018. <em>Data Visualization and Exploration with r</em>. Geospatial Training Services.
+</div>
+<div id="ref-provost2013" class="csl-entry" role="listitem">
+Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media, Inc.
+</div>
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-tan2019" class="csl-entry" role="listitem">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson.
 </div>
 <div id="ref-tufte2001" class="csl-entry" role="listitem">
 Tufte, Edward R. 2001. <em>The Visual Display of Quantitative Information</em>. 2nd ed. Graphics Press.
