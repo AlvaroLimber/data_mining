@@ -29,11 +29,13 @@ Cuando las variables cuantitativas presentan distribuciones fuertemente asimétr
 
 * **Transformación Logarítmica:** Aplica la función $y = \log(x)$ (o $y = \log(x + 1)$ si existen valores nulos) para comprimir escalas numéricas de alta dispersión (como ingresos, precios de inmuebles o poblaciones) y reducir la influencia desproporcionada de valores extremos [@torgo2017; @tan2019].
 * **Transformación Box-Cox:** Una familia de transformaciones de potencia parametrizada por $\lambda$ utilizada para aproximar variables continuas hacia una distribución normal multivariante [@johnson2014]:
-  $$y^{(\lambda)} = \begin{cases} \frac{x^\lambda - 1}{\lambda} & 	ext{si } \lambda 
-eq 0 \ \log(x) & 	ext{si } \lambda = 0 \end{cases}$$
-* **Estandarización Z-score vs Normalización Max-Min:** 
-  * La **Estandarización Z-score** ($z = \frac{x - \bar{x}}{\sigma}$) transforma la variable para que tenga media 0 y desviación estándar 1, conservando la detección de outliers univariantes [@shmueli2018].
-  * La **Normalización Max-Min** ($y = \frac{x - \min(x)}{\max(x) - \min(x)}$) acota estrictamente los valores en el rango $[0, 1]$, siendo indispensable para algoritmos basados en distancias geométricas como k-NN, K-Means y Redes Neuronales [@tan2019; @shmueli2018].
+$$y_{i}^{(\lambda )}={\begin{cases}{\dfrac {y_{i}^{\lambda }-1}{\lambda }}&{\text{if }}\lambda \neq 0,\\\ln y_{i}&{\text{if }}\lambda =0,\end{cases}}$$
+
+
+* La **Estandarización Z-score** 
+$$z = \frac{x - \bar{x}}{\sigma}$$
+* La **Normalización Max-Min** 
+$$y = \frac{x - \min(x)}{\max(x) - \min(x)}$$ 
 
 ::: {.callout-note}
 ### Actividad de Clase
