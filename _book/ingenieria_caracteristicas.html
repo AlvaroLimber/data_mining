@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Ingeniería de Características: Creación, Transformación y Codificación de Atributos – Minería de Datos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./visualizacion.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f07248834697d125d844cdaf4174b45d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-a64f2b92d8b4b45ab5f5d9261e8b8c9d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="7&nbsp; Ingeniería de Características: Creación, Transformación y Codificación de Atributos – Minería de Datos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/feature.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = true;
+    const darkModeDefault = authorPrefersDark;
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./ingenieria_caracteristicas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/data_mining/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Minería-de-Datos.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I: Introducción y Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./calidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anomalias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ingenieria_caracteristicas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#fundamentos-y-propósito-de-la-ingeniería-de-características" id="toc-fundamentos-y-propósito-de-la-ingeniería-de-características" class="nav-link active" data-scroll-target="#fundamentos-y-propósito-de-la-ingeniería-de-características"><span class="header-section-number">7.1</span> Fundamentos y Propósito de la Ingeniería de Características</a></li>
+  <li><a href="#creación-de-variables" id="toc-creación-de-variables" class="nav-link" data-scroll-target="#creación-de-variables"><span class="header-section-number">7.2</span> Creación de Variables</a>
+  <ul class="collapse">
+  <li><a href="#ratios-y-tasas-financieras-o-comerciales" id="toc-ratios-y-tasas-financieras-o-comerciales" class="nav-link" data-scroll-target="#ratios-y-tasas-financieras-o-comerciales"><span class="header-section-number">7.2.1</span> 1. Ratios y Tasas Financieras o Comerciales</a></li>
+  <li><a href="#transformaciones-no-lineales-y-escalamiento" id="toc-transformaciones-no-lineales-y-escalamiento" class="nav-link" data-scroll-target="#transformaciones-no-lineales-y-escalamiento"><span class="header-section-number">7.2.2</span> 2. Transformaciones No Lineales y Escalamiento</a></li>
+  </ul></li>
+  <li><a href="#codificación-y-tratamiento-de-variables-categóricas" id="toc-codificación-y-tratamiento-de-variables-categóricas" class="nav-link" data-scroll-target="#codificación-y-tratamiento-de-variables-categóricas"><span class="header-section-number">7.3</span> Codificación y Tratamiento de Variables Categóricas</a>
+  <ul class="collapse">
+  <li><a href="#binarización-y-variables-indicadoras-dummy-one-hot-encoding" id="toc-binarización-y-variables-indicadoras-dummy-one-hot-encoding" class="nav-link" data-scroll-target="#binarización-y-variables-indicadoras-dummy-one-hot-encoding"><span class="header-section-number">7.3.1</span> Binarización y Variables Indicadoras (Dummy / One-Hot Encoding)</a></li>
+  <li><a href="#condensación-y-agrupamiento-de-alta-cardinalidad" id="toc-condensación-y-agrupamiento-de-alta-cardinalidad" class="nav-link" data-scroll-target="#condensación-y-agrupamiento-de-alta-cardinalidad"><span class="header-section-number">7.3.2</span> Condensación y Agrupamiento de Alta Cardinalidad</a></li>
+  </ul></li>
+  <li><a href="#discretización-y-binning-de-variables-continuas" id="toc-discretización-y-binning-de-variables-continuas" class="nav-link" data-scroll-target="#discretización-y-binning-de-variables-continuas"><span class="header-section-number">7.4</span> Discretización y Binning de Variables Continuas</a>
+  <ul class="collapse">
+  <li><a href="#enfoque-no-supervisado-sin-considerar-la-variable-objetivo" id="toc-enfoque-no-supervisado-sin-considerar-la-variable-objetivo" class="nav-link" data-scroll-target="#enfoque-no-supervisado-sin-considerar-la-variable-objetivo"><span class="header-section-number">7.4.1</span> 1. Enfoque No Supervisado (Sin considerar la variable objetivo)</a></li>
+  <li><a href="#enfoque-supervisado-guiado-por-la-variable-objetivo-y" id="toc-enfoque-supervisado-guiado-por-la-variable-objetivo-y" class="nav-link" data-scroll-target="#enfoque-supervisado-guiado-por-la-variable-objetivo-y"><span class="header-section-number">7.4.2</span> 2. Enfoque Supervisado (Guiado por la variable objetivo <span class="math inline">\(Y\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#variables-temporales-secuenciales-y-de-contexto" id="toc-variables-temporales-secuenciales-y-de-contexto" class="nav-link" data-scroll-target="#variables-temporales-secuenciales-y-de-contexto"><span class="header-section-number">7.5</span> Variables Temporales, Secuenciales y de Contexto</a></li>
+  <li><a href="#implementación-práctica-en-r-con-dplyr-forcats-y-recipes" id="toc-implementación-práctica-en-r-con-dplyr-forcats-y-recipes" class="nav-link" data-scroll-target="#implementación-práctica-en-r-con-dplyr-forcats-y-recipes"><span class="header-section-number">7.6</span> Implementación Práctica en R con <code>dplyr</code>, <code>forcats</code> y <code>recipes</code></a></li>
+  <li><a href="#cápsula-de-ejercicios-de-ingeniería-de-características" id="toc-cápsula-de-ejercicios-de-ingeniería-de-características" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-de-ingeniería-de-características"><span class="header-section-number">7.7</span> Cápsula de Ejercicios de Ingeniería de Características</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./ingenieria_caracteristicas.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="fundamentos-y-propósito-de-la-ingeniería-de-características" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="fundamentos-y-propósito-de-la-ingeniería-de-características"><span class="header-section-number">7.1</span> Fundamentos y Propósito de la Ingeniería de Características</h2>
+<p>En el flujo de minería de datos y la Inteligencia de Negocios, los algoritmos de aprendizaje automático no operan directamente sobre conceptos abstractos de negocio, sino sobre representaciones numéricas y categóricas organizadas en tablas de datos <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. La <strong>Ingeniería de Características</strong> (<em>Feature Engineering</em>) es el proceso metodológico de transformar datos crudos en atributos estructurados que sinteticen mejor la realidad del fenómeno estudiado, aumentando la capacidad discriminativa y predictiva de los modelos <span class="citation" data-cites="provost2013 tan2019">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>A menudo se asume erróneamente que el rendimiento de un sistema analítico depende primordialmente de la sofisticación del algoritmo seleccionado (ej. redes neuronales profundas o modelos de ensamble). Sin embargo, la práctica profesional demuestra que <strong>una representación rica y bien diseñada del dominio del negocio supera de forma consistente a la complejidad algorítmica</strong> <span class="citation" data-cites="provost2013">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>. Crear variables expresivas permite simplificar el espacio de búsqueda de los patrones, facilita la interpretabilidad de los resultados para la toma de decisiones y mitiga el problema de la alta dimensionalidad <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>De este modo, la ingeniería de características actúa como el puente entre el conocimiento intuitivo del experto de dominio y el rigor matemático de la minería de datos. Al transformar variables simples en indicadores compuestos, binarizar categorías o discretizar rangos numéricos, el analista inyecta hipótesis de negocio directamente en la matriz de datos de entrada <span class="citation" data-cites="provost2013 shmueli2018">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<p><img src="fig/feature.jpg" class="img-fluid"></p>
+</section>
+<section id="creación-de-variables" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="creación-de-variables"><span class="header-section-number">7.2</span> Creación de Variables</h2>
+<p>La creación de atributos consiste en combinar o transformar variables existentes para construir nuevos indicadores que midan directamente la intensidad, proporción o tendencia de un fenómeno <span class="citation" data-cites="provost2013 shmueli2018">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<section id="ratios-y-tasas-financieras-o-comerciales" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="ratios-y-tasas-financieras-o-comerciales"><span class="header-section-number">7.2.1</span> 1. Ratios y Tasas Financieras o Comerciales</h3>
+<p>Las variables absolutas (como el ingreso bruto o la deuda total de un cliente) suelen estar condicionadas por la escala del sujeto de estudio <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. Construir <strong>ratios y proporciones</strong> permite estandarizar las mediciones y capturar el nivel de riesgo o eficiencia de manera comparable entre distintas observaciones <span class="citation" data-cites="provost2013">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>:</p>
+<p>Proporción:</p>
+<p><span class="math display">\[P_A=\frac{\#A}{N}\]</span></p>
+<p><span class="math display">\[R_{a/b}=\frac{\#A}{\#B}=\frac{t_a}{t_b}\]</span></p>
+</section>
+<section id="transformaciones-no-lineales-y-escalamiento" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="transformaciones-no-lineales-y-escalamiento"><span class="header-section-number">7.2.2</span> 2. Transformaciones No Lineales y Escalamiento</h3>
+<p>Cuando las variables cuantitativas presentan distribuciones fuertemente asimétricas hacia la derecha (<em>right-skewed</em>) o diferencias extremas de escala, se deben aplicar transformaciones matemáticas para estabilizar su varianza y ajustar su comportamiento <span class="citation" data-cites="torgo2017 tan2019">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<ul>
+<li><strong>Transformación Logarítmica:</strong> Aplica la función <span class="math inline">\(y = \log(x)\)</span> (o <span class="math inline">\(y = \log(x + 1)\)</span> si existen valores nulos) para comprimir escalas numéricas de alta dispersión (como ingresos, precios de inmuebles o poblaciones) y reducir la influencia desproporcionada de valores extremos <span class="citation" data-cites="torgo2017 tan2019">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><strong>Transformación Box-Cox:</strong> Una familia de transformaciones de potencia parametrizada por <span class="math inline">\(\lambda\)</span> utilizada para aproximar variables continuas hacia una distribución normal multivariante <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>: <span class="math display">\[y^{(\lambda)} = \begin{cases} \frac{x^\lambda - 1}{\lambda} &amp;   ext{si } \lambda
+eq 0 \ \log(x) &amp;    ext{si } \lambda = 0 \end{cases}\]</span></li>
+<li><strong>Estandarización Z-score vs Normalización Max-Min:</strong>
+<ul>
+<li>La <strong>Estandarización Z-score</strong> (<span class="math inline">\(z = \frac{x - \bar{x}}{\sigma}\)</span>) transforma la variable para que tenga media 0 y desviación estándar 1, conservando la detección de outliers univariantes <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li>La <strong>Normalización Max-Min</strong> (<span class="math inline">\(y = \frac{x - \min(x)}{\max(x) - \min(x)}\)</span>) acota estrictamente los valores en el rango <span class="math inline">\([0, 1]\)</span>, siendo indispensable para algoritmos basados en distancias geométricas como k-NN, K-Means y Redes Neuronales <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario:</strong> Una entidad financiera en Bolivia desea predecir la probabilidad de mora en créditos de consumo. El dataset original contiene únicamente cuatro columnas: <code>ingreso_mensual</code>, <code>monto_credito_solicitado</code>, <code>plazo_meses</code> y <code>cantidad_dependientes_familias</code>.</p>
+<ol type="1">
+<li>Propongan dos nuevos indicadores (ratios o combinaciones) creados a partir de las cuatro variables originales que capturen mejor la capacidad real de pago del cliente.</li>
+<li>Justifiquen si aplicarían una transformación logarítmica sobre la variable <code>ingreso_mensual</code> antes de entrenar un modelo predictivo lineal y comente el impacto en la distribución.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="codificación-y-tratamiento-de-variables-categóricas" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="codificación-y-tratamiento-de-variables-categóricas"><span class="header-section-number">7.3</span> Codificación y Tratamiento de Variables Categóricas</h2>
+<p>Las variables cualitativas o categóricas (como el estado civil, la sucursal o el tipo de contrato) requieren ser representadas en un formato numérico adecuado para que la mayoría de los algoritmos de minería de datos puedan procesarlas <span class="citation" data-cites="shmueli2018 tan2019">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<section id="binarización-y-variables-indicadoras-dummy-one-hot-encoding" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="binarización-y-variables-indicadoras-dummy-one-hot-encoding"><span class="header-section-number">7.3.1</span> Binarización y Variables Indicadoras (Dummy / One-Hot Encoding)</h3>
+<p>Consiste en descomponer una variable categórica nominal que posee <span class="math inline">\(m\)</span> niveles disjuntos en un conjunto de variables binarias <span class="math inline">\(\{0, 1\}\)</span> <span class="citation" data-cites="shmueli2018 tan2019">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Categoría Original (<code>Sucursal</code>)</th>
+<th style="text-align: center;">Dummy 1 (<code>sucursal_LaPaz</code>)</th>
+<th style="text-align: center;">Dummy 2 (<code>sucursal_Cochabamba</code>)</th>
+<th style="text-align: center;">Dummy 3 (<code>sucursal_SantaCruz</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">La Paz</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cochabamba</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Santa Cruz</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<section id="la-trampa-de-la-variable-dummy-dummy-variable-trap" class="level4" data-number="7.3.1.1">
+<h4 data-number="7.3.1.1" class="anchored" data-anchor-id="la-trampa-de-la-variable-dummy-dummy-variable-trap"><span class="header-section-number">7.3.1.1</span> La Trampa de la Variable Dummy (<em>Dummy Variable Trap</em>)</h4>
+<p>Para evitar la multicolinealidad perfecta en modelos de regresión lineal o logística (donde la suma de las columnas binarias es igual a un vector constante de 1s), se debe omitir una de las categorías para que actúe como <strong>nivel de referencia</strong> <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. De este modo, un factor con <span class="math inline">\(m\)</span> categorías genera exactamente <span class="math inline">\(m - 1\)</span> variables dummy auxiliares.</p>
+</section>
+</section>
+<section id="condensación-y-agrupamiento-de-alta-cardinalidad" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="condensación-y-agrupamiento-de-alta-cardinalidad"><span class="header-section-number">7.3.2</span> Condensación y Agrupamiento de Alta Cardinalidad</h3>
+<p>Cuando una variable categórica posee docenas o cientos de niveles (ej. 500 códigos postales o 100 profesiones), la binarización directa expande desproporcionadamente el número de columnas del dataset, provocando el fenómeno del <strong>aumento excesivo de dimensionalidad</strong>.</p>
+<p>Para solucionar la alta cardinalidad, se emplean dos estrategias principales:</p>
+<ol type="1">
+<li><strong>Agrupamiento por Frecuencia:</strong> Fusionar categorías raras o poco frecuentes (ej. con frecuencia menor al 2% o 5% del dataset) bajo una etiqueta común denominada “Otros”.</li>
+<li><strong>Agrupamiento Experto o por Perfil:</strong> Unir categorías que compartan un comportamiento o nivel de riesgo similar respecto a la variable objetivo (por ejemplo, agrupar profesiones según su nivel salarial promedio).</li>
+</ol>
+</section>
+</section>
+<section id="discretización-y-binning-de-variables-continuas" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="discretización-y-binning-de-variables-continuas"><span class="header-section-number">7.4</span> Discretización y Binning de Variables Continuas</h2>
+<p>La <strong>discretización</strong> (o <em>binning</em>) es el proceso de transformar una variable cuantitativa continua en un número finito de intervalos o categorías ordenadas. Esta técnica es fundamental cuando se utilizan modelos que requieren entradas categóricas (como reglas de asociación) o para capturar relaciones no lineales complejas de forma lineal <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<pre><code>Variable Continua (Edad) ──&gt; [Intervalos / Bins] ──&gt; Categoría Ordinal (Joven, Adulto, Senior)</code></pre>
+<p>Estructuramos la discretización bajo dos enfoques metodológicos:</p>
+<section id="enfoque-no-supervisado-sin-considerar-la-variable-objetivo" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="enfoque-no-supervisado-sin-considerar-la-variable-objetivo"><span class="header-section-number">7.4.1</span> 1. Enfoque No Supervisado (Sin considerar la variable objetivo)</h3>
+<ul>
+<li><strong>Ancho Constante (<em>Equal Width / Equal Interval</em>):</strong> Divide el rango numérico <span class="math inline">\([\min(x), \max(x)]\)</span> en <span class="math inline">\(k\)</span> intervalos de amplitud idéntica <span class="math inline">\(w = \frac{\max(x) - \min(x)}{k}\)</span>. Es muy sensible a la presencia de outliers, ya que los valores extremos pueden dejar la mayoría de los contenedores vacíos.</li>
+<li><strong>Frecuencia Constante / Cuantiles (<em>Equal Frequency / Quantiles</em>):</strong> Ajusta los puntos de corte (<em>split points</em>) de modo que cada uno de los <span class="math inline">\(k\)</span> intervalos contenga aproximadamente el mismo número de observaciones (<span class="math inline">\(N/k\)</span>). Es una técnica robusta que preserva la densidad local de los datos.</li>
+</ul>
+</section>
+<section id="enfoque-supervisado-guiado-por-la-variable-objetivo-y" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="enfoque-supervisado-guiado-por-la-variable-objetivo-y"><span class="header-section-number">7.4.2</span> 2. Enfoque Supervisado (Guiado por la variable objetivo <span class="math inline">\(Y\)</span>)</h3>
+<ul>
+<li><strong>Discretización Basada en Entropía / Ganancia de Información:</strong> Evalúa de forma iterativa los puntos de corte candidatos que maximizan la pureza o la ganancia de información respecto a las clases de la variable objetivo (<span class="math inline">\(Y\)</span>), minimizando la entropía condicional <span class="math inline">\(H(Y \mid X)\)</span>.</li>
+</ul>
+<p>En R base, la discretización se ejecuta con la función <code>cut()</code>, mientras que la librería <code>Hmisc</code> provee <code>cut2()</code> para manejar cuantiles e intervalos automáticamente.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Actividad de Clase: Selección del Método de Discretización
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario:</strong> Se analiza la distribución de la variable <code>valor</code> del dataset de exportación. La variable presenta una concentración masiva valores bajos y unos pocos con valores gigantescos.</p>
+<p><strong>Instrucción:</strong></p>
+<ol type="1">
+<li>Explique qué problema ocurriría si aplica una discretización de <strong>Ancho Constante</strong> con 5 intervalos sobre este atributo.</li>
+<li>Justifique por qué el método de <strong>Frecuencia Constante (Cuantiles)</strong> o la transformación logarítmica previa resolvería mejor la representación de esta variable para un modelo.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="variables-temporales-secuenciales-y-de-contexto" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="variables-temporales-secuenciales-y-de-contexto"><span class="header-section-number">7.5</span> Variables Temporales, Secuenciales y de Contexto</h2>
+<p>Las variables asociadas a fechas y marcas temporales (<em>timestamps</em>) contienen una riqueza de información estratégica que no puede consumirse directamente como un número de serie o texto libre. La ingeniería de características para datos temporales se enfoca en tres áreas:</p>
+<ol type="1">
+<li><strong>Descomposición de Componentes de Fecha:</strong> Extraer elementos individuales mediante: año, mes, día del mes, día de la semana, trimestre, hora del día e indicador binario de fin de semana o feriado.</li>
+<li><strong>Variables de Rezago (<em>Lag Features</em>) y Variación:</strong> En series temporales y registros financieros, se construyen variables que comparan el valor actual <span class="math inline">\(X_t\)</span> con períodos previos <span class="math inline">\(X_{t-1}\)</span>, o que miden variaciones porcentuales relativas <span class="math inline">\(\Delta \% = \frac{X_t - X_{t-1}}{X_{t-1}}\)</span>.</li>
+<li><strong>Ventanas Móviles (<em>Rolling / Sliding Features</em>):</strong> Calcular estadísticas agregadas (media móvil, desviación estándar móvil) sobre ventanas de tiempo recientes (ej. promedio de compras en los últimos 7, 30 o 90 días) para capturar tendencias de consumo recientes.</li>
+</ol>
+</section>
+<section id="implementación-práctica-en-r-con-dplyr-forcats-y-recipes" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="implementación-práctica-en-r-con-dplyr-forcats-y-recipes"><span class="header-section-number">7.6</span> Implementación Práctica en R con <code>dplyr</code>, <code>forcats</code> y <code>recipes</code></h2>
+<p>A continuación, se presentan los flujos de código en R para ejecutar ingeniería de características de forma reproducible utilizando <code>tidyverse</code> y el paquete especializado <code>recipes</code> <span class="citation" data-cites="shmueli2018 wickham2019">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-wickham2019" role="doc-biblioref">Wickham and Grolemund 2019</a>)</span>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Transformaciones con <code>dplyr</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binarización y Factores con <code>model.matrix</code> y <code>forcats</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Tuberías Profesionales con <code>recipes</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Uso de <code>mutate()</code>, <code>case_when()</code> y <code>cut()</code> para crear indicadores y discretizar variables:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de clientes simulado</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df_transformado <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Transformación logarítmica y escalamiento Z-score</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_petal_length =</span> <span class="fu">log</span>(Petal.Length),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_sepal_width    =</span> <span class="fu">scale</span>(Sepal.Width),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Creación de un ratio numérico entre dimensiones de pétalo</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratio_petalo =</span> Petal.Length <span class="sc">/</span> Petal.Width,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Discretización no supervisada por cuantiles (terciles)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">categoria_longitud =</span> <span class="fu">cut</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      Sepal.Length, </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">quantile</span>(Sepal.Length, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">4</span>)),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Medio"</span>, <span class="st">"Alto"</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Binarización condicional lógica</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">es_petalo_grande =</span> <span class="fu">ifelse</span>(Petal.Length <span class="sc">&gt;</span> <span class="fl">4.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Creación de variables dummy y colapso de niveles raras con <code>forcats</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Colapsar categorías raras de un factor</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_factores <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">especie_mod =</span> <span class="fu">fct_collapse</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      Species,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">no_setosa</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"versicolor"</span>, <span class="st">"virginica"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Generar matriz de variables dummy implícita (omitida la primera categoría base)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>matriz_dummies <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> Species, <span class="at">data =</span> iris)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(matriz_dummies)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>El paquete <code>recipes</code> (parte de <code>tidymodels</code>) permite definir una receta de preprocesamiento modular que se aplica secuencialmente sobre conjuntos de entrenamiento y prueba evitando fuga de información (<em>data leakage</em>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir la receta de preprocesamiento e ingeniería de características</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>receta_preproc <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_log</span>(Petal.Length) <span class="sc">%&gt;%</span>                  <span class="co"># Transformación logarítmica</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span> <span class="co"># Estandarización Z-score</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())        <span class="co"># Binarización One-Hot</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparar la receta con los datos de entrenamiento</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>receta_preparada <span class="ot">&lt;-</span> <span class="fu">prep</span>(receta_preproc, <span class="at">training =</span> iris)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar las transformaciones</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>datos_listos <span class="ot">&lt;-</span> <span class="fu">bake</span>(receta_preparada, <span class="at">new_data =</span> iris)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_listos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cápsula-de-ejercicios-de-ingeniería-de-características" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="cápsula-de-ejercicios-de-ingeniería-de-características"><span class="header-section-number">7.7</span> Cápsula de Ejercicios de Ingeniería de Características</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios de Aplicación Práctica (Para portafolio de clase)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Creación de Ratios e Indicadores Comerciales:</strong> Utilizando el dataset <code>Boston</code> de la librería <code>MASS</code>, construya un flujo con <code>dplyr::mutate()</code> para generar:
+<ol type="a">
+<li>Un ratio entre la tasa de criminalidad <code>crim</code> y la proporción de zonas residenciales <code>zn</code> <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li>Una variable binarizada <code>es_casa_costosa</code> que tome el valor de <span class="math inline">\(1\)</span> si el valor mediano de la vivienda <code>medv</code> supera el percentil 75 del dataset, y <span class="math inline">\(0\)</span> en caso contrario.</li>
+</ol></li>
+<li><strong>Discretización Comparativa:</strong> Tome la variable <code>age</code> del dataset <code>Boston</code>:
+<ol type="a">
+<li>Aplique una discretización de <strong>Ancho Constante</strong> de 4 intervalos con la función <code>cut()</code> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li>Aplique una discretización de <strong>Frecuencia Constante (Cuantiles)</strong> de 4 intervalos utilizando los percentiles (<span class="math inline">\(0.25, 0.50, 0.75\)</span>) <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li>Compare mediante <code>table()</code> la cantidad de observaciones en cada intervalo para ambos métodos y discuta la distribución resultante.</li>
+</ol></li>
+<li><strong>Flujo Integrado con <code>recipes</code>:</strong> Diseñe un objeto <code>recipe</code> con la librería <code>recipes</code> sobre el dataset de ventas o flores que ejecute la siguiente secuencia en orden:
+<ol type="a">
+<li>Transformación logarítmica sobre todas las variables numéricas con sesgo positivo.</li>
+<li>Normalización Max-Min en el rango <span class="math inline">\([0, 1]\)</span> para todas las variables numéricas.</li>
+<li>Binarización dummy para todas las variables categóricas, verificando que la matriz resultante no contenga columnas redundantes.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-johnson2014" class="csl-entry" role="listitem">
+Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
+<div id="ref-provost2013" class="csl-entry" role="listitem">
+Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media, Inc.
+</div>
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C Bruce, Inbal Yahav, Nitin R Patel, and Kenneth C Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-tan2019" class="csl-entry" role="listitem">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson.
+</div>
+<div id="ref-torgo2017" class="csl-entry" role="listitem">
+Torgo, Luis. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
+</div>
+<div id="ref-wickham2019" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2019. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. O’Reilly Media.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alvarolimber\.github\.io\/data_mining\/_book");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./visualizacion.html" class="pagination-link" aria-label="Visualización de Datos, Gramática de Gráficos y Data Storytelling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Alvaro Chirino</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/">
+      <i class="bi bi-bluesky" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -33,7 +33,7 @@ book:
         - calidad.qmd
         - anomalias.qmd
         - visualizacion.qmd
-        #- modelos.qmd
+        - ingenieria_caracteristicas.qmd
     - references.qmd
 
 bibliography: references.bib
