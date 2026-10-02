@@ -481,11 +481,7 @@ window.Quarto = {
   <li><a href="#binarización-y-variables-indicadoras-dummy-one-hot-encoding" id="toc-binarización-y-variables-indicadoras-dummy-one-hot-encoding" class="nav-link" data-scroll-target="#binarización-y-variables-indicadoras-dummy-one-hot-encoding"><span class="header-section-number">7.3.1</span> Binarización y Variables Indicadoras (Dummy / One-Hot Encoding)</a></li>
   <li><a href="#condensación-y-agrupamiento-de-alta-cardinalidad" id="toc-condensación-y-agrupamiento-de-alta-cardinalidad" class="nav-link" data-scroll-target="#condensación-y-agrupamiento-de-alta-cardinalidad"><span class="header-section-number">7.3.2</span> Condensación y Agrupamiento de Alta Cardinalidad</a></li>
   </ul></li>
-  <li><a href="#discretización-y-binning-de-variables-continuas" id="toc-discretización-y-binning-de-variables-continuas" class="nav-link" data-scroll-target="#discretización-y-binning-de-variables-continuas"><span class="header-section-number">7.4</span> Discretización y Binning de Variables Continuas</a>
-  <ul class="collapse">
-  <li><a href="#enfoque-no-supervisado-sin-considerar-la-variable-objetivo" id="toc-enfoque-no-supervisado-sin-considerar-la-variable-objetivo" class="nav-link" data-scroll-target="#enfoque-no-supervisado-sin-considerar-la-variable-objetivo"><span class="header-section-number">7.4.1</span> 1. Enfoque No Supervisado (Sin considerar la variable objetivo)</a></li>
-  <li><a href="#enfoque-supervisado-guiado-por-la-variable-objetivo-y" id="toc-enfoque-supervisado-guiado-por-la-variable-objetivo-y" class="nav-link" data-scroll-target="#enfoque-supervisado-guiado-por-la-variable-objetivo-y"><span class="header-section-number">7.4.2</span> 2. Enfoque Supervisado (Guiado por la variable objetivo <span class="math inline">\(Y\)</span>)</a></li>
-  </ul></li>
+  <li><a href="#discretización-y-binning-de-variables-continuas" id="toc-discretización-y-binning-de-variables-continuas" class="nav-link" data-scroll-target="#discretización-y-binning-de-variables-continuas"><span class="header-section-number">7.4</span> Discretización y Binning de Variables Continuas</a></li>
   <li><a href="#variables-temporales-secuenciales-y-de-contexto" id="toc-variables-temporales-secuenciales-y-de-contexto" class="nav-link" data-scroll-target="#variables-temporales-secuenciales-y-de-contexto"><span class="header-section-number">7.5</span> Variables Temporales, Secuenciales y de Contexto</a></li>
   <li><a href="#implementación-práctica-en-r-con-dplyr-forcats-y-recipes" id="toc-implementación-práctica-en-r-con-dplyr-forcats-y-recipes" class="nav-link" data-scroll-target="#implementación-práctica-en-r-con-dplyr-forcats-y-recipes"><span class="header-section-number">7.6</span> Implementación Práctica en R con <code>dplyr</code>, <code>forcats</code> y <code>recipes</code></a></li>
   <li><a href="#cápsula-de-ejercicios-de-ingeniería-de-características" id="toc-cápsula-de-ejercicios-de-ingeniería-de-características" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-de-ingeniería-de-características"><span class="header-section-number">7.7</span> Cápsula de Ejercicios de Ingeniería de Características</a></li>
@@ -602,10 +598,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<section id="la-trampa-de-la-variable-dummy-dummy-variable-trap" class="level4" data-number="7.3.1.1">
-<h4 data-number="7.3.1.1" class="anchored" data-anchor-id="la-trampa-de-la-variable-dummy-dummy-variable-trap"><span class="header-section-number">7.3.1.1</span> La Trampa de la Variable Dummy (<em>Dummy Variable Trap</em>)</h4>
-<p>Para evitar la multicolinealidad perfecta en modelos de regresión lineal o logística (donde la suma de las columnas binarias es igual a un vector constante de 1s), se debe omitir una de las categorías para que actúe como <strong>nivel de referencia</strong> <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. De este modo, un factor con <span class="math inline">\(m\)</span> categorías genera exactamente <span class="math inline">\(m - 1\)</span> variables dummy auxiliares.</p>
-</section>
+<p>Para evitar la multicolinealidad perfecta en modelos de regresión lineal o logística, se debe omitir una de las categorías para que actúe como <strong>nivel de referencia</strong>. De este modo, un factor con <span class="math inline">\(m\)</span> categorías genera exactamente <span class="math inline">\(m - 1\)</span> variables dummy auxiliares.</p>
 </section>
 <section id="condensación-y-agrupamiento-de-alta-cardinalidad" class="level3" data-number="7.3.2">
 <h3 data-number="7.3.2" class="anchored" data-anchor-id="condensación-y-agrupamiento-de-alta-cardinalidad"><span class="header-section-number">7.3.2</span> Condensación y Agrupamiento de Alta Cardinalidad</h3>
@@ -621,20 +614,11 @@ window.Quarto = {
 <h2 data-number="7.4" class="anchored" data-anchor-id="discretización-y-binning-de-variables-continuas"><span class="header-section-number">7.4</span> Discretización y Binning de Variables Continuas</h2>
 <p>La <strong>discretización</strong> (o <em>binning</em>) es el proceso de transformar una variable cuantitativa continua en un número finito de intervalos o categorías ordenadas. Esta técnica es fundamental cuando se utilizan modelos que requieren entradas categóricas (como reglas de asociación) o para capturar relaciones no lineales complejas de forma lineal <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
 <pre><code>Variable Continua (Edad) ──&gt; [Intervalos / Bins] ──&gt; Categoría Ordinal (Joven, Adulto, Senior)</code></pre>
-<p>Estructuramos la discretización bajo dos enfoques metodológicos:</p>
-<section id="enfoque-no-supervisado-sin-considerar-la-variable-objetivo" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="enfoque-no-supervisado-sin-considerar-la-variable-objetivo"><span class="header-section-number">7.4.1</span> 1. Enfoque No Supervisado (Sin considerar la variable objetivo)</h3>
+<p>O tambien mediante:</p>
 <ul>
-<li><strong>Ancho Constante (<em>Equal Width / Equal Interval</em>):</strong> Divide el rango numérico <span class="math inline">\([\min(x), \max(x)]\)</span> en <span class="math inline">\(k\)</span> intervalos de amplitud idéntica <span class="math inline">\(w = \frac{\max(x) - \min(x)}{k}\)</span>. Es muy sensible a la presencia de outliers, ya que los valores extremos pueden dejar la mayoría de los contenedores vacíos.</li>
+<li><strong>Ancho Constante:</strong> Divide el rango numérico <span class="math inline">\([\min(x), \max(x)]\)</span> en <span class="math inline">\(k\)</span> intervalos de amplitud idéntica <span class="math inline">\(w = \frac{\max(x) - \min(x)}{k}\)</span>. Es muy sensible a la presencia de outliers, ya que los valores extremos pueden dejar la mayoría de los contenedores vacíos.</li>
 <li><strong>Frecuencia Constante / Cuantiles (<em>Equal Frequency / Quantiles</em>):</strong> Ajusta los puntos de corte (<em>split points</em>) de modo que cada uno de los <span class="math inline">\(k\)</span> intervalos contenga aproximadamente el mismo número de observaciones (<span class="math inline">\(N/k\)</span>). Es una técnica robusta que preserva la densidad local de los datos.</li>
 </ul>
-</section>
-<section id="enfoque-supervisado-guiado-por-la-variable-objetivo-y" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="enfoque-supervisado-guiado-por-la-variable-objetivo-y"><span class="header-section-number">7.4.2</span> 2. Enfoque Supervisado (Guiado por la variable objetivo <span class="math inline">\(Y\)</span>)</h3>
-<ul>
-<li><strong>Discretización Basada en Entropía / Ganancia de Información:</strong> Evalúa de forma iterativa los puntos de corte candidatos que maximizan la pureza o la ganancia de información respecto a las clases de la variable objetivo (<span class="math inline">\(Y\)</span>), minimizando la entropía condicional <span class="math inline">\(H(Y \mid X)\)</span>.</li>
-</ul>
-<p>En R base, la discretización se ejecuta con la función <code>cut()</code>, mientras que la librería <code>Hmisc</code> provee <code>cut2()</code> para manejar cuantiles e intervalos automáticamente.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -654,21 +638,19 @@ window.Quarto = {
 </div>
 </div>
 </section>
-</section>
 <section id="variables-temporales-secuenciales-y-de-contexto" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="variables-temporales-secuenciales-y-de-contexto"><span class="header-section-number">7.5</span> Variables Temporales, Secuenciales y de Contexto</h2>
 <p>Las variables asociadas a fechas y marcas temporales (<em>timestamps</em>) contienen una riqueza de información estratégica que no puede consumirse directamente como un número de serie o texto libre. La ingeniería de características para datos temporales se enfoca en tres áreas:</p>
 <ol type="1">
 <li><strong>Descomposición de Componentes de Fecha:</strong> Extraer elementos individuales mediante: año, mes, día del mes, día de la semana, trimestre, hora del día e indicador binario de fin de semana o feriado.</li>
-<li><strong>Variables de Rezago (<em>Lag Features</em>) y Variación:</strong> En series temporales y registros financieros, se construyen variables que comparan el valor actual <span class="math inline">\(X_t\)</span> con períodos previos <span class="math inline">\(X_{t-1}\)</span>, o que miden variaciones porcentuales relativas <span class="math inline">\(\Delta \% = \frac{X_t - X_{t-1}}{X_{t-1}}\)</span>.</li>
-<li><strong>Ventanas Móviles (<em>Rolling / Sliding Features</em>):</strong> Calcular estadísticas agregadas (media móvil, desviación estándar móvil) sobre ventanas de tiempo recientes (ej. promedio de compras en los últimos 7, 30 o 90 días) para capturar tendencias de consumo recientes.</li>
+<li><strong>Variables de Rezago y Variación:</strong> En series temporales y registros financieros, se construyen variables que comparan el valor actual <span class="math inline">\(X_t\)</span> con períodos previos <span class="math inline">\(X_{t-1}\)</span>, o que miden variaciones porcentuales relativas <span class="math inline">\(\Delta \% = \frac{X_t - X_{t-1}}{X_{t-1}}\)</span>.</li>
 </ol>
 </section>
 <section id="implementación-práctica-en-r-con-dplyr-forcats-y-recipes" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="implementación-práctica-en-r-con-dplyr-forcats-y-recipes"><span class="header-section-number">7.6</span> Implementación Práctica en R con <code>dplyr</code>, <code>forcats</code> y <code>recipes</code></h2>
-<p>A continuación, se presentan los flujos de código en R para ejecutar ingeniería de características de forma reproducible utilizando <code>tidyverse</code> y el paquete especializado <code>recipes</code> <span class="citation" data-cites="shmueli2018 wickham2019">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-wickham2019" role="doc-biblioref">Wickham and Grolemund 2019</a>)</span>.</p>
+<p>A continuación, se presentan los flujos de código en R para ejecutar ingeniería de características utilizando <code>tidyverse</code> y el paquete especializado <code>recipes</code> <span class="citation" data-cites="shmueli2018 wickham2019">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-wickham2019" role="doc-biblioref">Wickham and Grolemund 2019</a>)</span>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Transformaciones con <code>dplyr</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binarización y Factores con <code>model.matrix</code> y <code>forcats</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Tuberías Profesionales con <code>recipes</code></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Transformaciones con <code>dplyr</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binarización y Factores</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Tuberías Profesionales con <code>recipes</code></a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Uso de <code>mutate()</code>, <code>case_when()</code> y <code>cut()</code> para crear indicadores y discretizar variables:</p>
@@ -752,13 +734,13 @@ window.Quarto = {
 <ol type="1">
 <li><strong>Creación de Ratios e Indicadores Comerciales:</strong> Utilizando el dataset <code>Boston</code> de la librería <code>MASS</code>, construya un flujo con <code>dplyr::mutate()</code> para generar:
 <ol type="a">
-<li>Un ratio entre la tasa de criminalidad <code>crim</code> y la proporción de zonas residenciales <code>zn</code> <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li>Un ratio entre la tasa de criminalidad <code>crim</code> y la proporción de zonas residenciales <code>zn</code> .</li>
 <li>Una variable binarizada <code>es_casa_costosa</code> que tome el valor de <span class="math inline">\(1\)</span> si el valor mediano de la vivienda <code>medv</code> supera el percentil 75 del dataset, y <span class="math inline">\(0\)</span> en caso contrario.</li>
 </ol></li>
 <li><strong>Discretización Comparativa:</strong> Tome la variable <code>age</code> del dataset <code>Boston</code>:
 <ol type="a">
-<li>Aplique una discretización de <strong>Ancho Constante</strong> de 4 intervalos con la función <code>cut()</code> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
-<li>Aplique una discretización de <strong>Frecuencia Constante (Cuantiles)</strong> de 4 intervalos utilizando los percentiles (<span class="math inline">\(0.25, 0.50, 0.75\)</span>) <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li>Aplique una discretización de <strong>Ancho Constante</strong> de 4 intervalos con la función <code>cut()</code>.</li>
+<li>Aplique una discretización de <strong>Frecuencia Constante (Cuantiles)</strong> de 4 intervalos utilizando los percentiles (<span class="math inline">\(0.25, 0.50, 0.75\)</span>).</li>
 <li>Compare mediante <code>table()</code> la cantidad de observaciones en cada intervalo para ambos métodos y discuta la distribución resultante.</li>
 </ol></li>
 <li><strong>Flujo Integrado con <code>recipes</code>:</strong> Diseñe un objeto <code>recipe</code> con la librería <code>recipes</code> sobre el dataset de ventas o flores que ejecute la siguiente secuencia en orden:

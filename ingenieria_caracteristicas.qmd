@@ -59,8 +59,7 @@ Consiste en descomponer una variable categórica nominal que posee $m$ niveles d
 | Cochabamba | 0 | 1 | 0 |
 | Santa Cruz | 0 | 0 | 1 |
 
-#### La Trampa de la Variable Dummy (*Dummy Variable Trap*)
-Para evitar la multicolinealidad perfecta en modelos de regresión lineal o logística (donde la suma de las columnas binarias es igual a un vector constante de 1s), se debe omitir una de las categorías para que actúe como **nivel de referencia** [@shmueli2018; @johnson2014]. De este modo, un factor con $m$ categorías genera exactamente $m - 1$ variables dummy auxiliares.
+Para evitar la multicolinealidad perfecta en modelos de regresión lineal o logística, se debe omitir una de las categorías para que actúe como **nivel de referencia**. De este modo, un factor con $m$ categorías genera exactamente $m - 1$ variables dummy auxiliares.
 
 ### Condensación y Agrupamiento de Alta Cardinalidad
 Cuando una variable categórica posee docenas o cientos de niveles (ej. 500 códigos postales o 100 profesiones), la binarización directa expande desproporcionadamente el número de columnas del dataset, provocando el fenómeno del **aumento excesivo de dimensionalidad**.
@@ -79,18 +78,11 @@ La **discretización** (o *binning*) es el proceso de transformar una variable c
 Variable Continua (Edad) ──> [Intervalos / Bins] ──> Categoría Ordinal (Joven, Adulto, Senior)
 ```
 
-Estructuramos la discretización bajo dos enfoques metodológicos:
+O tambien mediante:
 
-### 1. Enfoque No Supervisado (Sin considerar la variable objetivo)
-
-* **Ancho Constante (*Equal Width / Equal Interval*):** Divide el rango numérico $[\min(x), \max(x)]$ en $k$ intervalos de amplitud idéntica $w = \frac{\max(x) - \min(x)}{k}$. Es muy sensible a la presencia de outliers, ya que los valores extremos pueden dejar la mayoría de los contenedores vacíos.
+* **Ancho Constante:** Divide el rango numérico $[\min(x), \max(x)]$ en $k$ intervalos de amplitud idéntica $w = \frac{\max(x) - \min(x)}{k}$. Es muy sensible a la presencia de outliers, ya que los valores extremos pueden dejar la mayoría de los contenedores vacíos.
 * **Frecuencia Constante / Cuantiles (*Equal Frequency / Quantiles*):** Ajusta los puntos de corte (*split points*) de modo que cada uno de los $k$ intervalos contenga aproximadamente el mismo número de observaciones ($N/k$). Es una técnica robusta que preserva la densidad local de los datos.
 
-### 2. Enfoque Supervisado (Guiado por la variable objetivo $Y$)
-
-* **Discretización Basada en Entropía / Ganancia de Información:** Evalúa de forma iterativa los puntos de corte candidatos que maximizan la pureza o la ganancia de información respecto a las clases de la variable objetivo ($Y$), minimizando la entropía condicional $H(Y \mid X)$.
-
-En R base, la discretización se ejecuta con la función `cut()`, mientras que la librería `Hmisc` provee `cut2()` para manejar cuantiles e intervalos automáticamente.
 
 ::: {.callout-important}
 ### Actividad de Clase: Selección del Método de Discretización
@@ -108,18 +100,17 @@ En R base, la discretización se ejecuta con la función `cut()`, mientras que l
 Las variables asociadas a fechas y marcas temporales (*timestamps*) contienen una riqueza de información estratégica que no puede consumirse directamente como un número de serie o texto libre. La ingeniería de características para datos temporales se enfoca en tres áreas:
 
 1. **Descomposición de Componentes de Fecha:** Extraer elementos individuales mediante: año, mes, día del mes, día de la semana, trimestre, hora del día e indicador binario de fin de semana o feriado.
-2. **Variables de Rezago (*Lag Features*) y Variación:** En series temporales y registros financieros, se construyen variables que comparan el valor actual $X_t$ con períodos previos $X_{t-1}$, o que miden variaciones porcentuales relativas $\Delta \% = \frac{X_t - X_{t-1}}{X_{t-1}}$.
-3. **Ventanas Móviles (*Rolling / Sliding Features*):** Calcular estadísticas agregadas (media móvil, desviación estándar móvil) sobre ventanas de tiempo recientes (ej. promedio de compras en los últimos 7, 30 o 90 días) para capturar tendencias de consumo recientes.
-
+2. **Variables de Rezago y Variación:** En series temporales y registros financieros, se construyen variables que comparan el valor actual $X_t$ con períodos previos $X_{t-1}$, o que miden variaciones porcentuales relativas $\Delta \% = \frac{X_t - X_{t-1}}{X_{t-1}}$.
 
 ## Implementación Práctica en R con `dplyr`, `forcats` y `recipes`
 
-A continuación, se presentan los flujos de código en R para ejecutar ingeniería de características de forma reproducible utilizando `tidyverse` y el paquete especializado `recipes` [@shmueli2018; @wickham2019].
+A continuación, se presentan los flujos de código en R para ejecutar ingeniería de características utilizando `tidyverse` y el paquete especializado `recipes` [@shmueli2018; @wickham2019].
 
 ::: {.panel-tabset}
 
 ### Transformaciones con `dplyr`
 Uso de `mutate()`, `case_when()` y `cut()` para crear indicadores y discretizar variables:
+
 ```r
 library(dplyr)
 library(lubridate)
@@ -149,7 +140,7 @@ df_transformado <- iris %>%
   )
 ```
 
-### Binarización y Factores con `model.matrix` y `forcats`
+### Binarización y Factores 
 Creación de variables dummy y colapso de niveles raras con `forcats`:
 ```r
 library(dplyr)
@@ -196,11 +187,11 @@ head(datos_listos)
 ### Ejercicios de Aplicación Práctica (Para portafolio de clase)
 
 1. **Creación de Ratios e Indicadores Comerciales:** Utilizando el dataset `Boston` de la librería `MASS`, construya un flujo con `dplyr::mutate()` para generar:
-   a) Un ratio entre la tasa de criminalidad `crim` y la proporción de zonas residenciales `zn` [@shmueli2018].
+   a) Un ratio entre la tasa de criminalidad `crim` y la proporción de zonas residenciales `zn` .
    b) Una variable binarizada `es_casa_costosa` que tome el valor de $1$ si el valor mediano de la vivienda `medv` supera el percentil 75 del dataset, y $0$ en caso contrario.
 2. **Discretización Comparativa:** Tome la variable `age` del dataset `Boston`:
-   a) Aplique una discretización de **Ancho Constante** de 4 intervalos con la función `cut()` [@tan2019].
-   b) Aplique una discretización de **Frecuencia Constante (Cuantiles)** de 4 intervalos utilizando los percentiles ($0.25, 0.50, 0.75$) [@shmueli2018].
+   a) Aplique una discretización de **Ancho Constante** de 4 intervalos con la función `cut()`.
+   b) Aplique una discretización de **Frecuencia Constante (Cuantiles)** de 4 intervalos utilizando los percentiles ($0.25, 0.50, 0.75$).
    c) Compare mediante `table()` la cantidad de observaciones en cada intervalo para ambos métodos y discuta la distribución resultante.
 3. **Flujo Integrado con `recipes`:** Diseñe un objeto `recipe` con la librería `recipes` sobre el dataset de ventas o flores que ejecute la siguiente secuencia en orden:
    a) Transformación logarítmica sobre todas las variables numéricas con sesgo positivo.
