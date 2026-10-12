@@ -34,6 +34,7 @@ book:
         - anomalias.qmd
         - visualizacion.qmd
         - ingenieria_caracteristicas.qmd
+        - muestreo.qmd
     - references.qmd
 
 bibliography: references.bib

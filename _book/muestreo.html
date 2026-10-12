@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación – Minería de Datos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./ingenieria_caracteristicas.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-79b2a251c468d745a9db49bec9721a9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c5cafcc9f36f1bf0e906d3b5335c86ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="8&nbsp; Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación – Minería de Datos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://alvarolimber.github.io/data_mining/_book/fig/sample.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = true;
+    const darkModeDefault = authorPrefersDark;
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./muestreo.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/data_mining/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Minería-de-Datos.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I: Introducción y Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de la minería de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El Ecosistema de R y la Computación Estadística</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Adquisición de Datos en la Web: Web Scraping y APIs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./calidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calidad del Dato y Preparación Inicial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anomalias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detección y Tratamiento de Anomalías: Valores Perdidos y Atípicos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualización de Datos, Gramática de Gráficos y Data Storytelling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ingenieria_caracteristicas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./muestreo.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#el-muestreo-en-el-ecosistema-del-descubrimiento-de-conocimiento-kdd" id="toc-el-muestreo-en-el-ecosistema-del-descubrimiento-de-conocimiento-kdd" class="nav-link active" data-scroll-target="#el-muestreo-en-el-ecosistema-del-descubrimiento-de-conocimiento-kdd"><span class="header-section-number">8.1</span> El Muestreo en el Ecosistema del Descubrimiento de Conocimiento (KDD)</a></li>
+  <li><a href="#fundamentos-estadísticos-del-muestreo" id="toc-fundamentos-estadísticos-del-muestreo" class="nav-link" data-scroll-target="#fundamentos-estadísticos-del-muestreo"><span class="header-section-number">8.2</span> Fundamentos Estadísticos del Muestreo</a>
+  <ul class="collapse">
+  <li><a href="#población-vs.-muestra-parámetros-y-estimadores" id="toc-población-vs.-muestra-parámetros-y-estimadores" class="nav-link" data-scroll-target="#población-vs.-muestra-parámetros-y-estimadores"><span class="header-section-number">8.2.1</span> Población vs.&nbsp;Muestra, Parámetros y Estimadores</a></li>
+  <li><a href="#distribución-muestral-y-error-estándar" id="toc-distribución-muestral-y-error-estándar" class="nav-link" data-scroll-target="#distribución-muestral-y-error-estándar"><span class="header-section-number">8.2.2</span> Distribución Muestral y Error Estándar</a></li>
+  <li><a href="#leyes-asintóticas-la-base-de-la-inferencia-masiva" id="toc-leyes-asintóticas-la-base-de-la-inferencia-masiva" class="nav-link" data-scroll-target="#leyes-asintóticas-la-base-de-la-inferencia-masiva"><span class="header-section-number">8.2.3</span> Leyes Asintóticas: La Base de la Inferencia Masiva</a></li>
+  <li><a href="#el-estimador-de-horvitz-thompson" id="toc-el-estimador-de-horvitz-thompson" class="nav-link" data-scroll-target="#el-estimador-de-horvitz-thompson"><span class="header-section-number">8.2.4</span> El Estimador de Horvitz-Thompson</a></li>
+  <li><a href="#estimación-en-diseños-de-encuestas-complejas" id="toc-estimación-en-diseños-de-encuestas-complejas" class="nav-link" data-scroll-target="#estimación-en-diseños-de-encuestas-complejas"><span class="header-section-number">8.2.5</span> Estimación en Diseños de Encuestas Complejas</a></li>
+  </ul></li>
+  <li><a href="#usos-del-muestreo-como-estrategia-de-reducción-en-minería-de-datos" id="toc-usos-del-muestreo-como-estrategia-de-reducción-en-minería-de-datos" class="nav-link" data-scroll-target="#usos-del-muestreo-como-estrategia-de-reducción-en-minería-de-datos"><span class="header-section-number">8.3</span> Usos del Muestreo como Estrategia de Reducción en Minería de Datos</a>
+  <ul class="collapse">
+  <li><a href="#qué-y-para-qué-del-muestreo-en-minería-de-datos" id="toc-qué-y-para-qué-del-muestreo-en-minería-de-datos" class="nav-link" data-scroll-target="#qué-y-para-qué-del-muestreo-en-minería-de-datos"><span class="header-section-number">8.3.1</span> ¿Qué y Para Qué del Muestreo en Minería de Datos?</a></li>
+  <li><a href="#estrategias-de-muestreo-de-datos" id="toc-estrategias-de-muestreo-de-datos" class="nav-link" data-scroll-target="#estrategias-de-muestreo-de-datos"><span class="header-section-number">8.3.2</span> Estrategias de Muestreo de Datos</a></li>
+  </ul></li>
+  <li><a href="#muestreo-en-procesos-de-evaluación-y-validación-de-modelos" id="toc-muestreo-en-procesos-de-evaluación-y-validación-de-modelos" class="nav-link" data-scroll-target="#muestreo-en-procesos-de-evaluación-y-validación-de-modelos"><span class="header-section-number">8.4</span> Muestreo en Procesos de Evaluación y Validación de Modelos</a>
+  <ul class="collapse">
+  <li><a href="#particionamiento-holdout-train-validation-test" id="toc-particionamiento-holdout-train-validation-test" class="nav-link" data-scroll-target="#particionamiento-holdout-train-validation-test"><span class="header-section-number">8.4.1</span> 1. Particionamiento Holdout (Train / Validation / Test)</a></li>
+  <li><a href="#validación-cruzada-k-fold-cross-validation" id="toc-validación-cruzada-k-fold-cross-validation" class="nav-link" data-scroll-target="#validación-cruzada-k-fold-cross-validation"><span class="header-section-number">8.4.2</span> 2. Validación Cruzada (<span class="math inline">\(k\)</span>-Fold Cross-Validation)</a></li>
+  <li><a href="#remuestreo-por-bootstrap" id="toc-remuestreo-por-bootstrap" class="nav-link" data-scroll-target="#remuestreo-por-bootstrap"><span class="header-section-number">8.4.3</span> 3. Remuestreo por Bootstrap</a></li>
+  </ul></li>
+  <li><a href="#implementación-práctica-en-r" id="toc-implementación-práctica-en-r" class="nav-link" data-scroll-target="#implementación-práctica-en-r"><span class="header-section-number">8.5</span> Implementación Práctica en R</a></li>
+  <li><a href="#cápsula-de-ejercicios-del-muestreo" id="toc-cápsula-de-ejercicios-del-muestreo" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-del-muestreo"><span class="header-section-number">8.6</span> Cápsula de Ejercicios del Muestreo</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./calidad.html">Parte II: Preprocesamiento y Análisis Exploratorio de Datos (EDA)</a></li><li class="breadcrumb-item"><a href="./muestreo.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Muestreo en Minería de Datos: Fundamentos Estadísticos, Estrategias de Reducción y Validación</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="el-muestreo-en-el-ecosistema-del-descubrimiento-de-conocimiento-kdd" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="el-muestreo-en-el-ecosistema-del-descubrimiento-de-conocimiento-kdd"><span class="header-section-number">8.1</span> El Muestreo en el Ecosistema del Descubrimiento de Conocimiento (KDD)</h2>
+<p>En la estadística clásica, el muestreo responde históricamente a una limitación de recursos físicos: recolectar información sobre toda la población de interés resulta inviable, destructivo o financieramente prohibitivo <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. En la minería de datos y la ciencia de datos moderna, la motivación es con frecuencia inversa: los datos ya han sido recolectados masivamente en bodegas de datos o flujos continuos (<em>Big Data</em>), pero procesar cientos de millones de registros resulta computacionalmente prohibitivo en tiempo de procesamiento y consumo de memoria RAM <span class="citation" data-cites="tan2019 erl2016">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>.</p>
+<p>El muestreo actúa en este escenario como una poderosa técnica de <strong>reducción del tamaño de los datos</strong> en la fase de preprocesamiento, permitiendo que algoritmos de alta complejidad polinomial —como los árboles de decisión, modelos basados en distancias o redes neuronales— operen de forma eficiente sin perder la representatividad de los patrones subyacentes. Asimismo, el remuestreo constituye el estándar metodológico para evaluar la capacidad de generalización de los modelos predictivos y mitigar el sobreajuste (<em>overfitting</em>) <span class="citation" data-cites="provost2013 torgo2017">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p><img src="fig/sample.jpeg" class="img-fluid"></p>
+</section>
+<section id="fundamentos-estadísticos-del-muestreo" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="fundamentos-estadísticos-del-muestreo"><span class="header-section-number">8.2</span> Fundamentos Estadísticos del Muestreo</h2>
+<p>Para garantizar que los patrones descubiertos en una muestra sean válidos para la población o el proceso generador de datos, la minería de datos se apoya en los principios fundamentales de la inferencia estadística <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<section id="población-vs.-muestra-parámetros-y-estimadores" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="población-vs.-muestra-parámetros-y-estimadores"><span class="header-section-number">8.2.1</span> Población vs.&nbsp;Muestra, Parámetros y Estimadores</h3>
+<p>Sea <span class="math inline">\(\Omega = \{1, 2, \dots, N\}\)</span> una población finita o un proceso generador continuo de observaciones, y sea <span class="math inline">\(Y\)</span> una variable aleatoria de interés medida sobre los elementos de la población.</p>
+<ul>
+<li><strong>Parámetro (<span class="math inline">\(\theta\)</span>):</strong> Es una propiedad numérica fija, determinística y generalmente desconocida de la población <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. Ejemplos clásicos incluyen la media poblacional <span class="math inline">\(\mu = \frac{1}{N}\sum_{i=1}^N y_i\)</span>, la varianza poblacional <span class="math inline">\(\sigma^2 = \frac{1}{N}\sum_{i=1}^N (y_i - \mu)^2\)</span> o la proporción de clientes en mora <span class="math inline">\(p\)</span>.</li>
+<li><strong>Estimador (<span class="math inline">\(\hat{\theta}\)</span>):</strong> Es una función matemática aplicada sobre un conjunto de variables aleatorias observadas en una muestra <span class="math inline">\(s = \{X_1, X_2, \dots, X_n\}\)</span> de tamaño <span class="math inline">\(n\)</span> extraída de <span class="math inline">\(\Omega\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. Al ser función de variables aleatorias, <span class="math inline">\(\hat{\theta} = g(X_1, \dots, X_n)\)</span> es en sí mismo una <strong>variable aleatoria</strong> con su propia distribución de probabilidad.</li>
+</ul>
+<p>Las propiedades deseables de un estimador estadístico son fundamentales para asegurar la calidad de la minería de datos <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
+<ol type="1">
+<li><strong>Insesgadez:</strong> El estimador no presenta desviaciones sistemáticas respecto al valor verdadero. El sesgo se define como <span class="math inline">\(\text{Sesgo}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta\)</span>. Un estimador es insesgado si <span class="math inline">\(\mathbb{E}[\hat{\theta}] = \theta\)</span>.</li>
+<li><strong>Consistencia:</strong> A medida que el tamaño muestral <span class="math inline">\(n\)</span> crece, el estimador converge en probabilidad al parámetro poblacional: <span class="math display">\[\lim_{n \to \infty} P(|\hat{\theta}_n - \theta| &gt; \epsilon) = 0, \quad \forall \epsilon &gt; 0\]</span></li>
+<li><strong>Eficiencia:</strong> Entre dos estimadores insesgados, el más eficiente es aquel que presenta la menor varianza muestral (<span class="math inline">\(\text{Var}(\hat{\theta}_1) \le \text{Var}(\hat{\theta}_2)\)</span>), alcanzando idealmente la cota inferior de Cramér-Rao.</li>
+</ol>
+</section>
+<section id="distribución-muestral-y-error-estándar" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="distribución-muestral-y-error-estándar"><span class="header-section-number">8.2.2</span> Distribución Muestral y Error Estándar</h3>
+<p>La <strong>distribución muestral</strong> es la distribución de probabilidad que adoptaría el estadístico <span class="math inline">\(\hat{\theta}\)</span> si se extrajeran infinitas muestras independientes de tamaño <span class="math inline">\(n\)</span> de la misma población bajo el mismo diseño muestral <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<p>La dispersión de esta distribución se cuantifica mediante el <strong>Error Estándar</strong> (<span class="math inline">\(SE\)</span>): <span class="math display">\[SE(\hat{\theta}) = \sqrt{\text{Var}(\hat{\theta})}\]</span></p>
+<p>Para la media muestral <span class="math inline">\(\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i\)</span> en un muestreo aleatorio simple de variables independientes e idénticamente distribuidas (<span class="math inline">\(i.i.d.\)</span>) con varianza poblacional <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[SE(\bar{X}) = \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Es vital distinguir entre la <strong>desviación estándar muestral</strong> (<span class="math inline">\(s\)</span>), que mide la dispersión y variabilidad física entre las observaciones individuales, y el <strong>error estándar</strong> (<span class="math inline">\(s/\sqrt{n}\)</span>), que cuantifica la precisión e incertidumbre del estimador puntual <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+</section>
+<section id="leyes-asintóticas-la-base-de-la-inferencia-masiva" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="leyes-asintóticas-la-base-de-la-inferencia-masiva"><span class="header-section-number">8.2.3</span> Leyes Asintóticas: La Base de la Inferencia Masiva</h3>
+<p>La minería de datos opera bajo dos pilares asintóticos que justifican la estabilidad de los algoritmos cuando se trabaja con volúmenes considerables de datos <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</p>
+<section id="ley-de-los-grandes-números-lln" class="level4" data-number="8.2.3.1">
+<h4 data-number="8.2.3.1" class="anchored" data-anchor-id="ley-de-los-grandes-números-lln"><span class="header-section-number">8.2.3.1</span> 1. Ley de los Grandes Números (LLN)</h4>
+<p>Establece que el promedio muestral de observaciones independientes converge al valor esperado poblacional a medida que el tamaño de la muestra aumenta indefinidamente <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>: * <strong>Ley Débil:</strong> Convergencia en probabilidad (<span class="math inline">\(\bar{X}_n \xrightarrow{P} \mu\)</span>). * <strong>Ley Fuerte:</strong> Convergencia casi segura (<span class="math inline">\(P(\lim_{n \to \infty} \bar{X}_n = \mu) = 1\)</span>).</p>
+<p><em>Implicación en Minería de Datos:</em> A medida que una muestra analítica escala a miles de registros, las frecuencias relativas empíricas de los atributos estabilizan su comportamiento, garantizando que las métricas globales calculadas sobre la muestra sean representativas de la población <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+</section>
+<section id="teorema-del-límite-central-clt" class="level4" data-number="8.2.3.2">
+<h4 data-number="8.2.3.2" class="anchored" data-anchor-id="teorema-del-límite-central-clt"><span class="header-section-number">8.2.3.2</span> 2. Teorema del Límite Central (CLT)</h4>
+<p>Sea <span class="math inline">\(X_1, X_2, \dots, X_n\)</span> una secuencia de variables aleatorias <span class="math inline">\(i.i.d.\)</span> con media <span class="math inline">\(\mathbb{E}[X_i] = \mu\)</span> y varianza finita <span class="math inline">\(\text{Var}(X_i) = \sigma^2 &gt; 0\)</span>. Independientemente de la forma que tenga la distribución poblacional original (incluso si es fuertemente asimétrica, bimodal o multimodal), la distribución de la media muestral estandarizada converge asintóticamente a una distribución normal estándar cuando <span class="math inline">\(n \to \infty\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>: <span class="math display">\[Z_n = \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1)\]</span></p>
+<p><em>Implicación en Minería de Datos:</em> El CLT permite construir intervalos de confianza asintóticos y pruebas de hipótesis paramétricas sobre el desempeño de algoritmos sin necesidad de asumir normalidad estricta en las variables subyacentes, siempre que el tamaño muestral sea suficientemente representativo <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+</section>
+</section>
+<section id="el-estimador-de-horvitz-thompson" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="el-estimador-de-horvitz-thompson"><span class="header-section-number">8.2.4</span> El Estimador de Horvitz-Thompson</h3>
+<p>En muchos entornos de minería de datos, los registros no se seleccionan con probabilidades idénticas (por ejemplo, transacciones sospechosas seleccionadas con mayor frecuencia, o registros ponderados por importancia económica). Para obtener estimaciones insesgadas en presencia de <strong>probabilidades desiguales de selección</strong>, se utiliza el <strong>Estimador de Horvitz-Thompson</strong> (1952) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>Sea <span class="math inline">\(\Omega = \{1, 2, \dots, N\}\)</span> la población y sea <span class="math inline">\(\pi_i = P(i \in s)\)</span> la probabilidad de inclusión de primer orden del elemento <span class="math inline">\(i\)</span> en la muestra <span class="math inline">\(s\)</span>, con <span class="math inline">\(\pi_i &gt; 0\)</span> para todo <span class="math inline">\(i\)</span>. El estimador de Horvitz-Thompson para el total poblacional <span class="math inline">\(Y = \sum_{i=1}^N y_i\)</span> se define como: <span class="math display">\[\hat{Y}_{HT} = \sum_{i \in s} \frac{y_i}{\pi_i} = \sum_{i \in s} w_i y_i\]</span> donde <span class="math inline">\(w_i = \frac{1}{\pi_i}\)</span> representa el <strong>factor de expansión</strong> o peso de diseño del elemento <span class="math inline">\(i\)</span>. Para la media poblacional <span class="math inline">\(\mu = \frac{Y}{N}\)</span>: <span class="math display">\[\hat{\bar{Y}}_{HT} = \frac{1}{N} \sum_{i \in s} \frac{y_i}{\pi_i}\]</span></p>
+<section id="demostración-de-insesgadez-formal" class="level4" data-number="8.2.4.1">
+<h4 data-number="8.2.4.1" class="anchored" data-anchor-id="demostración-de-insesgadez-formal"><span class="header-section-number">8.2.4.1</span> Demostración de Insesgadez Formal</h4>
+<p>Definiendo la variable indicadora de pertenencia <span class="math inline">\(I_i = \mathbb{I}(i \in s)\)</span>, donde <span class="math inline">\(I_i = 1\)</span> si el elemento <span class="math inline">\(i\)</span> es seleccionado en la muestra y <span class="math inline">\(I_i = 0\)</span> en caso contrario, se tiene que <span class="math inline">\(\mathbb{E}[I_i] = P(i \in s) = \pi_i\)</span>. Reescribiendo el estimador: <span class="math display">\[\hat{Y}_{HT} = \sum_{i=1}^N \frac{y_i}{\pi_i} I_i\]</span> Aplicando la linealidad del operador de esperanza matemática: <span class="math display">\[\mathbb{E}[\hat{Y}_{HT}] = \mathbb{E}\left[ \sum_{i=1}^N \frac{y_i}{\pi_i} I_i \right] = \sum_{i=1}^N \frac{y_i}{\pi_i} \mathbb{E}[I_i] = \sum_{i=1}^N \frac{y_i}{\pi_i} \pi_i = \sum_{i=1}^N y_i = Y\]</span></p>
+<p><em>Relevancia en Minería de Datos:</em> Cuando un analista aplica un sobremuestreo deliberado sobre una clase minoritaria (por ejemplo, fraudes al 50% en el entrenamiento para calibrar un clasificador), las métricas de negocio originales (como la tasa real de pérdida esperada) resultan distorsionadas <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. El estimador de Horvitz-Thompson permite re-ponderar los casos mediante sus pesos inversos de muestreo (<span class="math inline">\(w_i\)</span>), recuperando estimaciones poblacionales insesgadas a partir de muestras intencionalmente desbalanceadas <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+</section>
+</section>
+<section id="estimación-en-diseños-de-encuestas-complejas" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="estimación-en-diseños-de-encuestas-complejas"><span class="header-section-number">8.2.5</span> Estimación en Diseños de Encuestas Complejas</h3>
+<p>En la analítica de negocios, economía y políticas públicas aplicadas a la minería de datos (por ejemplo, al procesar encuestas continuas de hogares, censos económicos o paneles de consumidores), los datos casi nunca provienen de un muestreo aleatorio simple (i.i.d.) <span class="citation" data-cites="lumley2010">(<a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>)</span>. Las encuestas probabilísticas complejas integran cuatro componentes estructurales que condicionan la validez de cualquier inferencia:</p>
+<ol type="1">
+<li><strong>Factores de Expansión y Ponderadores (<span class="math inline">\(w_i = 1/\pi_i\)</span>):</strong> Corrigen las probabilidades dispares de selección, el diseño estratificado intencional y los ajustes por no respuesta. Indican a cuántas unidades de la población representa cada observación muestral <span class="citation" data-cites="lumley2010 tan2019">(<a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><strong>Estratificación (<code>strata</code>):</strong> División previa de la población en grupos homogéneos independientes (ej. zonas urbanas/rurales o tamaños de empresa). Al asegurar representación fija por estrato, <strong>reduce la varianza del estimador</strong> eliminando la variabilidad inter-estratos <span class="citation" data-cites="shmueli2018 lumley2010">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>)</span>.</li>
+<li><strong>Conglomerados y Unidades Primarias de Muestreo (PSU / <code>clusters</code>):</strong> Muestreo multietápico por agrupaciones naturales (manzanas censales, colegios, sucursales) por conveniencia logística. El agrupamiento induce correlación intra-conglomerado (<em>intra-cluster correlation</em>), provocando que las observaciones compartan características no observadas. Esto <strong>infla la varianza muestral</strong> respecto a un muestreo aleatorio simple equivalente, un efecto cuantificado por el <strong>Efecto de Diseño (<span class="math inline">\(DEFF\)</span>)</strong> <span class="citation" data-cites="lumley2010">(<a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>)</span>.</li>
+<li><strong>Corrección por Población Finita (FPC):</strong> Factor de ajuste <span class="math inline">\(\sqrt{\frac{N - n}{N - 1}}\)</span> que contrae la estimación del error estándar cuando la fracción de muestreo es sustancial (<span class="math inline">\(n/N &gt; 0.05\)</span>) respecto al tamaño poblacional <span class="math inline">\(N\)</span> <span class="citation" data-cites="johnson2014 lumley2010">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>; <a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>)</span>.</li>
+</ol>
+<p><em>Implicación Crítica en Minería de Datos:</em> Asumir ingenuamente que un dataset de encuesta compleja es i.i.d. produce dos anomalías graves: estimaciones puntuales de medias y totales <strong>sesgadas</strong> (al ignorar los pesos de diseño) y errores estándar severamente <strong>subestimados</strong> (al ignorar los conglomerados), generando falsos descubrimientos e intervalos de confianza espuriamente optimistas <span class="citation" data-cites="tan2019 lumley2010">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-lumley2010" role="doc-biblioref">Lumley 2010</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase 1: El Dilema del Muestreo y Horvitz-Thompson
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario de Negocio:</strong> Una pasarela de pagos procesa 1,000,000 de transacciones diarias, donde la tasa natural de fraude es del 0.1% (1,000 fraudes). Para entrenar un árbol de decisión, el equipo de ciencia de datos extrae una muestra de 20,000 transacciones: 1,000 transacciones fraudulentas (probabilidad de inclusión <span class="math inline">\(\pi_{\text{fraude}} = 1.0\)</span>) y 19,000 transacciones legítimas (<span class="math inline">\(\pi_{\text{legítima}} = 19,000 / 999,000 \approx 0.019\)</span>).</p>
+<p><strong>Discusión en Parejas:</strong> 1. Si calculamos el monto promedio de fraude directamente sobre la muestra sin ponderar, ¿es un estimador insesgado del fraude poblacional? 2. ¿Por qué es indispensable aplicar los pesos de Horvitz-Thompson (<span class="math inline">\(w_i = 1/\pi_i\)</span>) si la gerencia solicita estimar el monto total de dinero defraudado en toda la plataforma a partir de esta muestra? <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="usos-del-muestreo-como-estrategia-de-reducción-en-minería-de-datos" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="usos-del-muestreo-como-estrategia-de-reducción-en-minería-de-datos"><span class="header-section-number">8.3</span> Usos del Muestreo como Estrategia de Reducción en Minería de Datos</h2>
+<section id="qué-y-para-qué-del-muestreo-en-minería-de-datos" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="qué-y-para-qué-del-muestreo-en-minería-de-datos"><span class="header-section-number">8.3.1</span> ¿Qué y Para Qué del Muestreo en Minería de Datos?</h3>
+<p>A diferencia del enfoque estadístico clásico donde la muestra es la única información accesible, en minería de datos el analista dispone de la población completa registrada en el almacén de datos <span class="citation" data-cites="tan2019 erl2016">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>. La decisión de muestrear responde a razones estratégicas y computacionales:</p>
+<ul>
+<li><strong>Eficiencia y Escalabilidad Algorítmica:</strong> Algoritmos fundamentales como el agrupamiento jerárquico (<span class="math inline">\(O(N^2)\)</span> a <span class="math inline">\(O(N^3)\)</span>), máquinas de vectores de soporte (<span class="math inline">\(O(N^2)\)</span> a <span class="math inline">\(O(N^3)\)</span>) o búsquedas exhaustivas de patrones frecuentes colapsan ante millones de registros <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>. Una muestra adecuada permite aplicar modelos más sofisticados que serían inviables sobre la base completa.</li>
+<li><strong>Prototipado Rápido y Optimización:</strong> El ciclo exploratorio (ingeniería de características, selección de variables y ajuste de hiperparámetros) avanza a mayor velocidad sobre subconjuntos muestrales manejables antes del entrenamiento final <span class="citation" data-cites="provost2013">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>.</li>
+<li><strong>Muestreo Progresivo (<em>Progressive Sampling</em>):</strong> Procedimiento adaptativo propuesto por Provost et al.&nbsp;(1999) que evalúa el rendimiento del modelo comenzando con una muestra pequeña y aumentando su tamaño de forma geométrica hasta alcanzar el punto de saturación (<em>leveling-off point</em>), donde incrementos adicionales en datos ya no generan ganancias significativas en la exactitud predictiva <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ul>
+</section>
+<section id="estrategias-de-muestreo-de-datos" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="estrategias-de-muestreo-de-datos"><span class="header-section-number">8.3.2</span> Estrategias de Muestreo de Datos</h3>
+<pre><code>                    Estrategias de Muestreo
+                               │
+       ┌───────────────────────┼───────────────────────┐
+       ▼                       ▼                       ▼
+Aleatorio Simple         Estratificado            Sistemático
+  ├── Con reemplazo        ├── Proporcional         └── Paso fijo k = N/n
+  └── Sin reemplazo        └── Desbalanceado            (Riesgo: Periodicidad)
+                               (Oversampling)</code></pre>
+<section id="muestreo-aleatorio-simple-mas-simple-random-sampling" class="level4" data-number="8.3.2.1">
+<h4 data-number="8.3.2.1" class="anchored" data-anchor-id="muestreo-aleatorio-simple-mas-simple-random-sampling"><span class="header-section-number">8.3.2.1</span> 1. Muestreo Aleatorio Simple (MAS / Simple Random Sampling)</h4>
+<p>Asigna a cada elemento de la población la misma probabilidad idéntica de ser incluido (<span class="math inline">\(\pi_i = n/N\)</span>) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</p>
+<ul>
+<li><strong>Sin Reemplazo (SRSWOR):</strong> Cada observación seleccionada se retira de la población. Es el método más común para la reducción de datos.</li>
+<li><strong>Con Reemplazo (SRSWR):</strong> La observación se reintegra a la población y puede ser elegida múltiples veces. Constituye la base del <em>Bootstrap</em>.</li>
+<li><em>¿Para qué se usa?</em> Ideal en conjuntos de datos homogéneos donde la variable objetivo posee clases equilibradas y no existen dependencias temporales o espaciales <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><em>Limitación:</em> En presencia de clases raras (como fraude al 0.1%), un MAS puede omitir por completo las observaciones críticas del evento de interés.</li>
+</ul>
+</section>
+<section id="muestreo-estratificado-stratified-sampling" class="level4" data-number="8.3.2.2">
+<h4 data-number="8.3.2.2" class="anchored" data-anchor-id="muestreo-estratificado-stratified-sampling"><span class="header-section-number">8.3.2.2</span> 2. Muestreo Estratificado (Stratified Sampling)</h4>
+<p>Divide la población en <span class="math inline">\(L\)</span> subgrupos homogéneos y disjuntos denominados <strong>estratos</strong> (según una variable categórica como tipo de cliente, región o clase objetivo), seleccionando posteriormente una muestra aleatoria independiente dentro de cada estrato <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
+<ul>
+<li><strong>Estratificación Proporcional:</strong> Mantiene en la muestra exactamente las mismas proporciones relativas observadas en la población original (<span class="math inline">\(n_h / n = N_h / N\)</span>).</li>
+<li><strong>Estratificación No Proporcional (Sobremuestreo / <em>Oversampling</em>):</strong> Fuerza una mayor representación de estratos minoritarios o de alto riesgo para garantizar que el algoritmo reciba suficientes instancias de aprendizaje <span class="citation" data-cites="shmueli2018 torgo2017">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li><em>¿Para qué se usa?</em> Indispensable para problemas de clasificación con clases desbalanceadas (detección de intrusiones, diagnóstico médico, respuesta a campañas de marketing) y para reducir la varianza global del estimador <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+</ul>
+</section>
+<section id="muestreo-sistemático-systematic-sampling" class="level4" data-number="8.3.2.3">
+<h4 data-number="8.3.2.3" class="anchored" data-anchor-id="muestreo-sistemático-systematic-sampling"><span class="header-section-number">8.3.2.3</span> 3. Muestreo Sistemático (Systematic Sampling)</h4>
+<p>Selecciona un punto de arranque aleatorio <span class="math inline">\(r\)</span> entre <span class="math inline">\(1\)</span> y <span class="math inline">\(k\)</span>, y posteriormente extrae cada <span class="math inline">\(k\)</span>-ésimo elemento a lo largo del dataset, donde el intervalo de muestreo es <span class="math inline">\(k = \lfloor N/n \rfloor\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>: <span class="math display">\[s = \{r, r + k, r + 2k, \dots, r + (n-1)k\}\]</span></p>
+<ul>
+<li><em>¿Para qué se usa?</em> Muy eficiente en flujos continuos de datos (<em>data streams</em>), registros transaccionales indexados en tiempo real o archivos masivos en disco donde no se conoce el tamaño total <span class="math inline">\(N\)</span> con anticipación <span class="citation" data-cites="erl2016">(<a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>.</li>
+<li><em>Riesgo Metodológico Crítico:</em> Si el dataset presenta una <strong>periodicidad latente o estacionalidad oculta</strong> que coincide con el múltiplo del paso <span class="math inline">\(k\)</span> (por ejemplo, registros tomados cada 24 horas o patrones semanales), la muestra resultante quedará severamente sesgada al capturar siempre el mismo punto del ciclo <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="muestreo-en-procesos-de-evaluación-y-validación-de-modelos" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="muestreo-en-procesos-de-evaluación-y-validación-de-modelos"><span class="header-section-number">8.4</span> Muestreo en Procesos de Evaluación y Validación de Modelos</h2>
+<p>En la minería de datos predictiva, evaluar un modelo sobre el mismo conjunto de datos utilizado para entrenarlo produce una estimación falsamente optimista debido a la memorización del ruido de la muestra <span class="citation" data-cites="provost2013 shmueli2018">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. Para medir la verdadera capacidad de generalización sobre datos no vistos, se emplean esquemas rigurosos de particionamiento y remuestreo <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<section id="particionamiento-holdout-train-validation-test" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="particionamiento-holdout-train-validation-test"><span class="header-section-number">8.4.1</span> 1. Particionamiento Holdout (Train / Validation / Test)</h3>
+<p>Consiste en dividir el conjunto de datos disponible en subconjuntos disjuntos mediante muestreo aleatorio (preferentemente estratificado) <span class="citation" data-cites="provost2013 shmueli2018">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
+<ul>
+<li><strong>Conjunto de Entrenamiento (<em>Training Set</em>, ~60-70%):</strong> Utilizado por el algoritmo para aprender los parámetros del modelo (pesos, reglas o coeficientes) <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Conjunto de Validación (<em>Validation Set</em>, ~15-20%):</strong> Utilizado para comparar modelos competidores, ajustar hiperparámetros (como la profundidad de un árbol o el parámetro de regularización <span class="math inline">\(\lambda\)</span>) y frenar el sobreajuste <span class="citation" data-cites="shmueli2018 provost2013">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>.</li>
+<li><strong>Conjunto de Prueba (<em>Test Set / Holdout Final</em>, ~15-20%):</strong> Reservado estrictamente hasta el final del proceso. Se evalúa una sola vez para obtener una estimación insesgada del desempeño que tendrá el modelo final en producción <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+</ul>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                 Conjunto de Datos Disponible                │
+└─────────────────────────────────────────────────────────────┘
+                               │
+       ┌───────────────────────┴───────────────────────┐
+       ▼                                               ▼
+┌──────────────────────────────┐        ┌─────────────────────────────┐
+│  Datos de Desarrollo (80%)   │        │   Conjunto de Prueba (20%)  │
+└──────────────────────────────┘        └─────────────────────────────┘
+               │                               (Evaluación Final Única)
+       ┌───────┴───────┐
+       ▼               ▼
+┌──────────────┐┌──────────────┐
+│Entrenamiento ││  Validación  │
+│    (60%)     ││    (20%)     │
+└──────────────┘└──────────────┘</code></pre>
+</section>
+<section id="validación-cruzada-k-fold-cross-validation" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="validación-cruzada-k-fold-cross-validation"><span class="header-section-number">8.4.2</span> 2. Validación Cruzada (<span class="math inline">\(k\)</span>-Fold Cross-Validation)</h3>
+<p>La validación cruzada divide los datos disponibles en <span class="math inline">\(k\)</span> bloques o particiones disyuntas de idéntico tamaño <span class="citation" data-cites="tan2019 provost2013">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>. El procedimiento ejecuta <span class="math inline">\(k\)</span> iteraciones de entrenamiento y prueba: en cada iteración <span class="math inline">\(i\)</span>, el bloque <span class="math inline">\(i\)</span> se reserva para evaluación (<em>test fold</em>), mientras que los restantes <span class="math inline">\(k-1\)</span> bloques se unen para entrenar el modelo <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<p>El rendimiento estimado corresponde al promedio de las <span class="math inline">\(k\)</span> métricas de evaluación obtenidas <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>:</p>
+<p><span class="math display">\[\overline{\text{Score}} = \frac{1}{k}\sum_{i=1}^k \text{Score}_i, \quad SE(\overline{\text{Score}}) = \frac{s_{\text{Score}}}{\sqrt{k}}\]</span></p>
+<ul>
+<li><strong>Validación Cruzada Estratificada (<em>Stratified <span class="math inline">\(k\)</span>-Fold</em>):</strong> Garantiza que cada uno de los <span class="math inline">\(k\)</span> pliegues contenga exactamente la misma proporción de clases observada en el conjunto original, siendo el estándar de oro en problemas de clasificación desbalanceada <span class="citation" data-cites="torgo2017 tan2019">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ul>
+</section>
+<section id="remuestreo-por-bootstrap" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="remuestreo-por-bootstrap"><span class="header-section-number">8.4.3</span> 3. Remuestreo por Bootstrap</h3>
+<p>Propuesto por Bradley Efron (1979), el <strong>Bootstrap</strong> es un método no paramétrico de remuestreo basado en el concepto de muestreo aleatorio <strong>con reemplazo</strong> de tamaño <span class="math inline">\(N\)</span> sobre un conjunto original de tamaño <span class="math inline">\(N\)</span> <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</p>
+<section id="la-regla-del-63.2-y-las-observaciones-fuera-de-bolsa-oob" class="level4" data-number="8.4.3.1">
+<h4 data-number="8.4.3.1" class="anchored" data-anchor-id="la-regla-del-63.2-y-las-observaciones-fuera-de-bolsa-oob"><span class="header-section-number">8.4.3.1</span> La Regla del 63.2% y las Observaciones Fuera de Bolsa (OOB)</h4>
+<p>Para un dataset de tamaño <span class="math inline">\(N\)</span>, la probabilidad de que una observación particular no sea seleccionada en una extracción individual es <span class="math inline">\((1 - 1/N)\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Al realizar <span class="math inline">\(N\)</span> extracciones independientes con reemplazo, la probabilidad de que dicha observación quede completamente fuera de la muestra bootstrap converge asintóticamente al número de Euler <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>: <span class="math display">\[\lim_{N \to \infty} \left(1 - \frac{1}{N}\right)^N = e^{-1} \approx 0.3679\]</span></p>
+<p>Por lo tanto, en promedio:</p>
+<ul>
+<li>Cada muestra bootstrap contiene aproximadamente el <strong>63.2%</strong> de las observaciones únicas del conjunto original <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li>El restante <strong>36.8%</strong> de observaciones no seleccionadas conforma el subconjunto <strong>Out-of-Bag (OOB)</strong> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ul>
+<p><em>Aplicaciones Principales:</em></p>
+<ol type="1">
+<li><strong>Estimador de Error Bootstrap 0.632:</strong> Pondera el error obtenido en las observaciones OOB con el error de re-sustitución sobre los datos de entrenamiento para reducir el sesgo pesimista en muestras pequeñas <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>: <span class="math display">\[\text{err}_{0.632} = 0.632 \times \text{err}_{\text{OOB}} + 0.368 \times \text{err}_{\text{train}}\]</span></li>
+<li><strong>Intervalos de Confianza Empíricos:</strong> Permite estimar la distribución muestral y cuantiles de métricas complejas (como el estadístico AUC o coeficientes de Gini) sin necesidad de supuestos de normalidad analítica <span class="citation" data-cites="torgo2017">(<a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li><strong>Algoritmos de Ensamble (<em>Bagging</em> y <em>Random Forests</em>):</strong> Genera múltiples árboles independientes sobre muestras bootstrap paralelas, evaluando el modelo internamente mediante el error OOB sin requerir particiones externas de validación <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="implementación-práctica-en-r" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="implementación-práctica-en-r"><span class="header-section-number">8.5</span> Implementación Práctica en R</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Estrategias de Muestreo de Datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Particionamiento Holdout y Validación Cruzada</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Remuestreo Bootstrap e Intervalos Empíricos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Estimador de Horvitz-Thompson en R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Encuestas Complejas con srvyr</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Implementación de Muestreo Aleatorio Simple, Estratificado y Sistemático utilizando R base y <code>dplyr</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fijar semilla para garantizar reproducibilidad</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Muestreo Aleatorio Simple sin reemplazo (20% del dataset)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>muestra_mas <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.2</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Muestreo Estratificado Proporcional (conserva 20% por especie)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>muestra_estrat <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Muestreo Sistemático (paso fijo k = 5)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>k_paso <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>arranque_aleatorio <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>k_paso, <span class="dv">1</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>indices_sistematicos <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> arranque_aleatorio, <span class="at">to =</span> <span class="fu">nrow</span>(iris), <span class="at">by =</span> k_paso)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>muestra_sistematica <span class="ot">&lt;-</span> iris[indices_sistematicos, ]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación de tamaños obtenidos</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tamaño MAS:"</span>, <span class="fu">nrow</span>(muestra_mas), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tamaño Estratificado:"</span>, <span class="fu">nrow</span>(muestra_estrat), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tamaño Sistemático:"</span>, <span class="fu">nrow</span>(muestra_sistematica), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Uso de la librería moderna <code>rsample</code> (<code>tidymodels</code>) para esquemas de validación respetando estratificación:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">456</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Particionamiento Holdout Estratificado (70% Train, 30% Test)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>split_inicial <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(iris, <span class="at">prop =</span> <span class="fl">0.70</span>, <span class="at">strata =</span> Species)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>datos_entrenamiento <span class="ot">&lt;-</span> <span class="fu">training</span>(split_inicial)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>datos_prueba        <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_inicial)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Entrenamiento:"</span>, <span class="fu">nrow</span>(datos_entrenamiento), <span class="st">"observaciones</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prueba:"</span>, <span class="fu">nrow</span>(datos_prueba), <span class="st">"observaciones</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Validación Cruzada Estratificada de 5 Folds</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>pliegues_cv <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(datos_entrenamiento, <span class="at">v =</span> <span class="dv">5</span>, <span class="at">strata =</span> Species)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pliegues_cv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Estimación de la distribución muestral de la correlación de Pearson y cálculo de intervalos de confianza empíricos al 95%:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">789</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>B_repeticiones <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n_filas <span class="ot">&lt;-</span> <span class="fu">nrow</span>(iris)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>correlaciones_boot <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B_repeticiones)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B_repeticiones) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Muestreo con reemplazo del mismo tamaño muestral</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  indices_boot <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n_filas, <span class="at">size =</span> n_filas, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  muestra_b <span class="ot">&lt;-</span> iris[indices_boot, ]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  correlaciones_boot[b] <span class="ot">&lt;-</span> <span class="fu">cor</span>(muestra_b<span class="sc">$</span>Sepal.Length, muestra_b<span class="sc">$</span>Sepal.Width)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación del Error Estándar e Intervalo Percentil al 95%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>se_boot <span class="ot">&lt;-</span> <span class="fu">sd</span>(correlaciones_boot)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>ic_percentil <span class="ot">&lt;-</span> <span class="fu">quantile</span>(correlaciones_boot, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Correlación puntual original:"</span>, <span class="fu">cor</span>(iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Sepal.Width), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Error Estándar Bootstrap:"</span>, se_boot, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Intervalo de Confianza 95% (Bootstrap):"</span>, ic_percentil, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>Cálculo formal de estimación insesgada con probabilidades desiguales de selección:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Población simulada con un estrato raro sobre-representado en la muestra</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>N_pob <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ventas_pob <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">9900</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">15</span>), <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">500</span>, <span class="at">sd =</span> <span class="dv">50</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>tipo_pob <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Estándar"</span>, <span class="dv">9900</span>), <span class="fu">rep</span>(<span class="st">"VIP"</span>, <span class="dv">100</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestreo intencionalmente desbalanceado: 50 VIPs y 200 Estándar</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pi_vip <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pi_estandar <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="sc">/</span> <span class="dv">9900</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>idx_vip <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">which</span>(tipo_pob <span class="sc">==</span> <span class="st">"VIP"</span>), <span class="at">size =</span> <span class="dv">50</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>idx_std <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">which</span>(tipo_pob <span class="sc">==</span> <span class="st">"Estándar"</span>), <span class="at">size =</span> <span class="dv">200</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>muestra_datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">ventas =</span> ventas_pob[<span class="fu">c</span>(idx_std, idx_vip)],</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">pi_i   =</span> <span class="fu">c</span>(<span class="fu">rep</span>(pi_estandar, <span class="dv">200</span>), <span class="fu">rep</span>(pi_vip, <span class="dv">50</span>))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo de la media usando promedio simple vs Horvitz-Thompson</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>media_simple_sesgada <span class="ot">&lt;-</span> <span class="fu">mean</span>(muestra_datos<span class="sc">$</span>ventas)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>media_HT_insesgada   <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> N_pob) <span class="sc">*</span> <span class="fu">sum</span>(muestra_datos<span class="sc">$</span>ventas <span class="sc">/</span> muestra_datos<span class="sc">$</span>pi_i)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>media_real_pob       <span class="ot">&lt;-</span> <span class="fu">mean</span>(ventas_pob)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Media Real Poblacional:"</span>, media_real_pob, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Media Muestral Simple (Sesgada por sobremuestreo):"</span>, media_simple_sesgada, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Media Estimador Horvitz-Thompson (Insesgada):"</span>, media_HT_insesgada, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>Estimación puntual de totales, medias e intervalos de confianza incorporando pesos, estratos y conglomerados:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(srvyr)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Simulación de datos con estructura de encuesta compleja</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">&lt;-</span> <span class="dv">600</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>encuesta_raw <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_individuo =</span> <span class="dv">1</span><span class="sc">:</span>n_obs,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">region       =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Urbano"</span>, <span class="st">"Rural"</span>), <span class="at">size =</span> n_obs, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">conglomerado =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">size =</span> n_obs, <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="co"># 25 Unidades Primarias de Muestreo (PSU)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">peso_diseno  =</span> <span class="fu">if_else</span>(region <span class="sc">==</span> <span class="st">"Urbano"</span>, <span class="fu">runif</span>(n_obs, <span class="dv">80</span>, <span class="dv">120</span>), <span class="fu">runif</span>(n_obs, <span class="dv">180</span>, <span class="dv">240</span>)),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">actividad    =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Comercio"</span>, <span class="st">"Servicios"</span>, <span class="st">"Manufactura"</span>), <span class="at">size =</span> n_obs, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ingreso_mes  =</span> <span class="fu">if_else</span>(region <span class="sc">==</span> <span class="st">"Urbano"</span>, <span class="fu">rnorm</span>(n_obs, <span class="dv">3800</span>, <span class="dv">700</span>), <span class="fu">rnorm</span>(n_obs, <span class="dv">2200</span>, <span class="dv">450</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Especificación formal del diseño muestral complejo con srvyr</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>diseno_srvyr <span class="ot">&lt;-</span> encuesta_raw <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_survey_design</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">ids     =</span> conglomerado,  <span class="co"># Unidades Primarias de Muestreo (PSU / Clusters)</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">strata  =</span> region,        <span class="co"># Estratos de diseño</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">weights =</span> peso_diseno,   <span class="co"># Factores de expansión (w_i = 1 / pi_i)</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">nest    =</span> <span class="cn">TRUE</span>           <span class="co"># PSUs anidadas dentro de los estratos</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Estimación poblacional global (media y total con intervalos de confianza al 95%)</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>resumen_global <span class="ot">&lt;-</span> diseno_srvyr <span class="sc">%&gt;%</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">media_ingreso =</span> <span class="fu">survey_mean</span>(ingreso_mes, <span class="at">vartype =</span> <span class="fu">c</span>(<span class="st">"se"</span>, <span class="st">"ci"</span>), <span class="at">level =</span> <span class="fl">0.95</span>),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_ingreso =</span> <span class="fu">survey_total</span>(ingreso_mes, <span class="at">vartype =</span> <span class="fu">c</span>(<span class="st">"se"</span>, <span class="st">"ci"</span>), <span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(resumen_global)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Inferencia desagregada por subgrupos con sintaxis tidyverse (group_by)</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>resumen_sector <span class="ot">&lt;-</span> diseno_srvyr <span class="sc">%&gt;%</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(actividad) <span class="sc">%&gt;%</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">participacion =</span> <span class="fu">survey_prop</span>(<span class="at">vartype =</span> <span class="st">"ci"</span>),</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">ingreso_medio =</span> <span class="fu">survey_mean</span>(ingreso_mes, <span class="at">vartype =</span> <span class="fu">c</span>(<span class="st">"se"</span>, <span class="st">"ci"</span>))</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(resumen_sector)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cápsula-de-ejercicios-del-muestreo" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="cápsula-de-ejercicios-del-muestreo"><span class="header-section-number">8.6</span> Cápsula de Ejercicios del Muestreo</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios de Aplicación Práctica (Para portafolio de clase)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Simulación Empírica del Teorema del Límite Central:</strong> Utilizando una distribución fuertemente asimétrica (por ejemplo, una distribución Exponencial con parámetro <span class="math inline">\(\lambda = 0.2\)</span>), escriba una función en R que extraiga 2,000 muestras independientes de tamaños <span class="math inline">\(n = 5\)</span>, <span class="math inline">\(n = 30\)</span> y <span class="math inline">\(n = 150\)</span>. Grafique las distribuciones muestrales resultantes de la media utilizando <code>ggplot2</code> y demuestre visual y analíticamente cómo el error estándar decrece proporcionalmente a <span class="math inline">\(1/\sqrt{n}\)</span> aproximándose a una campana gaussiana simétrica <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li><strong>Inferencia No Paramétrica con Bootstrap:</strong> Seleccione dos variables numéricas continuas del dataset <code>Boston</code> (librería <code>MASS</code>). Construya 1,500 remuestreos bootstrap para estimar el intervalo de confianza al 99% de la diferencia de medianas. Verifique qué porcentaje de las muestras bootstrap generó observaciones fuera de bolsa (OOB) cercanas al valor teórico del 36.8% <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-erl2016" class="csl-entry" role="listitem">
+Erl, Thomas, Wajid Khattak, and Paul Buhler. 2016. <em>Big Data Fundamentals: Concepts, Drivers &amp; Techniques</em>. Prentice Hall.
+</div>
+<div id="ref-johnson2014" class="csl-entry" role="listitem">
+Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
+<div id="ref-lumley2010" class="csl-entry" role="listitem">
+Lumley, Thomas. 2010. <em>Complex Surveys: A Guide to Analysis Using r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-provost2013" class="csl-entry" role="listitem">
+Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media.
+</div>
+<div id="ref-shmueli2018" class="csl-entry" role="listitem">
+Shmueli, Galit, Peter C. Bruce, Inbal Yahav, Nitin R. Patel, and Kenneth C. Lichtendahl Jr. 2018. <em>Data Mining for Business Analytics: Concepts, Techniques, and Applications in r</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-tan2019" class="csl-entry" role="listitem">
+Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson Education.
+</div>
+<div id="ref-torgo2017" class="csl-entry" role="listitem">
+Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alvarolimber\.github\.io\/data_mining\/_book");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ingenieria_caracteristicas.html" class="pagination-link" aria-label="Ingeniería de Características: Creación, Transformación y Codificación de Atributos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ingeniería de Características: Creación, Transformación y Codificación de Atributos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Alvaro Chirino</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://bsky.app/">
+      <i class="bi bi-bluesky" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
