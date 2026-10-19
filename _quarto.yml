@@ -35,6 +35,9 @@ book:
         - visualizacion.qmd
         - ingenieria_caracteristicas.qmd
         - muestreo.qmd
+    - part: "Parte III: Métodos de pre procesamiento"
+      chapters:
+        - pca_reduccion.qmd    
     - references.qmd
 
 bibliography: references.bib
