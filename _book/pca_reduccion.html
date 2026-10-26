@@ -26,6 +26,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -462,6 +497,23 @@ window.Quarto = {
   <li><a href="#operaciones-matriciales-clave-y-representación-geométrica" id="toc-operaciones-matriciales-clave-y-representación-geométrica" class="nav-link" data-scroll-target="#operaciones-matriciales-clave-y-representación-geométrica"><span class="header-section-number">9.1.1</span> Operaciones Matriciales Clave y Representación Geométrica</a></li>
   <li><a href="#catálogo-de-descomposiciones-matriciales-en-minería-de-datos" id="toc-catálogo-de-descomposiciones-matriciales-en-minería-de-datos" class="nav-link" data-scroll-target="#catálogo-de-descomposiciones-matriciales-en-minería-de-datos"><span class="header-section-number">9.1.2</span> Catálogo de Descomposiciones Matriciales en Minería de Datos</a></li>
   </ul></li>
+  <li><a href="#la-maldición-de-la-dimensionalidad-y-la-necesidad-de-compresión" id="toc-la-maldición-de-la-dimensionalidad-y-la-necesidad-de-compresión" class="nav-link" data-scroll-target="#la-maldición-de-la-dimensionalidad-y-la-necesidad-de-compresión"><span class="header-section-number">9.2</span> La Maldición de la Dimensionalidad y la Necesidad de Compresión</a></li>
+  <li><a href="#fundamentos-algebraicos-y-geométricos-de-pca" id="toc-fundamentos-algebraicos-y-geométricos-de-pca" class="nav-link" data-scroll-target="#fundamentos-algebraicos-y-geométricos-de-pca"><span class="header-section-number">9.3</span> Fundamentos Algebraicos y Geométricos de PCA</a>
+  <ul class="collapse">
+  <li><a href="#ortogonalidad-y-producto-interno" id="toc-ortogonalidad-y-producto-interno" class="nav-link" data-scroll-target="#ortogonalidad-y-producto-interno"><span class="header-section-number">9.3.1</span> 1. Ortogonalidad y Producto Interno</a></li>
+  <li><a href="#matriz-de-covarianzas-y-descomposición-espectral" id="toc-matriz-de-covarianzas-y-descomposición-espectral" class="nav-link" data-scroll-target="#matriz-de-covarianzas-y-descomposición-espectral"><span class="header-section-number">9.3.2</span> 2. Matriz de Covarianzas y Descomposición Espectral</a></li>
+  </ul></li>
+  <li><a href="#derivación-matemática-formal-de-pca" id="toc-derivación-matemática-formal-de-pca" class="nav-link" data-scroll-target="#derivación-matemática-formal-de-pca"><span class="header-section-number">9.4</span> Derivación Matemática Formal de PCA</a>
+  <ul class="collapse">
+  <li><a href="#primer-componente-principal-y_1" id="toc-primer-componente-principal-y_1" class="nav-link" data-scroll-target="#primer-componente-principal-y_1"><span class="header-section-number">9.4.1</span> 1. Primer Componente Principal (<span class="math inline">\(Y_1\)</span>)</a></li>
+  <li><a href="#componentes-principales-sucesivos-y_k" id="toc-componentes-principales-sucesivos-y_k" class="nav-link" data-scroll-target="#componentes-principales-sucesivos-y_k"><span class="header-section-number">9.4.2</span> 2. Componentes Principales Sucesivos (<span class="math inline">\(Y_k\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#pca-sobre-matriz-de-covarianzas-vs.-matriz-de-correlaciones" id="toc-pca-sobre-matriz-de-covarianzas-vs.-matriz-de-correlaciones" class="nav-link" data-scroll-target="#pca-sobre-matriz-de-covarianzas-vs.-matriz-de-correlaciones"><span class="header-section-number">9.5</span> PCA sobre Matriz de Covarianzas vs.&nbsp;Matriz de Correlaciones</a></li>
+  <li><a href="#criterios-de-selección-del-número-de-componentes-m" id="toc-criterios-de-selección-del-número-de-componentes-m" class="nav-link" data-scroll-target="#criterios-de-selección-del-número-de-componentes-m"><span class="header-section-number">9.6</span> Criterios de Selección del Número de Componentes (<span class="math inline">\(m\)</span>)</a></li>
+  <li><a href="#interpretación-de-resultados-loadings-scores-y-biplot" id="toc-interpretación-de-resultados-loadings-scores-y-biplot" class="nav-link" data-scroll-target="#interpretación-de-resultados-loadings-scores-y-biplot"><span class="header-section-number">9.7</span> Interpretación de Resultados: Loadings, Scores y Biplot</a></li>
+  <li><a href="#aplicaciones-de-pca-en-la-cadena-de-minería-de-datos" id="toc-aplicaciones-de-pca-en-la-cadena-de-minería-de-datos" class="nav-link" data-scroll-target="#aplicaciones-de-pca-en-la-cadena-de-minería-de-datos"><span class="header-section-number">9.8</span> Aplicaciones de PCA en la Cadena de Minería de Datos</a></li>
+  <li><a href="#implementación-práctica-en-r" id="toc-implementación-práctica-en-r" class="nav-link" data-scroll-target="#implementación-práctica-en-r"><span class="header-section-number">9.9</span> Implementación Práctica en R</a></li>
+  <li><a href="#cápsula-de-ejercicios-de-pca" id="toc-cápsula-de-ejercicios-de-pca" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-de-pca"><span class="header-section-number">9.10</span> Cápsula de Ejercicios de PCA</a></li>
   </ul>
 </nav>
     </div>
@@ -575,282 +627,174 @@ Note
 <li><strong>SVD (Singular Value Decomposition):</strong> Generaliza la descomposición espectral a cualquier matriz rectangular <span class="math inline">\(\mathbf{X}_{(n    imes p)}\)</span>, factorizándola en las matrices ortogonales de vectores singulares izquierdos <span class="math inline">\(\mathbf{U}_{(n     \times r)}\)</span>, valores singulares <span class="math inline">\(\mathbf{\Sigma}_{(r    \times r)}\)</span> y vectores singulares derechos <span class="math inline">\(\mathbf{V}_{(p  \times r)}\)</span>.</li>
 <li><strong>Cholesky:</strong> Factoriza una matriz simétrica definida positiva en el producto de una matriz triangular inferior <span class="math inline">\(\mathbf{L}\)</span> y su traspuesta <span class="math inline">\(\mathbf{L}^T\)</span>. Se utiliza ampliamente para transformar variables independientes estándar <span class="math inline">\(\mathbf{Z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span> en variables con estructura de covarianza deseada <span class="math inline">\(\mathbf{X} = \mathbf{\mu} + \mathbf{L}\mathbf{Z}\)</span>.</li>
 </ol>
-<!--
-
-## La Maldición de la Dimensionalidad y la Necesidad de Compresión
-
-En el análisis de datos contemporáneo y la Inteligencia de Negocios, es habitual enfrentarse a bases de datos con decenas, cientos o miles de atributos continuos [@tan2019; @erl2016]. Si bien contar con abundantes variables parece ventajoso, el aumento desmedido de la dimensión $p$ desencadena la **maldición de la dimensionalidad** (*curse of dimensionality*): el espacio geométrico crece exponencialmente, los datos se vuelven extremadamente dispersos (*sparse*), la distancia euclidiana pierde su poder discriminativo y la complejidad computacional de los algoritmos se dispara [@tan2019; @provost2013].
-
-Además, en conjuntos de datos reales existe habitualmente una alta redundancia e intercorrelación entre atributos [@shmueli2018; @johnson2014]. La **reducción de dimensionalidad** busca transformar el espacio original $\mathbb{R}^p$ en un subespacio latente $\mathbb{R}^m$ (con $m \ll p$), reteniendo la mayor cantidad posible de información estructurada y variabilidad poblacional.
-
-Entre las diversas estrategias lineales de proyección, el **Análisis de Componentes Principales (PCA)**, conceptualizado originalmente por Karl Pearson y desarrollado por Harold Hotelling, es el estándar algebraico para resumir la varianza conjunta mediante ejes ortogonales incorrelacionados [@johnson2014].
-
-## Fundamentos Algebraicos y Geométricos de PCA
-
-PCA descompone la estructura de covarianza de un vector aleatorio continuo $\mathbf{X} = (X_1, X_2, \dots, X_p)^T$ mediante rotaciones ortogonales de los ejes coordenados originales [@johnson2014].
-
-### 1. Ortogonalidad y Producto Interno
-Geométricamente, dos vectores $\mathbf{u}, \mathbf{v} \in \mathbb{R}^p$ son **ortogonales** ($\mathbf{u} \perp \mathbf{v}$) si su producto escalar es nulo:
-$$\mathbf{u}^T \mathbf{v} = \sum_{i=1}^p u_i v_i = 0$$
-Una matriz de transformación $\mathbf{P}_{(p    \times p)}$ se denomina **ortogonal** si sus columnas $\mathbf{e}_1, \dots, \mathbf{e}_p$ son mutuamente perpendiculares y de norma unitaria ($\mathbf{e}_i^T \mathbf{e}_i = 1$), lo que implica:
-$$\mathbf{P}^T \mathbf{P} = \mathbf{P} \mathbf{P}^T = \mathbf{I}_p \implies \mathbf{P}^{-1} = \mathbf{P}^T$$
-Las transformaciones ortogonales preservan la distancia euclidiana y los ángulos en el espacio, actuando geométricamente como **rotaciones del sistema de ejes** [@johnson2014].
-
-### 2. Matriz de Covarianzas y Descomposición Espectral
-Sea $\mathbf{\Sigma}_{(p    imes p)}$ la matriz de varianzas-covarianzas del vector $\mathbf{X}$, definida como $\mathbf{\Sigma} = \mathbb{E}[(\mathbf{X} - \mathbf{\mu})(\mathbf{X} - \mathbf{\mu})^T]$. Al ser una matriz simétrica y semidefinida positiva, por el **Teorema Espectral** se garantiza la existencia de $p$ autovalores reales no negativos $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p \ge 0$ y $p$ autovectores ortonormales correspondientes $\mathbf{e}_1, \mathbf{e}_2, \dots, \mathbf{e}_p$ tales que [@johnson2014]:
-$$\mathbf{\Sigma} \mathbf{e}_i = \lambda_i \mathbf{e}_i, \quad  ext{con } \mathbf{e}_i^T \mathbf{e}_i = 1 \quad     ext{y} \quad \mathbf{e}_i^T \mathbf{e}_k = 0 \; (i 
-eq k)$$
-Matrencialmente, la **descomposición espectral** de $\mathbf{\Sigma}$ se expresa como:
-$$\mathbf{\Sigma} = \mathbf{P} \mathbf{\Lambda} \mathbf{P}^T = \sum_{i=1}^p \lambda_i \mathbf{e}_i \mathbf{e}_i^T$$
-donde $\mathbf{P} = [\mathbf{e}_1, \mathbf{e}_2, \dots, \mathbf{e}_p]$ es la matriz de autovectores y $\mathbf{\Lambda} =   ext{diag}(\lambda_1, \lambda_2, \dots, \lambda_p)$ es la matriz diagonal de autovalores [@johnson2014].
-
----
-
-## Derivación Matemática Formal de PCA
-
-Buscamos combinaciones lineales de los atributos originales de la forma:
-$$Y_i = \mathbf{a}_i^T \mathbf{X} = a_{i1}X_1 + a_{i2}X_2 + \dots + a_{ip}X_p$$
-Utilizando las propiedades de los operadores de esperanza y covarianza, la varianza de $Y_i$ y la covarianza entre $Y_i$ e $Y_k$ son [UA1, @johnson2014]:
-$$  ext{Var}(Y_i) = \mathbf{a}_i^T \mathbf{\Sigma} \mathbf{a}_i \quad   ext{y} \quad    ext{Cov}(Y_i, Y_k) = \mathbf{a}_i^T \mathbf{\Sigma} \mathbf{a}_k$$
-
-### 1. Primer Componente Principal ($Y_1$)
-Se define como la combinación lineal $\mathbf{a}_1^T \mathbf{X}$ que **maximiza la varianza explicada**, sujeta a la restricción de escala unitaria $\mathbf{a}_1^T \mathbf{a}_1 = 1$ para evitar varianzas infinitas [@johnson2014]:
-$$\max_{\mathbf{a}_1} \mathbf{a}_1^T \mathbf{\Sigma} \mathbf{a}_1 \quad     ext{sujeto a} \quad \mathbf{a}_1^T \mathbf{a}_1 = 1$$
-
-Formulando el problema mediante **Multiplicadores de Lagrange**:
-$$L(\mathbf{a}_1, \lambda_1) = \mathbf{a}_1^T \mathbf{\Sigma} \mathbf{a}_1 - \lambda_1 (\mathbf{a}_1^T \mathbf{a}_1 - 1)$$
-Derivando parcialmente respecto a $\mathbf{a}_1$ e igualando a cero:
-$$rac{\partial L}{\partial \mathbf{a}_1} = 2 \mathbf{\Sigma} \mathbf{a}_1 - 2 \lambda_1 \mathbf{a}_1 = \mathbf{0} \implies \mathbf{\Sigma} \mathbf{a}_1 = \lambda_1 \mathbf{a}_1$$
-Esto demuestra que $\mathbf{a}_1$ debe ser el **autovector** $\mathbf{e}_1$ de $\mathbf{\Sigma}$, y la varianza máxima alcanzada por el primer componente es precisamente el autovalor asociado [UA1, @johnson2014]:
-$$  ext{Var}(Y_1) = \mathbf{e}_1^T \mathbf{\Sigma} \mathbf{e}_1 = \mathbf{e}_1^T (\lambda_1 \mathbf{e}_1) = \lambda_1 (\mathbf{e}_1^T \mathbf{e}_1) = \lambda_1$$
-
-### 2. Componentes Principales Sucesivos ($Y_k$)
-El $k$-ésimo componente principal $Y_k = \mathbf{a}_k^T \mathbf{X}$ maximiza la varianza $\mathbf{a}_k^T \mathbf{\Sigma} \mathbf{a}_k$ sujeto a la condición de norma unitaria $\mathbf{a}_k^T \mathbf{a}_k = 1$ y a la condición de **ortogonalidad/incorrelación** con todos los componentes previos:
-$$  ext{Cov}(Y_k, Y_i) = \mathbf{a}_k^T \mathbf{\Sigma} \mathbf{e}_i = \mathbf{0} \quad     ext{para todo } i < k$$
-Por inducción y descomposición espectral, el óptimo resulta ser $\mathbf{a}_k = \mathbf{e}_k$, con varianza $   ext{Var}(Y_k) = \lambda_k$ [@johnson2014].
-
-Como la suma de las varianzas originales es la traza de $\mathbf{\Sigma}$, la varianza total se preserva intacta:
-$$  ext{Varianza Total} = \sum_{j=1}^p  ext{Var}(X_j) =     ext{tr}(\mathbf{\Sigma}) = \sum_{i=1}^p \lambda_i = \sum_{i=1}^p    ext{Var}(Y_i)$$
-
-La **proporción de varianza explicada** por los primeros $m$ componentes es [@shmueli2018]:
-$$  ext{Proporción Explicada}_m = rac{\sum_{i=1}^m \lambda_i}{\sum_{j=1}^p \lambda_j}$$
-
----
-
-## PCA sobre Matriz de Covarianzas vs. Matriz de Correlaciones
-
-Una decisión metodológica crucial en PCA es determinar si el análisis se ejecuta sobre la matriz de covarianzas $\mathbf{S}$ o sobre la matriz de correlaciones $\mathbf{R}$ [@shmueli2018; @johnson2014]:
-
-* **PCA sobre Covarianzas ($\mathbf{S}$):** Se utiliza cuando todas las variables están expresadas en las **mismas unidades de medida** y sus varianzas reflejan la verdadera importancia física o económica del atributo [@johnson2014]. Es sensible a la escala: variables con magnitudes numéricas elevadas dominarán artificialmente los primeros componentes.
-* **PCA sobre Correlaciones ($\mathbf{R}$):** Equivale a aplicar PCA sobre las variables estandarizadas $Z_j = (X_j - ar{x}_j)/s_j$ [@shmueli2018]. Es el enfoque estándar cuando los atributos presentan **diferentes unidades de medida** (ej. ingresos en bolivianos, edad en años, tasa de interés en porcentaje). La suma de la varianza total resulta igual al número de variables $p$, ya que $ ext{tr}(\mathbf{R}) = p$ [@johnson2014].
-
----
-
-## Criterios de Selección del Número de Componentes ($m$)
-
-Para reducir efectivamente la dimensión de $p$ a $m$, se aplican cuatro criterios empíricos y analíticos recomendados en la literatura [@johnson2014; @shmueli2018]:
-
-1. **Porcentaje Acumulado de Varianza Explicada:** Seleccionar el menor número de componentes $m$ tal que la varianza acumulada alcance un umbral mínimo predefinido (habitualmente entre el 80% y el 90%) [@shmueli2018].
-2. **Criterio de Kaiser-Guttman (al aplicar $\mathbf{R}$):** Retener únicamente aquellos componentes cuyo autovalor asociado sea superior a la unidad ($\lambda_i > 1.0$) [@johnson2014]. La lógica es conservar solo los componentes que expliquen más varianza que una variable estandarizada individual.
-3. **Criterio del Codo (*Scree Plot*):** Examen visual del gráfico de autovalores ordenados ($\lambda_i$ vs. $i$). Se selecciona el punto de inflexión ("codo") donde el decremento de los autovalores se estabiliza [@shmueli2018].
-4. **Interpretabilidad de Negocio:** Evaluar si los componentes retenidos poseen un significado conceptual claro dentro del dominio de estudio [@provost2013].
-
----
-
-## Interpretación de Resultados: Loadings, Scores y Biplot
-
-* **Cargas o Pesos (*Loadings*):** Corresponden a los elementos de los autovectores $\mathbf{e}_i$. Indican la contribución y dirección de cada variable original $X_j$ en la formación del componente $Y_i$. La correlación entre la variable $X_j$ y el componente $Y_i$ es $r_{X_j, Y_i} = e_{ij} \sqrt{\lambda_i} / \sqrt{s_{jj}}$ [@johnson2014].
-* **Puntuaciones (*Scores*):** Son las coordenadas transformadas de las $n$ observaciones en el nuevo espacio de componentes principales: $\mathbf{Z}_{(n   imes m)} = \mathbf{X}_c \mathbf{P}_m$. Se utilizan como insumos incorrelacionados en modelos predictivos o algoritmos de *clustering* [@shmueli2018; @torgo2017].
-* **Gráfico Biplot:** Representación gráfica bidimensional simultánea que superpone las puntuaciones de las observaciones (puntos) y las cargas de las variables (vectores) sobre el plano formado por los dos primeros componentes principales ($Y_1$ vs. $Y_2$) [@pimpler2018]. El ángulo entre vectores indica la correlación entre variables originales, mientras que la proyección de los puntos sobre los vectores refleja el perfil de cada individuo.
-
----
-
-::: {.callout-note}
-### Actividad de Clase 1: Interpretación Geométrica y Selección de Componentes (10 min)
-**Escenario de Analítica Financiera:** Se evalúa una base de datos con 10 indicadores de riesgo crediticio para 5,000 empresas. Al aplicar PCA sobre la matriz de correlación $\mathbf{R}$, se obtienen los siguientes autovalores para los primeros 5 componentes: $\lambda_1 = 4.2$, $\lambda_2 = 2.1$, $\lambda_3 = 1.1$, $\lambda_4 = 0.8$, $\lambda_5 = 0.6$.
-
-**Consigna de Discusión:**
-1. ¿Cuál es la varianza total del sistema estandarizado? ¿Qué porcentaje de varianza acumulan los primeros 3 componentes? [@johnson2014].
-2. Aplicando el Criterio de Kaiser ($\lambda_i > 1.0$), ¿cuántos componentes se deberían retener? Si el primer autovector asigna pesos de $+0.32$ a morosidad, $+0.35$ a endeudamiento y $-0.30$ a liquidez, ¿qué significado de negocio sugiere este primer componente? [@shmueli2018; @provost2013].
-:::
-
----
-
-## Aplicaciones de PCA en la Cadena de Minería de Datos
-
-1. **Eliminación de Multicolinealidad:** Al ser los componentes principales incorrelacionados ($    ext{Cov}(Y_i, Y_k) = 0$), sustituir predictores altamente colineales por sus primeros $m$ componentes elimina los problemas de instabilidad en regresiones lineales y logísticas [@shmueli2018; @johnson2014].
-2. **Aceleración y Mejora de *Clustering*:** La reducción del ruido aleatorio mediante PCA mejora la calidad de separación de algoritmos como $k$-means y agrupamiento jerárquico, eliminando dimensiones irrelevantes [@tan2019; @torgo2017].
-3. **Detección de Outliers Multivariantes:** Las observaciones que presentan puntuaciones anormalmente altas en los **últimos componentes principales** (componentes asociados a autovalores pequeños $\lambda_p$) suelen corresponder a individuos que rompen la estructura de correlación habitual entre variables [@johnson2014].
-
----
-
-## Implementación Práctica en R
-
-En R, el estándar para ejecutar PCA de forma numéricamente estable (mediante la descomposición SVD) es la función `prcomp()` de la librería base `stats`, complementada por `factoextra` para el diagnóstico visual [@shmueli2018; @pimpler2018].
-
-::: {.panel-tabset}
-
-### PCA con `prcomp()`
-Ejecución de PCA sobre el dataset `USArrests` (tasas de delitos en EEUU):
-
-```r
-library(stats)
-
-# Cargar dataset de ejemplo
-data("USArrests")
-
-# Ejecutar PCA estandarizando variables (scale. = TRUE usa la matriz de correlación)
-pca_res <- prcomp(USArrests, center = TRUE, scale. = TRUE)
-
-# Resumen de varianza explicada por componente
-summary(pca_res)
-
-# Inspeccionar autovectores / loadings (matriz de rotación)
-print(pca_res$rotation)
-
-# Extraer las coordenadas transformadas (scores) de las primeras filas
-head(pca_res$x)
-```
-
-### Diagnóstico Visual con `factoextra`
-Visualización avanzada de codo, variables y biplot:
-
-```r
-library(factoextra)
-
-# 1. Gráfico de Codo (Scree Plot)
-fviz_eig(pca_res, addlabels = TRUE, ylim = c(0, 70), 
-         barfill = "steelblue", barcolor = "steelblue",
-         title = "Porcentaje de Varianza Explicada por Componente")
-
-# 2. Círculo de Correlaciones de Variables (Loadings)
-fviz_pca_var(pca_res, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE, title = "Círculo de Correlaciones de Variables")
-
-# 3. Biplot Integrado (Puntos de Individuos + Vectores de Variables)
-fviz_pca_biplot(pca_res, repel = TRUE,
-                col.var = "#2E9FDF", col.ind = "#696969",
-                title = "Biplot: Puntuaciones de Estados y Cargas de Delitos")
-```
-
-### Proyección de Nuevos Datos
-Demostración de prevención de fuga de datos proyectando observaciones de prueba sobre el espacio de entrenamiento:
-
-```r
-set.seed(123)
-
-# Dividir dataset en entrenamiento (70%) y prueba (30%)
-idx_train <- sample(1:nrow(USArrests), size = 0.7 * nrow(USArrests))
-train_data <- USArrests[idx_train, ]
-test_data  <- USArrests[-idx_train, ]
-
-# Fit de PCA estrictamente sobre entrenamiento
-pca_train <- prcomp(train_data, center = TRUE, scale. = TRUE)
-
-# Transformar / proyectar el conjunto de prueba usando los parámetros del entrenamiento
-scores_test <- predict(pca_train, newdata = test_data)
-
-# Inspeccionar las coordenadas proyectadas del test
-head(scores_test)
-```
-
-:::
-
----
-
-::: {.callout-note}
-### Actividad de Clase 2: Prevención de Fuga de Datos (*Data Leakage*) en PCA (10 min)
-**Escenario:** Un analista estandariza y aplica `prcomp()` sobre el dataset completo de 50,000 registros antes de dividir los datos en subconjuntos de entrenamiento y prueba para un modelo predictivo.
-
-**Consigna de Discusión:**
-1. ¿Por qué este procedimiento invalida la evaluación honesta del modelo introduciendo **fuga de datos**? [@provost2013; @shmueli2018].
-2. ¿Cómo se garantiza que las medias, desviaciones estándar y autovectores aprendidos en el entrenamiento se apliquen correctamente sobre el conjunto de prueba mediante la función `predict()`? [@torgo2017].
-:::
-
----
-
-## Cápsula de Ejercicios de PCA
-
-::: {.callout-tip}
-### Ejercicios de Aplicación Práctica (Para portafolio de clase)
-
-1. **Demostración Numérica de Descomposición Espectral:** Con la matriz de datos de iris (4 variables continuas), calcule la matriz de correlación $\mathbf{R}$ usando `cor()`. Calcule sus autovalores y autovectores con `eigen()`. Compare los autovalores con las varianzas obtenidas en `prcomp(iris[,1:4], scale.=TRUE)$sdev^2` y verifique que son matemáticamente idénticos [@johnson2014].
-2. **Análisis de Impacto Financiero con `factoextra`:** Con el dataset `Boston` (librería `MASS`), ejecute un PCA estandarizado sobre las variables cuantitativas de la vivienda. Construya el biplot de variables e identifique qué atributos están fuertemente correlacionados con el valor medio de la vivienda (`medv`) y cuál es la varianza explicada acumulada por los tres primeros componentes [@shmueli2018; @pimpler2018].
-3. **Flujo de Trabajo Predictivo con PCA y Regresión:** Divida el dataset `swiss` en 70% entrenamiento y 30% prueba. Aplique PCA sobre las variables explicativas del entrenamiento y ajuste un modelo de regresión lineal preduciendo la tasa de `Fertility` usando los primeros 2 componentes principales. Evalúe el error cuadrático medio (RMSE) proyectando el conjunto de prueba y compare el resultado contra una regresión lineal múltiple con todas las variables originales [@shmueli2018; @torgo2017].
-:::
-
----
-
-## Referencias Bibliográficas (.bib)
-
-```bibtex
-@book{johnson2014,
-  title={Applied Multivariate Statistical Analysis},
-  author={Johnson, Richard A. and Wichern, Dean W.},
-  edition={6th},
-  year={2014},
-  publisher={Pearson Education Limited}
-}
-
-@book{tan2019,
-  title={Introduction to Data Mining},
-  author={Tan, Pang-Ning and Steinbach, Michael and Karpatne, Anuj and Kumar, Vipin},
-  edition={2nd},
-  year={2019},
-  publisher={Pearson Education}
-}
-
-@book{shmueli2018,
-  title={Data Mining for Business Analytics: Concepts, Techniques, and Applications in R},
-  author={Shmueli, Galit and Bruce, Peter C. and Yahav, Inbal and Patel, Nitin R. and Lichtendahl Jr., Kenneth C.},
-  year={2018},
-  publisher={John Wiley \& Sons}
-}
-
-@book{provost2013,
-  title={Data Science for Business: What you need to know about data mining and data-analytic thinking},
-  author={Provost, Foster and Fawcett, Tom},
-  year={2013},
-  publisher={O'Reilly Media}
-}
-
-@book{torgo2017,
-  title={Data Mining with R: Learning with Case Studies},
-  author={Torgo, Lu{'i}s},
-  edition={2nd},
-  year={2017},
-  publisher={CRC Press}
-}
-
-@book{pimpler2018,
-  title={Data Visualization and Exploration with R: A Practical Guide},
-  author={Pimpler, Eric},
-  year={2018},
-  publisher={Geospatial Training Services}
-}
-
-@book{erl2016,
-  title={Big Data Fundamentals: Concepts, Drivers \& Techniques},
-  author={Erl, Thomas and Khattak, Wajid and Buhler, Paul},
-  year={2016},
-  publisher={Prentice Hall}
-}
-
-@book{wilkinson2005,
-  title={The Grammar of Graphics},
-  author={Wilkinson, Leland},
-  edition={2nd},
-  year={2005},
-  publisher={Springer}
-}
-```
--->
+</section>
+</section>
+<section id="la-maldición-de-la-dimensionalidad-y-la-necesidad-de-compresión" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="la-maldición-de-la-dimensionalidad-y-la-necesidad-de-compresión"><span class="header-section-number">9.2</span> La Maldición de la Dimensionalidad y la Necesidad de Compresión</h2>
+<p>En el análisis de datos contemporáneo y la Inteligencia de Negocios, es habitual enfrentarse a bases de datos con decenas, cientos o miles de atributos continuos <span class="citation" data-cites="tan2019 erl2016">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-erl2016" role="doc-biblioref">Erl et al. 2016</a>)</span>. Si bien contar con abundantes variables parece ventajoso, el aumento desmedido de la dimensión <span class="math inline">\(p\)</span> desencadena la <strong>maldición de la dimensionalidad</strong> (<em>curse of dimensionality</em>): el espacio geométrico crece exponencialmente, los datos se vuelven extremadamente dispersos (<em>sparse</em>), la distancia euclidiana pierde su poder discriminativo y la complejidad computacional de los algoritmos se dispara <span class="citation" data-cites="tan2019 provost2013">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>.</p>
+<p>Además, en conjuntos de datos reales existe habitualmente una alta redundancia e intercorrelación entre atributos <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. La <strong>reducción de dimensionalidad</strong> busca transformar el espacio original <span class="math inline">\(\mathbb{R}^p\)</span> en un subespacio latente <span class="math inline">\(\mathbb{R}^m\)</span> (con <span class="math inline">\(m \ll p\)</span>), reteniendo la mayor cantidad posible de información estructurada y variabilidad poblacional.</p>
+<p>Entre las diversas estrategias lineales de proyección, el <strong>Análisis de Componentes Principales (PCA)</strong>, conceptualizado originalmente por Karl Pearson y desarrollado por Harold Hotelling, es el estándar algebraico para resumir la varianza conjunta mediante ejes ortogonales incorrelacionados <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+</section>
+<section id="fundamentos-algebraicos-y-geométricos-de-pca" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="fundamentos-algebraicos-y-geométricos-de-pca"><span class="header-section-number">9.3</span> Fundamentos Algebraicos y Geométricos de PCA</h2>
+<p>PCA descompone la estructura de covarianza de un vector aleatorio continuo <span class="math inline">\(\mathbf{X} = (X_1, X_2, \dots, X_p)^T\)</span> mediante rotaciones ortogonales de los ejes coordenados originales <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<section id="ortogonalidad-y-producto-interno" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="ortogonalidad-y-producto-interno"><span class="header-section-number">9.3.1</span> 1. Ortogonalidad y Producto Interno</h3>
+<p>Geométricamente, dos vectores <span class="math inline">\(\mathbf{u}, \mathbf{v} \in \mathbb{R}^p\)</span> son <strong>ortogonales</strong> (<span class="math inline">\(\mathbf{u} \perp \mathbf{v}\)</span>) si su producto escalar es nulo: <span class="math display">\[\mathbf{u}^T \mathbf{v} = \sum_{i=1}^p u_i v_i = 0\]</span> Una matriz de transformación <span class="math inline">\(\mathbf{P}_{(p    \times p)}\)</span> se denomina <strong>ortogonal</strong> si sus columnas <span class="math inline">\(\mathbf{e}_1, \dots, \mathbf{e}_p\)</span> son mutuamente perpendiculares y de norma unitaria (<span class="math inline">\(\mathbf{e}_i^T \mathbf{e}_i = 1\)</span>), lo que implica: <span class="math display">\[\mathbf{P}^T \mathbf{P} = \mathbf{P} \mathbf{P}^T = \mathbf{I}_p \implies \mathbf{P}^{-1} = \mathbf{P}^T\]</span> Las transformaciones ortogonales preservan la distancia euclidiana y los ángulos en el espacio, actuando geométricamente como <strong>rotaciones del sistema de ejes</strong> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+</section>
+<section id="matriz-de-covarianzas-y-descomposición-espectral" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="matriz-de-covarianzas-y-descomposición-espectral"><span class="header-section-number">9.3.2</span> 2. Matriz de Covarianzas y Descomposición Espectral</h3>
+<p>Sea <span class="math inline">\(\mathbf{\Sigma}_{(p    \times p)}\)</span> la matriz de varianzas-covarianzas del vector <span class="math inline">\(\mathbf{X}\)</span>, definida como <span class="math inline">\(\mathbf{\Sigma} = \mathbb{E}[(\mathbf{X} - \mathbf{\mu})(\mathbf{X} - \mathbf{\mu})^T]\)</span>. Al ser una matriz simétrica y semidefinida positiva, por el <strong>Teorema Espectral</strong> se garantiza la existencia de <span class="math inline">\(p\)</span> autovalores reales no negativos <span class="math inline">\(\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p \ge 0\)</span> y <span class="math inline">\(p\)</span> autovectores ortonormales correspondientes <span class="math inline">\(\mathbf{e}_1, \mathbf{e}_2, \dots, \mathbf{e}_p\)</span> tales que <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
+<p><span class="math display">\[\mathbf{\Sigma} \mathbf{e}_i = \lambda_i \mathbf{e}_i, \quad  \text{con } \mathbf{e}_i^T \mathbf{e}_i = 1 \quad   \text{y} \quad \mathbf{e}_i^T \mathbf{e}_k = 0 \; (i
+\neq k)\]</span> Matricialmente, la <strong>descomposición espectral</strong> de <span class="math inline">\(\mathbf{\Sigma}\)</span> se expresa como:</p>
+<p><span class="math display">\[\mathbf{\Sigma} = \mathbf{P} \mathbf{\Lambda} \mathbf{P}^T = \sum_{i=1}^p \lambda_i \mathbf{e}_i \mathbf{e}_i^T\]</span> donde <span class="math inline">\(\mathbf{P} = [\mathbf{e}_1, \mathbf{e}_2, \dots, \mathbf{e}_p]\)</span> es la matriz de autovectores y <span class="math inline">\(\mathbf{\Lambda} =   \text{diag}(\lambda_1, \lambda_2, \dots, \lambda_p)\)</span> es la matriz diagonal de autovalores <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+</section>
+</section>
+<section id="derivación-matemática-formal-de-pca" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="derivación-matemática-formal-de-pca"><span class="header-section-number">9.4</span> Derivación Matemática Formal de PCA</h2>
+<p>Buscamos combinaciones lineales de los atributos originales de la forma:</p>
+<p><span class="math display">\[Y_i = \mathbf{a}_i^T \mathbf{X} = a_{i1}X_1 + a_{i2}X_2 + \dots + a_{ip}X_p\]</span> Utilizando las propiedades de los operadores de esperanza y covarianza, la varianza de <span class="math inline">\(Y_i\)</span> y la covarianza entre <span class="math inline">\(Y_i\)</span> e <span class="math inline">\(Y_k\)</span> son <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
+<p><span class="math display">\[  \text{Var}(Y_i) = \mathbf{a}_i^T \mathbf{\Sigma} \mathbf{a}_i \quad     \text{y} \quad  \text{Cov}(Y_i, Y_k) = \mathbf{a}_i^T \mathbf{\Sigma} \mathbf{a}_k\]</span></p>
+<section id="primer-componente-principal-y_1" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="primer-componente-principal-y_1"><span class="header-section-number">9.4.1</span> 1. Primer Componente Principal (<span class="math inline">\(Y_1\)</span>)</h3>
+<p>Se define como la combinación lineal <span class="math inline">\(\mathbf{a}_1^T \mathbf{X}\)</span> que <strong>maximiza la varianza explicada</strong>, sujeta a la restricción de escala unitaria <span class="math inline">\(\mathbf{a}_1^T \mathbf{a}_1 = 1\)</span> para evitar varianzas infinitas <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
+<p><span class="math display">\[\max_{\mathbf{a}_1} \mathbf{a}_1^T \mathbf{\Sigma} \mathbf{a}_1 \quad     \text{sujeto a} \quad \mathbf{a}_1^T \mathbf{a}_1 = 1\]</span></p>
+<p>Formulando el problema mediante <strong>Multiplicadores de Lagrange</strong>:</p>
+<p><span class="math display">\[L(\mathbf{a}_1, \lambda_1) = \mathbf{a}_1^T \mathbf{\Sigma} \mathbf{a}_1 - \lambda_1 (\mathbf{a}_1^T \mathbf{a}_1 - 1)\]</span> Derivando parcialmente respecto a <span class="math inline">\(\mathbf{a}_1\)</span> e igualando a cero:</p>
+<p><span class="math display">\[\frac{\partial L}{\partial \mathbf{a}_1} = 2 \mathbf{\Sigma} \mathbf{a}_1 - 2 \lambda_1 \mathbf{a}_1 = \mathbf{0} \implies \mathbf{\Sigma} \mathbf{a}_1 = \lambda_1 \mathbf{a}_1\]</span> Esto demuestra que <span class="math inline">\(\mathbf{a}_1\)</span> debe ser el <strong>autovector</strong> <span class="math inline">\(\mathbf{e}_1\)</span> de <span class="math inline">\(\mathbf{\Sigma}\)</span>, y la varianza máxima alcanzada por el primer componente es precisamente el autovalor asociado <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>: <span class="math display">\[  \text{Var}(Y_1) = \mathbf{e}_1^T \mathbf{\Sigma} \mathbf{e}_1 = \mathbf{e}_1^T (\lambda_1 \mathbf{e}_1) = \lambda_1 (\mathbf{e}_1^T \mathbf{e}_1) = \lambda_1\]</span></p>
+</section>
+<section id="componentes-principales-sucesivos-y_k" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="componentes-principales-sucesivos-y_k"><span class="header-section-number">9.4.2</span> 2. Componentes Principales Sucesivos (<span class="math inline">\(Y_k\)</span>)</h3>
+<p>El <span class="math inline">\(k\)</span>-ésimo componente principal <span class="math inline">\(Y_k = \mathbf{a}_k^T \mathbf{X}\)</span> maximiza la varianza <span class="math inline">\(\mathbf{a}_k^T \mathbf{\Sigma} \mathbf{a}_k\)</span> sujeto a la condición de norma unitaria <span class="math inline">\(\mathbf{a}_k^T \mathbf{a}_k = 1\)</span> y a la condición de <strong>ortogonalidad/incorrelación</strong> con todos los componentes previos: <span class="math display">\[  \text{Cov}(Y_k, Y_i) = \mathbf{a}_k^T \mathbf{\Sigma} \mathbf{e}_i = \mathbf{0} \quad   \text{para todo } i &lt; k\]</span> Por inducción y descomposición espectral, el óptimo resulta ser <span class="math inline">\(\mathbf{a}_k = \mathbf{e}_k\)</span>, con varianza $ (Y_k) = _k$.</p>
+<p>Como la suma de las varianzas originales es la traza de <span class="math inline">\(\mathbf{\Sigma}\)</span>, la varianza total se preserva intacta: <span class="math display">\[  \text{Varianza Total} = \sum_{j=1}^p    \text{Var}(X_j) =   \text{tr}(\mathbf{\Sigma}) = \sum_{i=1}^p \lambda_i = \sum_{i=1}^p  \text{Var}(Y_i)\]</span></p>
+<p>La <strong>proporción de varianza explicada</strong> por los primeros <span class="math inline">\(m\)</span> componentes es <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
+<p><span class="math display">\[\text{Proporción Explicada}_m = \frac{\sum_{i=1}^m \lambda_i}{\sum_{j=1}^p \lambda_j}\]</span></p>
+</section>
+</section>
+<section id="pca-sobre-matriz-de-covarianzas-vs.-matriz-de-correlaciones" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="pca-sobre-matriz-de-covarianzas-vs.-matriz-de-correlaciones"><span class="header-section-number">9.5</span> PCA sobre Matriz de Covarianzas vs.&nbsp;Matriz de Correlaciones</h2>
+<p>Una decisión metodológica crucial en PCA es determinar si el análisis se ejecuta sobre la matriz de covarianzas <span class="math inline">\(\mathbf{S}\)</span> o sobre la matriz de correlaciones <span class="math inline">\(\mathbf{R}\)</span> <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
+<ul>
+<li><strong>PCA sobre Covarianzas (<span class="math inline">\(\mathbf{S}\)</span>):</strong> Se utiliza cuando todas las variables están expresadas en las <strong>mismas unidades de medida</strong> y sus varianzas reflejan la verdadera importancia física o económica del atributo <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. Es sensible a la escala: variables con magnitudes numéricas elevadas dominarán artificialmente los primeros componentes.</li>
+<li><strong>PCA sobre Correlaciones (<span class="math inline">\(\mathbf{R}\)</span>):</strong> Equivale a aplicar PCA sobre las variables estandarizadas <span class="math inline">\(Z_j = (X_j - \bar{x}_j)/s_j\)</span>. Es el enfoque estándar cuando los atributos presentan <strong>diferentes unidades de medida</strong> (ej. ingresos en bolivianos, edad en años, tasa de interés en porcentaje). La suma de la varianza total resulta igual al número de variables <span class="math inline">\(p\)</span>, ya que $ () = p$ <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+</ul>
+</section>
+<section id="criterios-de-selección-del-número-de-componentes-m" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="criterios-de-selección-del-número-de-componentes-m"><span class="header-section-number">9.6</span> Criterios de Selección del Número de Componentes (<span class="math inline">\(m\)</span>)</h2>
+<p>Para reducir efectivamente la dimensión de <span class="math inline">\(p\)</span> a <span class="math inline">\(m\)</span>, se aplican cuatro criterios empíricos y analíticos recomendados en la literatura <span class="citation" data-cites="johnson2014 shmueli2018">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
+<ol type="1">
+<li><strong>Porcentaje Acumulado de Varianza Explicada:</strong> Seleccionar el menor número de componentes <span class="math inline">\(m\)</span> tal que la varianza acumulada alcance un umbral mínimo predefinido (habitualmente entre el 80% y el 90%) <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Criterio de Kaiser-Guttman (al aplicar <span class="math inline">\(\mathbf{R}\)</span>):</strong> Retener únicamente aquellos componentes cuyo autovalor asociado sea superior a la unidad (<span class="math inline">\(\lambda_i &gt; 1.0\)</span>) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. La lógica es conservar solo los componentes que expliquen más varianza que una variable estandarizada individual.</li>
+<li><strong>Criterio del Codo (<em>Scree Plot</em>):</strong> Examen visual del gráfico de autovalores ordenados (<span class="math inline">\(\lambda_i\)</span> vs.&nbsp;<span class="math inline">\(i\)</span>). Se selecciona el punto de inflexión (“codo”) donde el decremento de los autovalores se estabiliza <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Interpretabilidad de Negocio:</strong> Evaluar si los componentes retenidos poseen un significado conceptual claro dentro del dominio de estudio <span class="citation" data-cites="provost2013">(<a href="references.html#ref-provost2013" role="doc-biblioref">Provost and Fawcett 2013</a>)</span>.</li>
+</ol>
+</section>
+<section id="interpretación-de-resultados-loadings-scores-y-biplot" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="interpretación-de-resultados-loadings-scores-y-biplot"><span class="header-section-number">9.7</span> Interpretación de Resultados: Loadings, Scores y Biplot</h2>
+<ul>
+<li><strong>Cargas o Pesos (<em>Loadings</em>):</strong> Corresponden a los elementos de los autovectores <span class="math inline">\(\mathbf{e}_i\)</span>. Indican la contribución y dirección de cada variable original <span class="math inline">\(X_j\)</span> en la formación del componente <span class="math inline">\(Y_i\)</span>. La correlación entre la variable <span class="math inline">\(X_j\)</span> y el componente <span class="math inline">\(Y_i\)</span> es <span class="math inline">\(r_{X_j, Y_i} = e_{ij} \sqrt{\lambda_i} / \sqrt{s_{jj}}\)</span> <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li><strong>Puntuaciones (<em>Scores</em>):</strong> Son las coordenadas transformadas de las <span class="math inline">\(n\)</span> observaciones en el nuevo espacio de componentes principales: <span class="math inline">\(\mathbf{Z}_{(n   \times m)} = \mathbf{X}_c \mathbf{P}_m\)</span>. Se utilizan como insumos incorrelacionados en modelos predictivos o algoritmos de <em>clustering</em> <span class="citation" data-cites="shmueli2018 torgo2017">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li><strong>Gráfico Biplot:</strong> Representación gráfica bidimensional simultánea que superpone las puntuaciones de las observaciones (puntos) y las cargas de las variables (vectores) sobre el plano formado por los dos primeros componentes principales (<span class="math inline">\(Y_1\)</span> vs.&nbsp;<span class="math inline">\(Y_2\)</span>). El ángulo entre vectores indica la correlación entre variables originales, mientras que la proyección de los puntos sobre los vectores refleja el perfil de cada individuo.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Actividad de Clase 1: Interpretación Geométrica y Selección de Componentes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario de Analítica Financiera:</strong> Se evalúa una base de datos con 10 indicadores de riesgo crediticio para 5,000 empresas. Al aplicar PCA sobre la matriz de correlación <span class="math inline">\(\mathbf{R}\)</span>, se obtienen los siguientes autovalores para los primeros 5 componentes: <span class="math inline">\(\lambda_1 = 4.2\)</span>, <span class="math inline">\(\lambda_2 = 2.1\)</span>, <span class="math inline">\(\lambda_3 = 1.1\)</span>, <span class="math inline">\(\lambda_4 = 0.8\)</span>, <span class="math inline">\(\lambda_5 = 0.6\)</span>.</p>
+<p><strong>Consigna de Discusión:</strong> 1. ¿Cuál es la varianza total del sistema estandarizado? ¿Qué porcentaje de varianza acumulan los primeros 3 componentes?. 2. Aplicando el Criterio de Kaiser (<span class="math inline">\(\lambda_i &gt; 1.0\)</span>), ¿cuántos componentes se deberían retener? Si el primer autovector asigna pesos de <span class="math inline">\(+0.32\)</span> a morosidad, <span class="math inline">\(+0.35\)</span> a endeudamiento y <span class="math inline">\(-0.30\)</span> a liquidez, ¿qué significado de negocio sugiere este primer componente?.</p>
+</div>
+</div>
+</section>
+<section id="aplicaciones-de-pca-en-la-cadena-de-minería-de-datos" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="aplicaciones-de-pca-en-la-cadena-de-minería-de-datos"><span class="header-section-number">9.8</span> Aplicaciones de PCA en la Cadena de Minería de Datos</h2>
+<ol type="1">
+<li><strong>Eliminación de Multicolinealidad:</strong> Al ser los componentes principales incorrelacionados ($ ext{Cov}(Y_i, Y_k) = 0$), sustituir predictores altamente colineales por sus primeros <span class="math inline">\(m\)</span> componentes elimina los problemas de instabilidad en regresiones lineales y logísticas <span class="citation" data-cites="shmueli2018 johnson2014">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li><strong>Aceleración y Mejora de <em>Clustering</em>:</strong> La reducción del ruido aleatorio mediante PCA mejora la calidad de separación de algoritmos como <span class="math inline">\(k\)</span>-means y agrupamiento jerárquico, eliminando dimensiones irrelevantes <span class="citation" data-cites="tan2019 torgo2017">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-torgo2017" role="doc-biblioref">Torgo 2017</a>)</span>.</li>
+<li><strong>Detección de Outliers Multivariantes:</strong> Las observaciones que presentan puntuaciones anormalmente altas en los <strong>últimos componentes principales</strong> (componentes asociados a autovalores pequeños <span class="math inline">\(\lambda_p\)</span>) suelen corresponder a individuos que rompen la estructura de correlación habitual entre variables <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+</ol>
+</section>
+<section id="implementación-práctica-en-r" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="implementación-práctica-en-r"><span class="header-section-number">9.9</span> Implementación Práctica en R</h2>
+<p>En R, el estándar para ejecutar PCA de forma numéricamente estable (mediante la descomposición SVD) es la función <code>prcomp()</code> de la librería base <code>stats</code>, complementada por <code>factoextra</code> para el diagnóstico visual <span class="citation" data-cites="shmueli2018 pimpler2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-pimpler2018" role="doc-biblioref">Pimpler 2018</a>)</span>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">PCA con <code>prcomp()</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Diagnóstico Visual con <code>factoextra</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Ejecución de PCA sobre el dataset <code>USArrests</code> (tasas de delitos en EEUU):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de ejemplo</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar PCA estandarizando variables (scale. = TRUE usa la matriz de correlación)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pca_res <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(USArrests, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen de varianza explicada por componente</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca_res)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspeccionar autovectores / loadings (matriz de rotación)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pca_res<span class="sc">$</span>rotation)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer las coordenadas transformadas (scores) de las primeras filas</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pca_res<span class="sc">$</span>x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Visualización avanzada de codo, variables y biplot:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gráfico de Codo (Scree Plot)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca_res, <span class="at">addlabels =</span> <span class="cn">TRUE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">70</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">barfill =</span> <span class="st">"steelblue"</span>, <span class="at">barcolor =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Porcentaje de Varianza Explicada por Componente"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Círculo de Correlaciones de Variables (Loadings)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(pca_res, <span class="at">col.var =</span> <span class="st">"contrib"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="at">title =</span> <span class="st">"Círculo de Correlaciones de Variables"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Biplot Integrado (Puntos de Individuos + Vectores de Variables)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pca_res, <span class="at">repel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.var =</span> <span class="st">"#2E9FDF"</span>, <span class="at">col.ind =</span> <span class="st">"#696969"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Biplot: Puntuaciones de Estados y Cargas de Delitos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cápsula-de-ejercicios-de-pca" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="cápsula-de-ejercicios-de-pca"><span class="header-section-number">9.10</span> Cápsula de Ejercicios de PCA</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicios de Aplicación Práctica (Para portafolio de clase)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Demostración Numérica de Descomposición Espectral:</strong> Con la matriz de datos de iris (4 variables continuas), calcule la matriz de correlación <span class="math inline">\(\mathbf{R}\)</span> usando <code>cor()</code>. Calcule sus autovalores y autovectores con <code>eigen()</code>. Compare los autovalores con las varianzas obtenidas en <code>prcomp(iris[,1:4], scale.=TRUE)$sdev^2</code> y verifique que son matemáticamente idénticos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
+<li><strong>Análisis de Impacto Financiero con <code>factoextra</code>:</strong> Con el dataset <code>Boston</code> (librería <code>MASS</code>), ejecute un PCA estandarizado sobre las variables cuantitativas de la vivienda. Construya el biplot de variables e identifique qué atributos están fuertemente correlacionados con el valor medio de la vivienda (<code>medv</code>) y cuál es la varianza explicada acumulada por los tres primeros componentes <span class="citation" data-cites="shmueli2018 pimpler2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>; <a href="references.html#ref-pimpler2018" role="doc-biblioref">Pimpler 2018</a>)</span>.</li>
+</ol>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-erl2016" class="csl-entry" role="listitem">
+Erl, Thomas, Wajid Khattak, and Paul Buhler. 2016. <em>Big Data Fundamentals: Concepts, Drivers &amp; Techniques</em>. Prentice Hall.
+</div>
 <div id="ref-johnson2014" class="csl-entry" role="listitem">
 Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
+<div id="ref-pimpler2018" class="csl-entry" role="listitem">
+Pimpler, Eric. 2018. <em>Data Visualization and Exploration with r</em>. Geospatial Training Services.
 </div>
 <div id="ref-provost2013" class="csl-entry" role="listitem">
 Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media.
@@ -861,8 +805,10 @@ Shmueli, Galit, Peter C. Bruce, Inbal Yahav, Nitin R. Patel, and Kenneth C. Lich
 <div id="ref-tan2019" class="csl-entry" role="listitem">
 Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Introduction to Data Mining</em>. 2nd ed. Pearson Education.
 </div>
+<div id="ref-torgo2017" class="csl-entry" role="listitem">
+Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
 </div>
-</section>
+</div>
 </section>
 
 </main> <!-- /main -->
