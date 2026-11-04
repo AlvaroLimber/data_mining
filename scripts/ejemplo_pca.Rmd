@@ -1,0 +1,78 @@
+---
+title: "Ejemplo PCA"
+subtitle: "Minería de Datos I"
+output: html_document
+date: "Octubre 2026"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library(tidyverse)
+library(FactoMineR)
+library(Factoshiny)
+library(explor)
+library(tidyr)
+library(labelled)
+```
+
+# Librerías relevantes
+
+- FactoMineR
+
+# Caso 1: Vinos de italia
+
+- Dataset: A data frame with 21 rows (the number of wines) and 31 columns: the first column corresponds to the label of origin, the second column corresponds to the soil, and the others correspond to sensory descriptors.
+
+```{r}
+data("wine")
+glimpse(wine)
+mod1<-prcomp(wine[,-c(1,2)], scale. = T)
+summary(mod1)
+screeplot(mod1)
+biplot(mod1)
+#FactoMineR
+mod2 <- PCA(wine, ncp=10, quali.sup = 1:2)
+summary(mod2)
+plot(mod2)
+#explor(mod2)
+#PCAshiny(mod2)
+```
+
+# Caso 2: Equipamiento en hogares 2025
+
+Crear un índice usando PCA a partir de la sección de equipamiento del hogar de la EH-2025.
+
+- ¿Qué tratamientos se debe aplicar sobre el dataset antes de aplicar PCA?
+- ¿Que enfoque de matriz se debe usar?
+- ¿Cuánto explica el primer componente?
+- Para explicar el 80% de la variabilidad, ¿Cuántos componentes se debe retener?
+- Comente el biplot
+
+```{r}
+rm(list=ls())
+load("_data/eh25.RData")
+rm(eh25v, eh25ga, eh25d, eh25gna, eh25p, eh25sa)
+bd<-eh25e |> select(folio, item, s08c_2) |>
+  mutate(s08c_2=replace_na(s08c_2,0)) |> 
+  pivot_wider(names_from = item, values_from = s08c_2, names_prefix = "item_")
+mod1<-PCA(bd, scale.unit = F, quali.sup = 1 )
+explor(mod1)
+```
+
+
+# Caso 3: Elecciones generales 2025
+
+Usando el dataset de las elecciones generales de 2025, que usos de PCA observa como opciones.
+
+- ¿Qué tratamientos se debe aplicar sobre el dataset antes de aplicar PCA?
+- ¿Que enfoque de matriz se debe usar?
+- ¿Cuánto explica el primer componente?
+- Para explicar el 80% de la variabilidad, ¿Cuántos componentes se debe retener?
+- Comente el biplot
+
+```{r}
+
+```
