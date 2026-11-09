@@ -38,6 +38,7 @@ book:
     - part: "Parte III: Métodos de pre procesamiento"
       chapters:
         - pca_reduccion.qmd    
+        - agrupamiento_clustering.qmd
     - references.qmd
 
 bibliography: references.bib
