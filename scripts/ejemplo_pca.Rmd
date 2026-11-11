@@ -15,7 +15,8 @@ library(FactoMineR)
 library(Factoshiny)
 library(explor)
 library(tidyr)
-library(labelled)
+library(labelled)#eh25
+library(corrplot)
 ```
 
 # Librerías relevantes
@@ -29,6 +30,8 @@ library(labelled)
 ```{r}
 data("wine")
 glimpse(wine)
+corrplot(cor(wine[,-c(1,2)]))
+
 mod1<-prcomp(wine[,-c(1,2)], scale. = T)
 summary(mod1)
 screeplot(mod1)
@@ -37,8 +40,8 @@ biplot(mod1)
 mod2 <- PCA(wine, ncp=10, quali.sup = 1:2)
 summary(mod2)
 plot(mod2)
-#explor(mod2)
-#PCAshiny(mod2)
+explor(mod2)
+PCAshiny(mod2)
 ```
 
 # Caso 2: Equipamiento en hogares 2025
@@ -58,7 +61,9 @@ rm(eh25v, eh25ga, eh25d, eh25gna, eh25p, eh25sa)
 bd<-eh25e |> select(folio, item, s08c_2) |>
   mutate(s08c_2=replace_na(s08c_2,0)) |> 
   pivot_wider(names_from = item, values_from = s08c_2, names_prefix = "item_")
-mod1<-PCA(bd, scale.unit = F, quali.sup = 1 )
+diag(cov(bd[,-1]))
+
+mod1<-PCA(bd, scale.unit = T, quali.sup = 1 )
 explor(mod1)
 ```
 
