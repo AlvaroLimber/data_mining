@@ -1,0 +1,301 @@
+---
+title: "Ejemplo métodos basados en centros (k-means / k-medoids)"
+subtitle: "Minería de Datos I"
+output: html_document
+date: "Noviembre 2026"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library(tidyverse)
+library(cluster)     # pam, daisy, silhouette, clusGap
+library(factoextra)  # get_clust_tendency, fviz_nbclust, fviz_cluster, fviz_silhouette
+library(flexclust)   # kcca: k-medians
+library(labelled)    # eh25
+```
+
+# Librerías relevantes
+
+- cluster
+- factoextra
+- flexclust (k-medians)
+- stats::kmeans (R base)
+
+| Método    | Centro   | Distancia  | Función R |
+|-----------|----------|------------|-----------|
+| k-means   | media    | euclidiana | `kmeans()` |
+| k-medians | mediana  | manhattan  | `flexclust::kcca(family = kccaFamily("kmedians"))` |
+| k-medoids | medoide  | cualquiera | `cluster::pam()` |
+
+# Flujo de trabajo
+
+1. **Preparación**: selección de variables, NA, atípicos, estandarización (Z-score).
+2. **Agrupabilidad**: estadístico de Hopkins (H > 0.75).
+3. **Distancia**: euclidiana / manhattan / Gower (datos mixtos).
+4. **Elección de K**: codo (WSS), silueta promedio, (gap).
+5. **Ajuste**: `kmeans(nstart = 25)`, `kcca()` (k-medians) y `pam()`.
+6. **Validación**: silueta por observación, comparación de particiones.
+7. **Perfilamiento**: centroides / medoides en escala original.
+8. **Visualización**: proyección en PCA (`fviz_cluster`).
+
+# Función propia: algoritmo de Lloyd
+
+Permite elegir el tipo de centro (`media`, `mediana`, `medoide`) y la distancia (`euclidean`, `manhattan`, `maximum`, `minkowski`).
+
+- `media` + `euclidean` = k-means
+- `mediana` + `manhattan` = k-medians
+- `medoide` + cualquier distancia = k-medoids (versión Lloyd, no PAM)
+
+```{r}
+lloyd <- function(X, k,
+                  centro    = c("media", "mediana", "medoide"),
+                  distancia = c("euclidean", "manhattan", "maximum", "minkowski"),
+                  p = 2, nstart = 10, max_iter = 100, semilla = 123) {
+  centro    <- match.arg(centro)
+  distancia <- match.arg(distancia)
+  X <- as.matrix(X); n <- nrow(X)
+
+  # distancia de cada fila de A al punto c
+  d_punto <- function(A, c) {
+    dif <- abs(sweep(A, 2, c))
+    switch(distancia,
+           euclidean = sqrt(rowSums(dif^2)),
+           manhattan = rowSums(dif),
+           maximum   = apply(dif, 1, max),
+           minkowski = rowSums(dif^p)^(1/p))
+  }
+  # matriz n x k de distancias a los centros
+  d_centros <- function(C) sapply(seq_len(nrow(C)), \(j) d_punto(X, C[j, ]))
+
+  # centro de un grupo según el tipo elegido
+  calc_centro <- function(P) switch(centro,
+    media   = colMeans(P),
+    mediana = apply(P, 2, median),
+    medoide = P[which.min(sapply(seq_len(nrow(P)), \(i) sum(d_punto(P, P[i, ])))), ])
+
+  set.seed(semilla)
+  mejor <- list(objetivo = Inf)
+  for (s in seq_len(nstart)) {
+    C  <- X[sample(n, k), , drop = FALSE]          # 1. inicialización
+    cl <- rep(0, n)
+    for (it in seq_len(max_iter)) {
+      D      <- d_centros(C)
+      cl_new <- max.col(-D, ties.method = "first")  # 2. asignación
+      if (all(cl_new == cl)) break                  # 4. convergencia
+      cl <- cl_new
+      for (j in seq_len(k)) {                       # 3. actualización
+        P <- X[cl == j, , drop = FALSE]
+        C[j, ] <- if (nrow(P) > 0) calc_centro(P) else X[which.max(apply(D, 1, min)), ]
+      }
+    }
+    dmin <- D[cbind(seq_len(n), cl)]
+    obj  <- if (centro == "media" && distancia == "euclidean") sum(dmin^2) else sum(dmin)
+    if (obj < mejor$objetivo)
+      mejor <- list(cluster = cl, centros = C, objetivo = obj, iter = it)
+  }
+  colnames(mejor$centros) <- colnames(X)
+  rownames(mejor$centros) <- seq_len(k)
+  c(mejor, centro = centro, distancia = distancia)
+}
+```
+
+# Caso 1: USArrests
+
+- Dataset: 50 estados de EE.UU., arrestos por 100.000 hab. por asalto, asesinato y violación (1973), y % de población urbana.
+
+```{r}
+# 1. Preparación
+data("USArrests")
+glimpse(USArrests)
+X <- scale(USArrests)
+
+# 2. Agrupabilidad
+set.seed(123)
+get_clust_tendency(X, n = nrow(X) - 1, graph = FALSE)$hopkins_stat
+
+# 3. Distancia
+D <- dist(X, method = "euclidean")
+fviz_dist(D)
+
+# 4. Elección de K
+fviz_nbclust(X, kmeans, method = "wss")
+fviz_nbclust(X, kmeans, method = "silhouette")
+fviz_nbclust(X, pam,    method = "silhouette")
+
+# 5. Ajuste
+set.seed(123)
+km  <- kmeans(X, centers = 4, nstart = 25)
+kmd <- kcca(X, k = 4, family = kccaFamily("kmedians"))
+pm  <- pam(X, k = 4, metric = "manhattan")
+
+# 6. Validación
+fviz_silhouette(silhouette(km$cluster, D))
+fviz_silhouette(silhouette(clusters(kmd), dist(X, "manhattan")))
+fviz_silhouette(pm)
+table(kmeans = km$cluster, kmedians = clusters(kmd))
+table(kmeans = km$cluster, pam = pm$clustering)
+
+# 7. Perfilamiento (escala original)
+USArrests |> mutate(cl = km$cluster) |>
+  group_by(cl) |> summarise(n = n(), across(everything(), mean))
+USArrests |> mutate(cl = clusters(kmd)) |>
+  group_by(cl) |> summarise(n = n(), across(everything(), median))
+USArrests[pm$id.med, ]   # medoides = estados reales
+
+# Función propia vs librerías
+l_km  <- lloyd(X, k = 4, centro = "media",   distancia = "euclidean")
+l_kmd <- lloyd(X, k = 4, centro = "mediana", distancia = "manhattan")
+l_med <- lloyd(X, k = 4, centro = "medoide", distancia = "minkowski", p = 3)
+table(propia = l_km$cluster,  kmeans   = km$cluster)
+table(propia = l_kmd$cluster, kmedians = clusters(kmd))
+l_med$centros
+
+# 8. Visualización
+fviz_cluster(km, data = X, ellipse.type = "convex")
+fviz_cluster(list(data = X, cluster = clusters(kmd)), ellipse.type = "convex")
+fviz_cluster(pm, ellipse.type = "convex")
+```
+
+# Caso 2: Seguridad alimentaria en hogares (EH-2025)
+
+Segmentar hogares a partir de indicadores de seguridad alimentaria de la EH-2025.
+
+- ¿Qué tratamientos se debe aplicar sobre el dataset antes del agrupamiento?
+- ¿El dataset muestra tendencia al agrupamiento (Hopkins)?
+- ¿Cuántos grupos sugieren el codo y la silueta? ¿Coinciden?
+- ¿k-means, k-medians o PAM? Justifique según atípicos.
+- Caracterice cada grupo.
+
+```{r}
+rm(list=ls())
+load("_data/eh25.RData")
+#muestra
+X <- eh25sa |> select(s07a_01:s07a_08)
+set.seed(123)
+X <- slice_sample(X, n = 3000)
+glimpse(X)
+summary(X)
+# Agrupabilidad
+set.seed(123)
+get_clust_tendency(X, n = nrow(X) - 1, graph = FALSE)$hopkins_stat
+
+# Elección de K
+fviz_nbclust(X, kmeans, method = "wss")
+fviz_nbclust(X, kmeans, method = "silhouette")
+fviz_nbclust(X, pam,    method = "wss")
+fviz_nbclust(X, pam,    method = "silhouette")
+
+# Ajuste
+set.seed(123)
+km  <- kmeans(X, centers = 3, nstart = 25)
+kmd <- kcca(X, k = 3, family = kccaFamily("kmedians"))
+pm  <- pam(X, k = 3, metric = "manhattan")
+
+# Validación
+D <- dist(X, method = "euclidean")
+fviz_silhouette(silhouette(km$cluster, D))
+fviz_silhouette(silhouette(clusters(kmd), dist(X, "manhattan")))
+fviz_silhouette(pm)
+
+# Perfilamiento
+km$centers
+parameters(kmd)
+pm$medoids
+# Visualización
+fviz_cluster(km, data = X, ellipse.type = "convex")
+fviz_cluster(list(data = X, cluster = clusters(kmd)), ellipse.type = "convex")
+fviz_cluster(pm, ellipse.type = "convex")
+
+#Sobre los datos completos
+pmc<-pam(eh25sa |> select(s07a_01:s07a_08), k = 3, metric = "manhattan")
+fviz_silhouette(pmc)
+pmc$clustering
+eh25sa<-eh25sa |> mutate(cluster=pmc$clustering)
+eh25p |> inner_join(eh25sa |> select(folio, cluster)) |> 
+  filter(s01a_05==1) |> 
+  group_by(cluster) |> 
+  summarise(p0=mean(p0, na.rm=T),
+            pext0=mean(pext0, na.rm=T),
+            aestudio=mean(aestudio))
+```
+
+# Caso 3: Clientes de tarjeta de crédito (Taiwán, 2005)
+
+- Dataset: Default of Credit Card Clients (Yeh, 2009; UCI). 30.000 clientes, abril–septiembre 2005: límite de crédito, datos demográficos, estado de pago de 6 meses (PAY: -2/-1/0 = al día, 1–9 = meses de atraso), montos facturados (BILL_AMT), montos pagados (PAY_AMT) y default del mes siguiente.
+
+Segmentar clientes según su comportamiento de pago y contrastar los grupos con la mora (`default` no entra al agrupamiento).
+
+- ¿Qué variables construiría a partir de las 23 originales? ¿Por qué no usar los montos directamente?
+- ¿Por qué trabajar con una muestra? ¿Qué alternativa existe para usar los 30.000 casos?
+- ¿Cuántos grupos sugieren el codo y la silueta?
+- Compare k-means, k-medians y PAM. ¿Cuál es más robusto aquí?
+- ¿Qué grupo concentra la mayor tasa de default? Caracterícelo.
+
+```{r}
+rm(list = setdiff(ls(), "lloyd"))
+
+# 1. Carga (descarga una sola vez)
+url <- "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip"
+if (!file.exists("_data/default of credit card clients.xls")) {
+  download.file(url, "_data/credit.zip", mode = "wb")
+  unzip("_data/credit.zip", exdir = "_data")
+}
+cc <- readxl::read_excel("_data/default of credit card clients.xls", skip = 1) |>
+  rename(PAY_1 = PAY_0, default = `default payment next month`)
+glimpse(cc)
+
+# 2. Ingeniería de características
+bd <- cc |> mutate(
+  limite     = log(LIMIT_BAL),
+  uso        = pmax(0, rowMeans(pick(BILL_AMT1:BILL_AMT6)) / LIMIT_BAL),
+  max_atraso = pmax(0, do.call(pmax, pick(PAY_1:PAY_6))),
+  n_atrasos  = rowSums(pick(PAY_1:PAY_6) > 0),
+  pago       = pmin(1, rowSums(pick(PAY_AMT1:PAY_AMT6)) /
+                       pmax(1, rowSums(pick(BILL_AMT1:BILL_AMT6)))),
+  edad       = AGE)
+summary(select(bd, limite:edad))
+
+# 3. Muestra y estandarización
+set.seed(123)
+m <- slice_sample(bd, n = 3000)
+X <- scale(select(m, limite:edad))
+
+# 4. Agrupabilidad y elección de K
+get_clust_tendency(X, n = 300, graph = FALSE)$hopkins_stat
+fviz_nbclust(X, kmeans, method = "wss", k.max = 8)
+fviz_nbclust(X, kmeans, method = "silhouette", k.max = 8)
+
+# 5. Ajuste
+k <- 4
+set.seed(123)
+km  <- kmeans(X, centers = k, nstart = 25)
+kmd <- kcca(X, k = k, family = kccaFamily("kmedians"))
+pm  <- pam(X, k = k, metric = "manhattan")
+lmd <- lloyd(X, k = k, centro = "mediana", distancia = "manhattan")
+
+# 6. Validación
+D <- dist(X)
+mean(silhouette(km$cluster, D)[, 3])
+mean(silhouette(clusters(kmd), dist(X, "manhattan"))[, 3])
+pm$silinfo$avg.width
+table(kmeans = km$cluster, pam = pm$clustering)
+
+# 7. Perfilamiento y contraste con la mora
+m |> mutate(cl = pm$clustering) |>
+  group_by(cl) |>
+  summarise(n = n(), tasa_default = mean(default),
+            limite = median(LIMIT_BAL),
+            across(uso:edad, median))
+m[pm$id.med, c("LIMIT_BAL", "uso", "max_atraso", "n_atrasos", "pago", "edad", "default")]
+
+# 8. Visualización
+fviz_cluster(pm, ellipse.type = "convex", geom = "point")
+
+# Extra: los 30.000 clientes con CLARA (PAM por submuestras)
+cl_full <- clara(scale(select(bd, limite:edad)), k = k, samples = 50)
+bd |> mutate(cl = cl_full$clustering) |>
+  group_by(cl) |> summarise(n = n(), tasa_default = mean(default))
+```
