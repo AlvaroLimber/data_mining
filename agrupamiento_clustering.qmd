@@ -38,14 +38,18 @@ Antes de ejecutar cualquier algoritmo, el analista debe diagnosticar si el conju
 
 $$H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}$$
 
-donde $u_i$ representa la distancia de cada punto simulado a su vecino más cercano en los datos reales, y $w_i$ representa la distancia entre cada punto real y su vecino real más cercano en el espacio $d$-dimensional [@tan2019].
+donde se generan $m$ puntos aleatorios uniformes en el rango de los datos y se extrae una muestra de $m$ observaciones reales; $u_i$ es la distancia de cada punto simulado a su vecino más cercano en los datos reales, $w_i$ es la distancia de cada observación muestreada a su vecino real más cercano, y $d$ es la dimensión (número de variables) [@tan2019].
 
 * Si $H \approx 0.5$, los datos siguen una distribución uniforme y **no presentan tendencia al agrupamiento** [@tan2019].
 * Si $H \to 1.0$ (típicamente $H > 0.75$), el conjunto posee una estructura espacial fuertemente agrupada [@tan2019].
 
+::: {.callout-warning}
+Algunos textos definen el estadístico como el complemento ($\sum w_i / (\sum u_i + \sum w_i)$, sin potencia $d$); en esa convención los valores **cercanos a 0** indican agrupamiento. Antes de interpretar la salida de `get_clust_tendency()` verifique en la documentación de su versión de `factoextra` qué convención utiliza.
+:::
+
 ## Métricas de Distancia y Similitud Multivariante
 
-La definición de la matriz de disimilitud o distancia es la piedra angular sobre la cual se erige cualquier algoritmo de agrupamiento [UA1, @johnson2014]. La elección de la métrica determina la geometría del espacio vectorial de los clusters [@tan2019].
+La definición de la matriz de disimilitud o distancia es la piedra angular sobre la cual se erige cualquier algoritmo de agrupamiento [@johnson2014]. La elección de la métrica determina la geometría del espacio vectorial de los clusters [@tan2019].
 
 Dadas dos observaciones $p$-dimensionales $\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})^T$ y $\mathbf{x}_j = (x_{j1}, x_{j2}, \dots, x_{jp})^T$:
 
@@ -67,11 +71,54 @@ Dado que la distancia euclidiana es sensible a las unidades de medida, los atrib
 
 $$z_{im} = \frac{x_{im} - \bar{x}_m}{s_m}$$
 
-En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales [@shmueli2018]. En tales casos, las distancias euclidianas no son aplicables. El **Coeficiente de Disimilitud de Gower** ($d_G$) resuelve este desafío ponderando el tipo de cada variable [@johnson2014]:
+En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales [@shmueli2018]. En tales casos, las distancias euclidianas no son aplicables. El **Coeficiente de Disimilitud de Gower** ($d_G$) resuelve este desafío calculando una disimilitud parcial en $[0,1]$ según el tipo de cada variable y promediándolas [@gower1971; @kaufman1990]. La fórmula que implementa `cluster::daisy(metric = "gower")` es:
 
-$$d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p \delta_{ij}^{(m)} d_{ij}^{(m)}}{\sum_{m=1}^p \delta_{ij}^{(m)}}$$
+$$d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}\, d_{ij}^{(m)}}{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}}$$
 
-donde $\delta_{ij}^{(m)} = 1$ si ambas observaciones tienen valores válidos en la variable $m$, y $d_{ij}^{(m)} = \frac{|x_{im} - x_{jm}|}{R_m}$ para cuantitativas (siendo $R_m$ el rango observado) o $d_{ij}^{(m)} \in \{0, 1\}$ para cualitativas [@johnson2014].
+donde $w_m$ es el peso de la variable $m$ (argumento `weights`, por defecto $w_m = 1$) y:
+
+* **Indicador $\delta_{ij}^{(m)}$:** vale $0$ si $x_{im}$ o $x_{jm}$ es faltante (`NA`), o si la variable es **binaria asimétrica** (`type = list(asymm = ...)`) y ambas observaciones valen $0$; en cualquier otro caso vale $1$.
+* **Cuantitativas (intervalo, tipo `I`):** $d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}$, con $R_m = \max_h x_{hm} - \min_h x_{hm}$ el rango observado (sin contar faltantes).
+* **Nominales y binarias (tipos `N`, `S`, `A`):** $d_{ij}^{(m)} = 0$ si $x_{im} = x_{jm}$ y $d_{ij}^{(m)} = 1$ en caso contrario.
+* **Ordinales (factor ordenado, tipo `O`):** se reemplazan las categorías por sus códigos enteros $r_{im} \in \{1, 2, \dots\}$ y se tratan como cuantitativas: $d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}$.
+* **Razón logarítmica (tipo `logratio`):** se aplica $\log(x)$ y luego se trata como cuantitativa.
+
+#### Ejemplo numérico de Gower
+
+Considere tres personas con una variable cuantitativa (Edad), una nominal (Sexo) y una ordinal (Nivel educativo: Bajo < Medio < Alto):
+
+| Obs. | Edad | Sexo | Nivel (código) |
+|:----:|:----:|:----:|:--------------:|
+| 1    | 20   | F    | Bajo (1)       |
+| 2    | 30   | M    | Alto (3)       |
+| 3    | 50   | F    | Medio (2)      |
+
+Rangos: $R_{\text{Edad}} = 50 - 20 = 30$ y $R_{\text{Nivel}} = 3 - 1 = 2$. No hay faltantes, así que todos los $\delta = 1$ y el denominador es $p = 3$.
+
+| Par | Edad | Sexo | Nivel | $d_G$ |
+|:---:|:----:|:----:|:-----:|:-----:|
+| (1, 2) | $\frac{\lvert 20-30 \rvert}{30} = 0.333$ | $1$ | $\frac{\lvert 1-3 \rvert}{2} = 1$ | $\frac{0.333 + 1 + 1}{3} = 0.778$ |
+| (1, 3) | $\frac{\lvert 20-50 \rvert}{30} = 1$ | $0$ | $\frac{\lvert 1-2 \rvert}{2} = 0.5$ | $\frac{1 + 0 + 0.5}{3} = 0.500$ |
+| (2, 3) | $\frac{\lvert 30-50 \rvert}{30} = 0.667$ | $1$ | $\frac{\lvert 3-2 \rvert}{2} = 0.5$ | $\frac{0.667 + 1 + 0.5}{3} = 0.722$ |
+
+Las observaciones más parecidas son la 1 y la 3. El mismo resultado con `daisy`:
+
+```r
+library(cluster)
+ej <- data.frame(
+  Edad  = c(20, 30, 50),
+  Sexo  = factor(c("F", "M", "F")),
+  Nivel = factor(c("Bajo", "Alto", "Medio"),
+                 levels = c("Bajo", "Medio", "Alto"), ordered = TRUE)
+)
+daisy(ej, metric = "gower")
+#>           1         2
+#> 2 0.7777778
+#> 3 0.5000000 0.7222222
+#> Metric :  mixed ;  Types = I, N, O
+```
+
+Si la Edad de la observación 2 fuera `NA`, en los pares que la incluyen $\delta_{\text{Edad}} = 0$ y el denominador pasaría de 3 a 2.
 
 ## Algoritmos Basados en Centros (*Partitioning Clustering*)
 
@@ -100,12 +147,12 @@ Para mitigar la sensibilidad a los valores atípicos de $k$-means, el algoritmo 
 
 ### 3. Selección del Número Óptimo de Grupos ($K$)
 
-1. **Método del Codo (*Elbow Method*):** Grafica la SSE total frente a valores crecientes de $K$. Se selecciona el valor de $K$ en el "punto de inflexión" o codo donde los incrementos adicionales en $K$ producen reducciones marginales poco significativas en la SSE [@shmueli2018].
+1. **Método del Codo (*Elbow Method*):** Grafica la SSE total frente a valores crecientes de $K$. Se selecciona el valor de $K$ en el "codo" de la curva, a partir del cual los incrementos adicionales en $K$ producen reducciones marginales poco significativas en la SSE [@shmueli2018].
 2. **Coeficiente de Silueta (*Silhouette Coefficient*):** Para una observación $i$, la silueta $s_i$ mide qué tan similar es a los puntos de su propio cluster frente a los del cluster más cercano [@tan2019]:
 
 $$s_i = \frac{b_i - a_i}{\max(a_i, b_i)}$$
 
-donde $a_i$ es la distancia promedio de $i$ a los puntos de su mismo cluster, y $b_i$ es la distancia promedio de $i$ al cluster vecino más cercano [@tan2019].
+donde $a_i$ es la distancia promedio de $i$ a los demás puntos de su mismo cluster, y $b_i = \min_{l \neq k} \bar{d}(i, C_l)$ es la menor de las distancias promedio de $i$ a los puntos de cada uno de los otros clusters (el cluster vecino más cercano) [@tan2019].
    * $s_i \to 1.0$: La observación está correctamente agrupada [@tan2019].
    * $s_i \approx 0$: La observación está en la frontera entre dos clusters [@tan2019].
    * $s_i < 0$: La observación probablemente fue asignada al cluster equivocado [@tan2019].
@@ -114,10 +161,15 @@ El $K$ óptimo maximiza el promedio global de la silueta $\bar{S}$ [@tan2019].
 
 ## Métodos de Agrupamiento Jerárquico (*Hierarchical Clustering*)
 
-A diferencia de $k$-means, el **agrupamiento jerárquico** no requiere definir $K$ a priori, sino que construye una estructura anidada de clusters representada visualmente mediante un **dendrograma** [ @johnson2014; @shmueli2018].
+A diferencia de $k$-means, el **agrupamiento jerárquico** no requiere definir $K$ a priori, sino que construye una estructura anidada de clusters representada visualmente mediante un **dendrograma** [@johnson2014; @shmueli2018].
+
+Existen dos estrategias para construir la jerarquía [@kaufman1990; @tan2019]:
 
 ### Estrategia Aglomerativa (AGNES)
-Comienza con $n$ clusters singleton (cada punto es un grupo) y en cada paso fusiona iterativamente el par de clusters más cercano hasta consolidar un único grupo global [@tan2019].
+**AGNES** (*AGglomerative NESting*, `cluster::agnes()` o `stats::hclust()`) trabaja **de abajo hacia arriba**: comienza con $n$ clusters singleton (cada punto es un grupo) y en cada paso fusiona el par de clusters más cercano, hasta consolidar un único grupo global. Tras $n-1$ fusiones se obtiene el dendrograma completo [@kaufman1990; @tan2019].
+
+### Estrategia Divisiva (DIANA)
+**DIANA** (*DIvisive ANAlysis*, `cluster::diana()`) trabaja **de arriba hacia abajo**: parte de un único cluster con todas las observaciones y en cada paso divide el cluster de mayor diámetro. Para dividirlo, separa la observación con mayor disimilitud promedio respecto al resto (que inicia un "grupo escindido") y va trasladando a ese grupo las observaciones que, en promedio, están más cerca de él que del grupo original [@kaufman1990]. Es útil cuando interesa identificar primero las grandes divisiones de los datos.
 
 ### Criterios de Enlace (*Linkage Criteria*)
 La distancia entre dos clusters $C_A$ y $C_B$ depende del criterio de enlace seleccionado [@johnson2014]:
@@ -128,6 +180,53 @@ La distancia entre dos clusters $C_A$ y $C_B$ depende del criterio de enlace sel
 * **Método de Ward:** Minimiza el incremento de la varianza total intra-cluster al fusionar dos grupos [@johnson2014]:
 
 $$\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\mathbf{\mu}_A - \mathbf{\mu}_B\|^2$$
+
+::: {.callout-warning}
+### Ward en R: `ward.D` vs `ward.D2`
+En `hclust()`, solo `method = "ward.D2"` aplica el criterio de Ward sobre una matriz de distancias euclidianas sin elevar al cuadrado (internamente eleva al cuadrado las disimilitudes). La opción `"ward.D"` aplicada a `dist()` **no** implementa el criterio de Ward. Además, Ward se basa en centroides y SSE, por lo que supone distancias **euclidianas**; con Gower u otras disimilitudes no euclidianas es preferible el enlace promedio o completo.
+:::
+
+### Ejemplo numérico: enlace simple vs. completo
+
+Cuatro puntos sobre una recta: $A = 0$, $B = 1.6$, $C = 3$, $D = 4$. La matriz de distancias es:
+
+|     | A   | B   | C   |
+|:---:|:---:|:---:|:---:|
+| B   | 1.6 |     |     |
+| C   | 3.0 | 1.4 |     |
+| D   | 4.0 | 2.4 | 1.0 |
+
+| Paso | Enlace simple (mínimo) | Enlace completo (máximo) |
+|:----:|:-----------------------|:-------------------------|
+| 1 | $\{C,D\}$ a altura $1.0$ | $\{C,D\}$ a altura $1.0$ |
+| 2 | $D(B,\{C,D\}) = \min(1.4, 2.4) = 1.4 < d(A,B) = 1.6$ → $\{B,C,D\}$ a altura $1.4$ | $D(B,\{C,D\}) = \max(1.4, 2.4) = 2.4 > d(A,B) = 1.6$ → $\{A,B\}$ a altura $1.6$ |
+| 3 | $D(A,\{B,C,D\}) = \min(1.6, 3, 4) = 1.6$ → todo a altura $1.6$ | $D(\{A,B\},\{C,D\}) = \max(3, 4, 1.6, 2.4) = 4$ → todo a altura $4.0$ |
+
+Con enlace simple $B$ se "encadena" al grupo $\{C,D\}$ y, al cortar en $K = 2$, se obtiene $\{A\}$ y $\{B,C,D\}$; con enlace completo se obtienen dos grupos compactos, $\{A,B\}$ y $\{C,D\}$. Se verifica en R:
+
+```r
+x <- c(A = 0, B = 1.6, C = 3, D = 4)
+d <- dist(x)
+hc_s <- hclust(d, method = "single")
+hc_c <- hclust(d, method = "complete")
+hc_s$height   # 1.0 1.4 1.6
+hc_c$height   # 1.0 1.6 4.0
+cutree(hc_s, k = 2)   # A=1, B=2, C=2, D=2
+cutree(hc_c, k = 2)   # A=1, B=1, C=2, D=2
+par(mfrow = c(1, 2)); plot(hc_s); plot(hc_c)
+```
+
+### Lectura y corte del dendrograma
+El eje vertical del dendrograma indica la **altura** (distancia de enlace) a la que se fusionaron dos grupos. Una partición se obtiene "cortando" el árbol con una línea horizontal: `cutree(hc, k = K)` fija el número de grupos y `cutree(hc, h = altura)` fija la altura de corte. Un buen corte suele estar donde hay un salto grande entre alturas consecutivas de fusión.
+
+### Evaluación de la jerarquía
+* **Correlación cofenética:** la distancia cofenética entre $i$ y $j$ es la altura a la que ambos quedan por primera vez en el mismo grupo. La correlación entre estas distancias y las originales, `cor(cophenetic(hc), d)`, mide qué tan fielmente el dendrograma conserva la estructura de distancias; permite comparar criterios de enlace (valores cercanos a 1 son mejores) [@tan2019].
+* **Coeficiente aglomerativo (AC):** lo reporta `agnes()`. Para cada observación $i$, sea $m(i)$ la altura de su primera fusión dividida por la altura de la fusión final; entonces $AC = \frac{1}{n}\sum_i \left(1 - m(i)\right) \in [0, 1]$. Valores cercanos a 1 indican una estructura de grupos fuerte [@kaufman1990]. DIANA reporta el análogo coeficiente divisivo (DC). Ambos tienden a crecer con $n$, por lo que solo deben compararse entre conjuntos de tamaño similar.
+
+### Limitaciones
+* Las fusiones (o divisiones) son **irreversibles**: un error en un paso temprano no se corrige después.
+* Requiere almacenar la matriz de distancias, $O(n^2)$ en memoria, y en general $O(n^2)$ a $O(n^3)$ en tiempo; no es práctico con decenas de miles de observaciones.
+* El resultado depende fuertemente del criterio de enlace; el enlace simple es sensible al ruido y a puntos "puente" entre grupos.
 
 ## Implementación Práctica en R
 
@@ -163,6 +262,7 @@ p1 <- fviz_nbclust(datos_escalados, kmeans, method = "wss") +
 # 2. Gráfico de la Silueta Promedio
 p2 <- fviz_nbclust(datos_escalados, kmeans, method = "silhouette") +
   labs(title = "Método del Coeficiente de Silueta")
+p1; p2
 
 # Ejecutar k-means con K = 4 óptimo
 set.seed(123)
@@ -191,6 +291,23 @@ fviz_dend(hc_ward, k = 4,
           color_labels_by_k = TRUE,
           rect = TRUE,
           main = "Dendrograma de Clustering Jerárquico (Método de Ward)")
+
+# Asignar cada estado a uno de los 4 grupos
+grupos_ward <- cutree(hc_ward, k = 4)
+table(grupos_ward)
+
+# Comparar criterios de enlace con la correlación cofenética
+for (m in c("single", "complete", "average", "ward.D2")) {
+  hc <- hclust(dist_mat, method = m)
+  cat(m, ":", round(cor(cophenetic(hc), dist_mat), 3), "\n")
+}
+
+# AGNES y DIANA del paquete cluster (con sus coeficientes)
+ag <- agnes(datos_escalados, method = "ward")
+di <- diana(datos_escalados)
+cat("Coef. aglomerativo (AGNES):", round(ag$ac, 3), "\n")
+cat("Coef. divisivo (DIANA):", round(di$dc, 3), "\n")
+pltree(di, cex = 0.6, main = "Dendrograma DIANA")
 ```
 
 ### Datos Mixtos (Gower + PAM)
@@ -213,8 +330,10 @@ gower_dist <- daisy(datos_mixtos, metric = "gower")
 # Aplicar k-medoids (PAM) para K = 3
 modelo_pam <- pam(gower_dist, k = 3, diss = TRUE)
 
-# Mostrar medoides representativos seleccionados
-print(modelo_pam$medoids)
+# Con diss = TRUE, $medoids devuelve solo los índices de los medoides;
+# para ver sus perfiles se indexa el data.frame original
+modelo_pam$medoids
+datos_mixtos[modelo_pam$id.med, ]
 ```
 
 :::
@@ -236,7 +355,7 @@ print(modelo_pam$medoids)
 **Consigna de Discusión en Grupo:**
 
 1. ¿Cómo se ven afectados los centroides de $k$-means por la presencia de estos valores atípicos?
-2. ¿Por qué la combinación del algoritmo PAM ($k$-medoids) o un enlace jerárquico promedio ofrece mayor solidez en esta situación?.
+2. ¿Por qué la combinación del algoritmo PAM ($k$-medoids) o un enlace jerárquico promedio ofrece mayor solidez en esta situación?
 :::
 
 ## Cápsula de Ejercicios del Agrupamiento
@@ -245,6 +364,6 @@ print(modelo_pam$medoids)
 ### Ejercicios de Aplicación Práctica
 
 1. **Segmentación de Clientes y Selección de $K$:** Utilizando el dataset `USArrests` (disponible en R base), estandarice las variables de tasas de criminalidad. Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con $k$-means.
-2. **Comparación de Criterios de Enlace Jerárquico:** Con los datos de `USArrests` escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en $K=4$ grupos y evalúe mediante la matriz de confusión la coincidencia entre las particiones.
+2. **Comparación de Criterios de Enlace Jerárquico:** Con los datos de `USArrests` escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en $K=4$ grupos con `cutree()` y compare las particiones mediante tablas cruzadas (`table()`) y el **índice de Rand ajustado** (`mclust::adjustedRandIndex()`), recordando que los números de cluster son etiquetas arbitrarias. Calcule además la correlación cofenética de cada modelo.
 3. **Agrupamiento sobre Datos Mixtos:** Construya un dataset de 100 observaciones simuladas que contenga dos variables continuas y dos variables categóricas. Calcule la matriz de disimilitud de Gower con `cluster::daisy`, aplique el algoritmo PAM ($k$-medoids) para $K=3$ y visualice los perfiles de los medoides seleccionados.
 :::

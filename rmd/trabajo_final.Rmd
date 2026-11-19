@@ -2,17 +2,18 @@
 title: "Contenido mínimo para el proyecto Final"
 subtitle: "Materia: Minería de Datos 1"
 author: "Docente: MSc. Alvaro Limber Chirino Gutierrez"
-date: "`r format(Sys.Date(), '%Y')`"
+date: "Noviembre, 2026"
 output:
   pdf_document:
     toc: false
     number_sections: true
+geometry: margin=2cm
 ---
 
 # Características
 
 - **Tipo de trabajo:** Dashboard
-    - El proyecto es individual.
+    - El proyecto es individual (ver la modalidad grupal en la sección 4).
     - Debe utilizar alguno de los siguientes datasets:
         - Censo de población y vivienda
         - Encuesta a hogares
@@ -20,14 +21,14 @@ output:
         - Importaciones y exportaciones
         - Registros administrativos públicos
         - Dataset resultado de web scraping
-    - Se debe definir y seguir un flujo de trabajo; KDD, CRIP-DM, etc.
+    - Se debe definir y seguir un flujo de trabajo: KDD, CRISP-DM, etc.
     - Debe incorporar algún método visto en la materia.
-- El dashboard debe ser realizado en `flexdashboard`, o generar código en R y presentarlo en PowerBI, Looker Studio u otro.
+- El dashboard debe ser realizado en `flexdashboard`, o generar código en R y presentarlo en Power BI, Looker Studio u otro.
 - El trabajo debe contar con un repositorio en GitHub.
 - **Entregables en el repositorio de GitHub:**
     - Código de R
-    - Enlace al dashboard
-    - Informe del proyecto donde se documento el flujo de trabajo (en .rmd o .qmd)
+    - Enlace al dashboard (en el `README.md`)
+    - Informe del proyecto donde se documenta el flujo de trabajo (en .rmd o .qmd)
 
 # Contenido mínimo del informe
 
@@ -37,4 +38,43 @@ output:
 4. **Resultados y análisis**
 5. **Referencias** (en formato .bib)
 
-EL informe debe ser de máximo 5 planas.
+El informe debe tener un máximo de 5 planas (modalidad individual).
+
+# Rúbrica de evaluación (100 puntos)
+
+| Criterio | Excelente | Bueno | Suficiente | Insuficiente |
+|:--|:--|:--|:--|:--|
+| **1. Dataset y preparación de datos** (15) | **15:** Fuente oficial citada; limpieza, valores perdidos y transformaciones justificados. | **11:** Fuente citada; limpieza adecuada pero poco justificada. | **7:** Limpieza parcial o sin documentar. | **0--3:** Dataset no permitido o sin preparación. |
+| **2. Flujo de trabajo (KDD, CRISP-DM)** (15) | **15:** Todas las etapas definidas y seguidas de forma coherente. | **11:** Etapas presentes, con alguna débil. | **7:** Flujo mencionado pero no seguido. | **0--3:** Sin flujo de trabajo. |
+| **3. Método de minería de datos** (20) | **20:** Método pertinente, bien aplicado, validado e interpretado. | **15:** Bien aplicado; validación o interpretación limitada. | **10:** Aplicado con errores o sin interpretación. | **0--5:** No aplica un método de la materia. |
+| **4. Dashboard** (20) | **20:** Funcional, claro, interactivo y responde al objetivo. | **15:** Funcional con detalles de diseño o claridad. | **10:** Funciona parcialmente o es poco legible. | **0--5:** No funciona o no existe enlace. |
+| **5. Informe** (15) | **15:** Contiene todas las secciones, redacción clara y análisis crítico. | **11:** Secciones completas, análisis descriptivo. | **7:** Faltan secciones o análisis superficial. | **0--3:** Informe incompleto. |
+| **6. Repositorio y reproducibilidad** (10) | **10:** Repositorio ordenado, `README` claro, código ejecuta sin errores. | **7:** Ejecuta con ajustes menores. | **5:** Desordenado o con errores. | **0--2:** Sin repositorio o código. |
+| **7. Referencias** (5) | **5:** Archivo .bib correcto y citas en el texto. | **4:** .bib con errores menores. | **2:** Pocas referencias o mal citadas. | **0:** Sin referencias. |
+
+# Modalidad grupal: artículo de investigación (opcional)
+
+Se permite trabajar en **grupos de máximo 2 estudiantes** solo si el informe se presenta como **artículo de investigación** listo para enviarse a una revista académica o estudiantil. Requisitos:
+
+- **Revista objetivo:** indicar en el `README.md` la revista elegida y el enlace a sus normas para autores. El artículo debe seguir dichas normas (formato, extensión y estilo de citación).
+- **Estructura mínima:** título, resumen (máximo 250 palabras), palabras clave, introducción, revisión de literatura, metodología, resultados, discusión, conclusiones y referencias (.bib).
+- **Extensión:** la indicada por la revista, con un máximo de 15 páginas. No aplica el límite de 5 planas.
+- **Formato:** escrito en .rmd o .qmd (se recomiendan las plantillas del paquete `rticles` o extensiones de Quarto).
+- **Contribuciones:** incluir una declaración de contribución de cada autor (taxonomía CRediT). Ambos integrantes deben tener *commits* en el repositorio.
+- **Evaluación:** se usa la misma rúbrica; el criterio 5 se evalúa con el estándar de un artículo científico. La nota es la misma para ambos integrantes.
+- **Bonificación:** presentar la constancia de envío a la revista otorga **+5 puntos** (nota máxima 100).
+
+# Penalidades
+
+| Falta | Penalidad |
+|:--|:--|
+| Entrega fuera de plazo | -10 puntos por día (después de 3 días la nota es 0) |
+| Exceder el límite de extensión del informe | -5 puntos por plana adicional |
+| Falta de un entregable (código, enlace o informe) | -10 puntos por cada uno |
+| Enlace al dashboard caído o privado al momento de calificar | -10 puntos |
+| Repositorio privado o sin acceso para el docente | -10 puntos |
+| Uso de un dataset distinto a los permitidos sin autorización | -15 puntos |
+| Uso no declarado de herramientas de IA generativa | -10 puntos |
+| Plagio (código, texto o dashboard copiado sin citar) | Nota 0 |
+
+Las penalidades se descuentan de la nota obtenida en la rúbrica.

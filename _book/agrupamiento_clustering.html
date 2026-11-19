@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -98,12 +98,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-79b2a251c468d745a9db49bec9721a9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c5cafcc9f36f1bf0e906d3b5335c86ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-be67d91eaee7ee535f133f4b8a0584b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-40d2b7ce583afdaabd40688eef35f9b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -515,7 +515,12 @@ window.Quarto = {
   <li><a href="#métodos-de-agrupamiento-jerárquico-hierarchical-clustering" id="toc-métodos-de-agrupamiento-jerárquico-hierarchical-clustering" class="nav-link" data-scroll-target="#métodos-de-agrupamiento-jerárquico-hierarchical-clustering"><span class="header-section-number">10.4</span> Métodos de Agrupamiento Jerárquico (<em>Hierarchical Clustering</em>)</a>
   <ul class="collapse">
   <li><a href="#estrategia-aglomerativa-agnes" id="toc-estrategia-aglomerativa-agnes" class="nav-link" data-scroll-target="#estrategia-aglomerativa-agnes"><span class="header-section-number">10.4.1</span> Estrategia Aglomerativa (AGNES)</a></li>
-  <li><a href="#criterios-de-enlace-linkage-criteria" id="toc-criterios-de-enlace-linkage-criteria" class="nav-link" data-scroll-target="#criterios-de-enlace-linkage-criteria"><span class="header-section-number">10.4.2</span> Criterios de Enlace (<em>Linkage Criteria</em>)</a></li>
+  <li><a href="#estrategia-divisiva-diana" id="toc-estrategia-divisiva-diana" class="nav-link" data-scroll-target="#estrategia-divisiva-diana"><span class="header-section-number">10.4.2</span> Estrategia Divisiva (DIANA)</a></li>
+  <li><a href="#criterios-de-enlace-linkage-criteria" id="toc-criterios-de-enlace-linkage-criteria" class="nav-link" data-scroll-target="#criterios-de-enlace-linkage-criteria"><span class="header-section-number">10.4.3</span> Criterios de Enlace (<em>Linkage Criteria</em>)</a></li>
+  <li><a href="#ejemplo-numérico-enlace-simple-vs.-completo" id="toc-ejemplo-numérico-enlace-simple-vs.-completo" class="nav-link" data-scroll-target="#ejemplo-numérico-enlace-simple-vs.-completo"><span class="header-section-number">10.4.4</span> Ejemplo numérico: enlace simple vs.&nbsp;completo</a></li>
+  <li><a href="#lectura-y-corte-del-dendrograma" id="toc-lectura-y-corte-del-dendrograma" class="nav-link" data-scroll-target="#lectura-y-corte-del-dendrograma"><span class="header-section-number">10.4.5</span> Lectura y corte del dendrograma</a></li>
+  <li><a href="#evaluación-de-la-jerarquía" id="toc-evaluación-de-la-jerarquía" class="nav-link" data-scroll-target="#evaluación-de-la-jerarquía"><span class="header-section-number">10.4.6</span> Evaluación de la jerarquía</a></li>
+  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones"><span class="header-section-number">10.4.7</span> Limitaciones</a></li>
   </ul></li>
   <li><a href="#implementación-práctica-en-r" id="toc-implementación-práctica-en-r" class="nav-link" data-scroll-target="#implementación-práctica-en-r"><span class="header-section-number">10.5</span> Implementación Práctica en R</a></li>
   <li><a href="#cápsula-de-ejercicios-del-agrupamiento" id="toc-cápsula-de-ejercicios-del-agrupamiento" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-del-agrupamiento"><span class="header-section-number">10.6</span> Cápsula de Ejercicios del Agrupamiento</a></li>
@@ -577,16 +582,29 @@ window.Quarto = {
 <h3 data-number="10.1.1" class="anchored" data-anchor-id="diagnóstico-de-agrupabilidad-el-estadístico-de-hopkins"><span class="header-section-number">10.1.1</span> Diagnóstico de Agrupabilidad: El Estadístico de Hopkins</h3>
 <p>Antes de ejecutar cualquier algoritmo, el analista debe diagnosticar si el conjunto de datos contiene grupos reales o si se trata de un proceso aleatorio uniforme <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. Para ello se utiliza el <strong>Estadístico de Hopkins</strong> (<span class="math inline">\(H\)</span>), el cual contrasta la distribución espacial de los datos reales contra una distribución aleatoria uniforme simulada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</p>
 <p><span class="math display">\[H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}\]</span></p>
-<p>donde <span class="math inline">\(u_i\)</span> representa la distancia de cada punto simulado a su vecino más cercano en los datos reales, y <span class="math inline">\(w_i\)</span> representa la distancia entre cada punto real y su vecino real más cercano en el espacio <span class="math inline">\(d\)</span>-dimensional <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>donde se generan <span class="math inline">\(m\)</span> puntos aleatorios uniformes en el rango de los datos y se extrae una muestra de <span class="math inline">\(m\)</span> observaciones reales; <span class="math inline">\(u_i\)</span> es la distancia de cada punto simulado a su vecino más cercano en los datos reales, <span class="math inline">\(w_i\)</span> es la distancia de cada observación muestreada a su vecino real más cercano, y <span class="math inline">\(d\)</span> es la dimensión (número de variables) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 <ul>
 <li>Si <span class="math inline">\(H \approx 0.5\)</span>, los datos siguen una distribución uniforme y <strong>no presentan tendencia al agrupamiento</strong> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
 <li>Si <span class="math inline">\(H \to 1.0\)</span> (típicamente <span class="math inline">\(H &gt; 0.75\)</span>), el conjunto posee una estructura espacial fuertemente agrupada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
 </ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Algunos textos definen el estadístico como el complemento (<span class="math inline">\(\sum w_i / (\sum u_i + \sum w_i)\)</span>, sin potencia <span class="math inline">\(d\)</span>); en esa convención los valores <strong>cercanos a 0</strong> indican agrupamiento. Antes de interpretar la salida de <code>get_clust_tendency()</code> verifique en la documentación de su versión de <code>factoextra</code> qué convención utiliza.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="métricas-de-distancia-y-similitud-multivariante" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="métricas-de-distancia-y-similitud-multivariante"><span class="header-section-number">10.2</span> Métricas de Distancia y Similitud Multivariante</h2>
-<p>La definición de la matriz de disimilitud o distancia es la piedra angular sobre la cual se erige cualquier algoritmo de agrupamiento <span class="citation" data-cites="johnson2014">(UA1, <a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. La elección de la métrica determina la geometría del espacio vectorial de los clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>La definición de la matriz de disimilitud o distancia es la piedra angular sobre la cual se erige cualquier algoritmo de agrupamiento <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>. La elección de la métrica determina la geometría del espacio vectorial de los clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 <p>Dadas dos observaciones <span class="math inline">\(p\)</span>-dimensionales <span class="math inline">\(\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})^T\)</span> y <span class="math inline">\(\mathbf{x}_j = (x_{j1}, x_{j2}, \dots, x_{jp})^T\)</span>:</p>
 <ul>
 <li><strong>Distancia Euclidiana (<span class="math inline">\(L_2\)</span>):</strong> La métrica geométrica convencional en el espacio cartesiano <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</li>
@@ -604,9 +622,106 @@ window.Quarto = {
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="necesidad-de-estandarización-y-datos-mixtos"><span class="header-section-number">10.2.1</span> Necesidad de Estandarización y Datos Mixtos</h3>
 <p>Dado que la distancia euclidiana es sensible a las unidades de medida, los atributos con mayor magnitud dominan artificialmente los cálculos de proximidad <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. Es imprescindible estandarizar previamente las variables a <strong>Z-scores</strong> <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
 <p><span class="math display">\[z_{im} = \frac{x_{im} - \bar{x}_m}{s_m}\]</span></p>
-<p>En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. En tales casos, las distancias euclidianas no son aplicables. El <strong>Coeficiente de Disimilitud de Gower</strong> (<span class="math inline">\(d_G\)</span>) resuelve este desafío ponderando el tipo de cada variable <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
-<p><span class="math display">\[d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p \delta_{ij}^{(m)} d_{ij}^{(m)}}{\sum_{m=1}^p \delta_{ij}^{(m)}}\]</span></p>
-<p>donde <span class="math inline">\(\delta_{ij}^{(m)} = 1\)</span> si ambas observaciones tienen valores válidos en la variable <span class="math inline">\(m\)</span>, y <span class="math inline">\(d_{ij}^{(m)} = \frac{|x_{im} - x_{jm}|}{R_m}\)</span> para cuantitativas (siendo <span class="math inline">\(R_m\)</span> el rango observado) o <span class="math inline">\(d_{ij}^{(m)} \in \{0, 1\}\)</span> para cualitativas <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</p>
+<p>En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. En tales casos, las distancias euclidianas no son aplicables. El <strong>Coeficiente de Disimilitud de Gower</strong> (<span class="math inline">\(d_G\)</span>) resuelve este desafío calculando una disimilitud parcial en <span class="math inline">\([0,1]\)</span> según el tipo de cada variable y promediándolas <span class="citation" data-cites="gower1971 kaufman1990">(<a href="references.html#ref-gower1971" role="doc-biblioref">Gower 1971</a>; <a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>. La fórmula que implementa <code>cluster::daisy(metric = "gower")</code> es:</p>
+<p><span class="math display">\[d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}\, d_{ij}^{(m)}}{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}}\]</span></p>
+<p>donde <span class="math inline">\(w_m\)</span> es el peso de la variable <span class="math inline">\(m\)</span> (argumento <code>weights</code>, por defecto <span class="math inline">\(w_m = 1\)</span>) y:</p>
+<ul>
+<li><strong>Indicador <span class="math inline">\(\delta_{ij}^{(m)}\)</span>:</strong> vale <span class="math inline">\(0\)</span> si <span class="math inline">\(x_{im}\)</span> o <span class="math inline">\(x_{jm}\)</span> es faltante (<code>NA</code>), o si la variable es <strong>binaria asimétrica</strong> (<code>type = list(asymm = ...)</code>) y ambas observaciones valen <span class="math inline">\(0\)</span>; en cualquier otro caso vale <span class="math inline">\(1\)</span>.</li>
+<li><strong>Cuantitativas (intervalo, tipo <code>I</code>):</strong> <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}\)</span>, con <span class="math inline">\(R_m = \max_h x_{hm} - \min_h x_{hm}\)</span> el rango observado (sin contar faltantes).</li>
+<li><strong>Nominales y binarias (tipos <code>N</code>, <code>S</code>, <code>A</code>):</strong> <span class="math inline">\(d_{ij}^{(m)} = 0\)</span> si <span class="math inline">\(x_{im} = x_{jm}\)</span> y <span class="math inline">\(d_{ij}^{(m)} = 1\)</span> en caso contrario.</li>
+<li><strong>Ordinales (factor ordenado, tipo <code>O</code>):</strong> se reemplazan las categorías por sus códigos enteros <span class="math inline">\(r_{im} \in \{1, 2, \dots\}\)</span> y se tratan como cuantitativas: <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}\)</span>.</li>
+<li><strong>Razón logarítmica (tipo <code>logratio</code>):</strong> se aplica <span class="math inline">\(\log(x)\)</span> y luego se trata como cuantitativa.</li>
+</ul>
+<section id="ejemplo-numérico-de-gower" class="level4" data-number="10.2.1.1">
+<h4 data-number="10.2.1.1" class="anchored" data-anchor-id="ejemplo-numérico-de-gower"><span class="header-section-number">10.2.1.1</span> Ejemplo numérico de Gower</h4>
+<p>Considere tres personas con una variable cuantitativa (Edad), una nominal (Sexo) y una ordinal (Nivel educativo: Bajo &lt; Medio &lt; Alto):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Obs.</th>
+<th style="text-align: center;">Edad</th>
+<th style="text-align: center;">Sexo</th>
+<th style="text-align: center;">Nivel (código)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">Bajo (1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">M</td>
+<td style="text-align: center;">Alto (3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">Medio (2)</td>
+</tr>
+</tbody>
+</table>
+<p>Rangos: <span class="math inline">\(R_{\text{Edad}} = 50 - 20 = 30\)</span> y <span class="math inline">\(R_{\text{Nivel}} = 3 - 1 = 2\)</span>. No hay faltantes, así que todos los <span class="math inline">\(\delta = 1\)</span> y el denominador es <span class="math inline">\(p = 3\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Par</th>
+<th style="text-align: center;">Edad</th>
+<th style="text-align: center;">Sexo</th>
+<th style="text-align: center;">Nivel</th>
+<th style="text-align: center;"><span class="math inline">\(d_G\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(1, 2)</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 20-30 \rvert}{30} = 0.333\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 1-3 \rvert}{2} = 1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{0.333 + 1 + 1}{3} = 0.778\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(1, 3)</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 20-50 \rvert}{30} = 1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 1-2 \rvert}{2} = 0.5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1 + 0 + 0.5}{3} = 0.500\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(2, 3)</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 30-50 \rvert}{30} = 0.667\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{\lvert 3-2 \rvert}{2} = 0.5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{0.667 + 1 + 0.5}{3} = 0.722\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Las observaciones más parecidas son la 1 y la 3. El mismo resultado con <code>daisy</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Edad  =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sexo  =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nivel =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Alto"</span>, <span class="st">"Medio"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Medio"</span>, <span class="st">"Alto"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">daisy</span>(ej, <span class="at">metric =</span> <span class="st">"gower"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           1         2</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 0.7777778</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 0.5000000 0.7222222</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metric :  mixed ;  Types = I, N, O</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si la Edad de la observación 2 fuera <code>NA</code>, en los pares que la incluyen <span class="math inline">\(\delta_{\text{Edad}} = 0\)</span> y el denominador pasaría de 3 a 2.</p>
+</section>
 </section>
 </section>
 <section id="algoritmos-basados-en-centros-partitioning-clustering" class="level2" data-number="10.3">
@@ -635,23 +750,28 @@ window.Quarto = {
 <section id="selección-del-número-óptimo-de-grupos-k" class="level3" data-number="10.3.3">
 <h3 data-number="10.3.3" class="anchored" data-anchor-id="selección-del-número-óptimo-de-grupos-k"><span class="header-section-number">10.3.3</span> 3. Selección del Número Óptimo de Grupos (<span class="math inline">\(K\)</span>)</h3>
 <ol type="1">
-<li><strong>Método del Codo (<em>Elbow Method</em>):</strong> Grafica la SSE total frente a valores crecientes de <span class="math inline">\(K\)</span>. Se selecciona el valor de <span class="math inline">\(K\)</span> en el “punto de inflexión” o codo donde los incrementos adicionales en <span class="math inline">\(K\)</span> producen reducciones marginales poco significativas en la SSE <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
+<li><strong>Método del Codo (<em>Elbow Method</em>):</strong> Grafica la SSE total frente a valores crecientes de <span class="math inline">\(K\)</span>. Se selecciona el valor de <span class="math inline">\(K\)</span> en el “codo” de la curva, a partir del cual los incrementos adicionales en <span class="math inline">\(K\)</span> producen reducciones marginales poco significativas en la SSE <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</li>
 <li><strong>Coeficiente de Silueta (<em>Silhouette Coefficient</em>):</strong> Para una observación <span class="math inline">\(i\)</span>, la silueta <span class="math inline">\(s_i\)</span> mide qué tan similar es a los puntos de su propio cluster frente a los del cluster más cercano <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</li>
 </ol>
 <p><span class="math display">\[s_i = \frac{b_i - a_i}{\max(a_i, b_i)}\]</span></p>
-<p>donde <span class="math inline">\(a_i\)</span> es la distancia promedio de <span class="math inline">\(i\)</span> a los puntos de su mismo cluster, y <span class="math inline">\(b_i\)</span> es la distancia promedio de <span class="math inline">\(i\)</span> al cluster vecino más cercano <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \to 1.0\)</span>: La observación está correctamente agrupada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \approx 0\)</span>: La observación está en la frontera entre dos clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i &lt; 0\)</span>: La observación probablemente fue asignada al cluster equivocado <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>donde <span class="math inline">\(a_i\)</span> es la distancia promedio de <span class="math inline">\(i\)</span> a los demás puntos de su mismo cluster, y <span class="math inline">\(b_i = \min_{l \neq k} \bar{d}(i, C_l)\)</span> es la menor de las distancias promedio de <span class="math inline">\(i\)</span> a los puntos de cada uno de los otros clusters (el cluster vecino más cercano) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \to 1.0\)</span>: La observación está correctamente agrupada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \approx 0\)</span>: La observación está en la frontera entre dos clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i &lt; 0\)</span>: La observación probablemente fue asignada al cluster equivocado <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 <p>El <span class="math inline">\(K\)</span> óptimo maximiza el promedio global de la silueta <span class="math inline">\(\bar{S}\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 </section>
 </section>
 <section id="métodos-de-agrupamiento-jerárquico-hierarchical-clustering" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="métodos-de-agrupamiento-jerárquico-hierarchical-clustering"><span class="header-section-number">10.4</span> Métodos de Agrupamiento Jerárquico (<em>Hierarchical Clustering</em>)</h2>
 <p>A diferencia de <span class="math inline">\(k\)</span>-means, el <strong>agrupamiento jerárquico</strong> no requiere definir <span class="math inline">\(K\)</span> a priori, sino que construye una estructura anidada de clusters representada visualmente mediante un <strong>dendrograma</strong> <span class="citation" data-cites="johnson2014 shmueli2018">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
+<p>Existen dos estrategias para construir la jerarquía <span class="citation" data-cites="kaufman1990 tan2019">(<a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</p>
 <section id="estrategia-aglomerativa-agnes" class="level3" data-number="10.4.1">
 <h3 data-number="10.4.1" class="anchored" data-anchor-id="estrategia-aglomerativa-agnes"><span class="header-section-number">10.4.1</span> Estrategia Aglomerativa (AGNES)</h3>
-<p>Comienza con <span class="math inline">\(n\)</span> clusters singleton (cada punto es un grupo) y en cada paso fusiona iterativamente el par de clusters más cercano hasta consolidar un único grupo global <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p><strong>AGNES</strong> (<em>AGglomerative NESting</em>, <code>cluster::agnes()</code> o <code>stats::hclust()</code>) trabaja <strong>de abajo hacia arriba</strong>: comienza con <span class="math inline">\(n\)</span> clusters singleton (cada punto es un grupo) y en cada paso fusiona el par de clusters más cercano, hasta consolidar un único grupo global. Tras <span class="math inline">\(n-1\)</span> fusiones se obtiene el dendrograma completo <span class="citation" data-cites="kaufman1990 tan2019">(<a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>; <a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 </section>
-<section id="criterios-de-enlace-linkage-criteria" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="criterios-de-enlace-linkage-criteria"><span class="header-section-number">10.4.2</span> Criterios de Enlace (<em>Linkage Criteria</em>)</h3>
+<section id="estrategia-divisiva-diana" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="estrategia-divisiva-diana"><span class="header-section-number">10.4.2</span> Estrategia Divisiva (DIANA)</h3>
+<p><strong>DIANA</strong> (<em>DIvisive ANAlysis</em>, <code>cluster::diana()</code>) trabaja <strong>de arriba hacia abajo</strong>: parte de un único cluster con todas las observaciones y en cada paso divide el cluster de mayor diámetro. Para dividirlo, separa la observación con mayor disimilitud promedio respecto al resto (que inicia un “grupo escindido”) y va trasladando a ese grupo las observaciones que, en promedio, están más cerca de él que del grupo original <span class="citation" data-cites="kaufman1990">(<a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>. Es útil cuando interesa identificar primero las grandes divisiones de los datos.</p>
+</section>
+<section id="criterios-de-enlace-linkage-criteria" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="criterios-de-enlace-linkage-criteria"><span class="header-section-number">10.4.3</span> Criterios de Enlace (<em>Linkage Criteria</em>)</h3>
 <p>La distancia entre dos clusters <span class="math inline">\(C_A\)</span> y <span class="math inline">\(C_B\)</span> depende del criterio de enlace seleccionado <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</p>
 <ul>
 <li><strong>Enlace Simple (<em>Single Linkage</em>):</strong> Distancia mínima entre elementos (<span class="math inline">\(D(C_A, C_B) = \min_{\mathbf{x}_i \in C_A, \mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span>). Propenso al efecto de encadenamiento (<em>chaining</em>) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
@@ -660,6 +780,113 @@ window.Quarto = {
 <li><strong>Método de Ward:</strong> Minimiza el incremento de la varianza total intra-cluster al fusionar dos grupos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</li>
 </ul>
 <p><span class="math display">\[\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\mathbf{\mu}_A - \mathbf{\mu}_B\|^2\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Ward en R: <code>ward.D</code> vs <code>ward.D2</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En <code>hclust()</code>, solo <code>method = "ward.D2"</code> aplica el criterio de Ward sobre una matriz de distancias euclidianas sin elevar al cuadrado (internamente eleva al cuadrado las disimilitudes). La opción <code>"ward.D"</code> aplicada a <code>dist()</code> <strong>no</strong> implementa el criterio de Ward. Además, Ward se basa en centroides y SSE, por lo que supone distancias <strong>euclidianas</strong>; con Gower u otras disimilitudes no euclidianas es preferible el enlace promedio o completo.</p>
+</div>
+</div>
+</section>
+<section id="ejemplo-numérico-enlace-simple-vs.-completo" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="ejemplo-numérico-enlace-simple-vs.-completo"><span class="header-section-number">10.4.4</span> Ejemplo numérico: enlace simple vs.&nbsp;completo</h3>
+<p>Cuatro puntos sobre una recta: <span class="math inline">\(A = 0\)</span>, <span class="math inline">\(B = 1.6\)</span>, <span class="math inline">\(C = 3\)</span>, <span class="math inline">\(D = 4\)</span>. La matriz de distancias es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">A</th>
+<th style="text-align: center;">B</th>
+<th style="text-align: center;">C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">1.6</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">3.0</td>
+<td style="text-align: center;">1.4</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">4.0</td>
+<td style="text-align: center;">2.4</td>
+<td style="text-align: center;">1.0</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 42%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Paso</th>
+<th style="text-align: left;">Enlace simple (mínimo)</th>
+<th style="text-align: left;">Enlace completo (máximo)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><span class="math inline">\(\{C,D\}\)</span> a altura <span class="math inline">\(1.0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{C,D\}\)</span> a altura <span class="math inline">\(1.0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><span class="math inline">\(D(B,\{C,D\}) = \min(1.4, 2.4) = 1.4 &lt; d(A,B) = 1.6\)</span> → <span class="math inline">\(\{B,C,D\}\)</span> a altura <span class="math inline">\(1.4\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(D(B,\{C,D\}) = \max(1.4, 2.4) = 2.4 &gt; d(A,B) = 1.6\)</span> → <span class="math inline">\(\{A,B\}\)</span> a altura <span class="math inline">\(1.6\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><span class="math inline">\(D(A,\{B,C,D\}) = \min(1.6, 3, 4) = 1.6\)</span> → todo a altura <span class="math inline">\(1.6\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(D(\{A,B\},\{C,D\}) = \max(3, 4, 1.6, 2.4) = 4\)</span> → todo a altura <span class="math inline">\(4.0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Con enlace simple <span class="math inline">\(B\)</span> se “encadena” al grupo <span class="math inline">\(\{C,D\}\)</span> y, al cortar en <span class="math inline">\(K = 2\)</span>, se obtiene <span class="math inline">\(\{A\}\)</span> y <span class="math inline">\(\{B,C,D\}\)</span>; con enlace completo se obtienen dos grupos compactos, <span class="math inline">\(\{A,B\}\)</span> y <span class="math inline">\(\{C,D\}\)</span>. Se verifica en R:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">0</span>, <span class="at">B =</span> <span class="fl">1.6</span>, <span class="at">C =</span> <span class="dv">3</span>, <span class="at">D =</span> <span class="dv">4</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(x)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hc_s <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"single"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>hc_c <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"complete"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>hc_s<span class="sc">$</span>height   <span class="co"># 1.0 1.4 1.6</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>hc_c<span class="sc">$</span>height   <span class="co"># 1.0 1.6 4.0</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_s, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=2, C=2, D=2</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_c, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=1, C=2, D=2</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)); <span class="fu">plot</span>(hc_s); <span class="fu">plot</span>(hc_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="lectura-y-corte-del-dendrograma" class="level3" data-number="10.4.5">
+<h3 data-number="10.4.5" class="anchored" data-anchor-id="lectura-y-corte-del-dendrograma"><span class="header-section-number">10.4.5</span> Lectura y corte del dendrograma</h3>
+<p>El eje vertical del dendrograma indica la <strong>altura</strong> (distancia de enlace) a la que se fusionaron dos grupos. Una partición se obtiene “cortando” el árbol con una línea horizontal: <code>cutree(hc, k = K)</code> fija el número de grupos y <code>cutree(hc, h = altura)</code> fija la altura de corte. Un buen corte suele estar donde hay un salto grande entre alturas consecutivas de fusión.</p>
+</section>
+<section id="evaluación-de-la-jerarquía" class="level3" data-number="10.4.6">
+<h3 data-number="10.4.6" class="anchored" data-anchor-id="evaluación-de-la-jerarquía"><span class="header-section-number">10.4.6</span> Evaluación de la jerarquía</h3>
+<ul>
+<li><strong>Correlación cofenética:</strong> la distancia cofenética entre <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span> es la altura a la que ambos quedan por primera vez en el mismo grupo. La correlación entre estas distancias y las originales, <code>cor(cophenetic(hc), d)</code>, mide qué tan fielmente el dendrograma conserva la estructura de distancias; permite comparar criterios de enlace (valores cercanos a 1 son mejores) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><strong>Coeficiente aglomerativo (AC):</strong> lo reporta <code>agnes()</code>. Para cada observación <span class="math inline">\(i\)</span>, sea <span class="math inline">\(m(i)\)</span> la altura de su primera fusión dividida por la altura de la fusión final; entonces <span class="math inline">\(AC = \frac{1}{n}\sum_i \left(1 - m(i)\right) \in [0, 1]\)</span>. Valores cercanos a 1 indican una estructura de grupos fuerte <span class="citation" data-cites="kaufman1990">(<a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>. DIANA reporta el análogo coeficiente divisivo (DC). Ambos tienden a crecer con <span class="math inline">\(n\)</span>, por lo que solo deben compararse entre conjuntos de tamaño similar.</li>
+</ul>
+</section>
+<section id="limitaciones" class="level3" data-number="10.4.7">
+<h3 data-number="10.4.7" class="anchored" data-anchor-id="limitaciones"><span class="header-section-number">10.4.7</span> Limitaciones</h3>
+<ul>
+<li>Las fusiones (o divisiones) son <strong>irreversibles</strong>: un error en un paso temprano no se corrige después.</li>
+<li>Requiere almacenar la matriz de distancias, <span class="math inline">\(O(n^2)\)</span> en memoria, y en general <span class="math inline">\(O(n^2)\)</span> a <span class="math inline">\(O(n^3)\)</span> en tiempo; no es práctico con decenas de miles de observaciones.</li>
+<li>El resultado depende fuertemente del criterio de enlace; el enlace simple es sensible al ruido y a puntos “puente” entre grupos.</li>
+</ul>
 </section>
 </section>
 <section id="implementación-práctica-en-r" class="level2" data-number="10.5">
@@ -669,75 +896,95 @@ window.Quarto = {
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Verificación de tendencia al agrupamiento mediante el estadístico de Hopkins:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de ejemplo y estandarizar Z-score</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>datos_escalados <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnóstico de agrupabilidad (Estadístico de Hopkins)</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>res_hopkins <span class="ot">&lt;-</span> <span class="fu">get_clust_tendency</span>(datos_escalados, <span class="at">n =</span> <span class="fu">nrow</span>(datos_escalados) <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estadístico de Hopkins (H):"</span>, res_hopkins<span class="sc">$</span>hopkins_stat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de ejemplo y estandarizar Z-score</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>datos_escalados <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnóstico de agrupabilidad (Estadístico de Hopkins)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>res_hopkins <span class="ot">&lt;-</span> <span class="fu">get_clust_tendency</span>(datos_escalados, <span class="at">n =</span> <span class="fu">nrow</span>(datos_escalados) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estadístico de Hopkins (H):"</span>, res_hopkins<span class="sc">$</span>hopkins_stat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Determinación del <span class="math inline">\(K\)</span> óptimo por el método del codo y silueta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gráfico del Codo (WSS)</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Codo (WSS)"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Gráfico de la Silueta Promedio</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>) <span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Coeficiente de Silueta"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar k-means con K = 4 óptimo</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>km_res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(datos_escalados, <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización de clusters en 2D (proyección PCA)</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km_res, <span class="at">data =</span> datos_escalados,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>, <span class="at">palette =</span> <span class="st">"jco"</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gráfico del Codo (WSS)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Codo (WSS)"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Gráfico de la Silueta Promedio</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Coeficiente de Silueta"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>p1; p2</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar k-means con K = 4 óptimo</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>km_res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(datos_escalados, <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización de clusters en 2D (proyección PCA)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km_res, <span class="at">data =</span> datos_escalados,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>, <span class="at">palette =</span> <span class="st">"jco"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p>Construcción de dendrograma con el método de Ward y corte a <span class="math inline">\(K = 4\)</span>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de distancias euclidianas</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(datos_escalados, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar modelo jerárquico aglomerativo (Ward.D2)</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>hc_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar dendrograma estilizado con 4 grupos</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">k_colors =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">color_labels_by_k =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">rect =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Dendrograma de Clustering Jerárquico (Método de Ward)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de distancias euclidianas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(datos_escalados, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar modelo jerárquico aglomerativo (Ward.D2)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>hc_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar dendrograma estilizado con 4 grupos</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">k_colors =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">color_labels_by_k =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">rect =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Dendrograma de Clustering Jerárquico (Método de Ward)"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar cada estado a uno de los 4 grupos</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>grupos_ward <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(grupos_ward)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar criterios de enlace con la correlación cofenética</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"ward.D2"</span>)) {</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> m)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(m, <span class="st">":"</span>, <span class="fu">round</span>(<span class="fu">cor</span>(<span class="fu">cophenetic</span>(hc), dist_mat), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># AGNES y DIANA del paquete cluster (con sus coeficientes)</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ag <span class="ot">&lt;-</span> <span class="fu">agnes</span>(datos_escalados, <span class="at">method =</span> <span class="st">"ward"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> <span class="fu">diana</span>(datos_escalados)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. aglomerativo (AGNES):"</span>, <span class="fu">round</span>(ag<span class="sc">$</span>ac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. divisivo (DIANA):"</span>, <span class="fu">round</span>(di<span class="sc">$</span>dc, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">pltree</span>(di, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">main =</span> <span class="st">"Dendrograma DIANA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <p>Tratamiento de variables cuantitativas y cualitativas con Coeficiente de Gower:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear dataset simulado con datos mixtos</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>datos_mixtos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ingreso =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5000</span>, <span class="at">sd =</span> <span class="dv">1000</span>),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Edad =</span> <span class="fu">sample</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">65</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Perfil =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Básico"</span>, <span class="st">"Premium"</span>, <span class="st">"VIP"</span>), <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de disimilitud de Gower</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>gower_dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(datos_mixtos, <span class="at">metric =</span> <span class="st">"gower"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar k-medoids (PAM) para K = 3</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>modelo_pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(gower_dist, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">diss =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar medoides representativos seleccionados</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(modelo_pam<span class="sc">$</span>medoids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear dataset simulado con datos mixtos</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>datos_mixtos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ingreso =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5000</span>, <span class="at">sd =</span> <span class="dv">1000</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Edad =</span> <span class="fu">sample</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">65</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Perfil =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Básico"</span>, <span class="st">"Premium"</span>, <span class="st">"VIP"</span>), <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de disimilitud de Gower</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>gower_dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(datos_mixtos, <span class="at">metric =</span> <span class="st">"gower"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar k-medoids (PAM) para K = 3</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>modelo_pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(gower_dist, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">diss =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Con diss = TRUE, $medoids devuelve solo los índices de los medoides;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># para ver sus perfiles se indexa el data.frame original</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>modelo_pam<span class="sc">$</span>medoids</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>datos_mixtos[modelo_pam<span class="sc">$</span>id.med, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -773,7 +1020,7 @@ window.Quarto = {
 <p><strong>Consigna de Discusión en Grupo:</strong></p>
 <ol type="1">
 <li>¿Cómo se ven afectados los centroides de <span class="math inline">\(k\)</span>-means por la presencia de estos valores atípicos?</li>
-<li>¿Por qué la combinación del algoritmo PAM (<span class="math inline">\(k\)</span>-medoids) o un enlace jerárquico promedio ofrece mayor solidez en esta situación?.</li>
+<li>¿Por qué la combinación del algoritmo PAM (<span class="math inline">\(k\)</span>-medoids) o un enlace jerárquico promedio ofrece mayor solidez en esta situación?</li>
 </ol>
 </div>
 </div>
@@ -792,7 +1039,7 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><strong>Segmentación de Clientes y Selección de <span class="math inline">\(K\)</span>:</strong> Utilizando el dataset <code>USArrests</code> (disponible en R base), estandarice las variables de tasas de criminalidad. Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con <span class="math inline">\(k\)</span>-means.</li>
-<li><strong>Comparación de Criterios de Enlace Jerárquico:</strong> Con los datos de <code>USArrests</code> escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en <span class="math inline">\(K=4\)</span> grupos y evalúe mediante la matriz de confusión la coincidencia entre las particiones.</li>
+<li><strong>Comparación de Criterios de Enlace Jerárquico:</strong> Con los datos de <code>USArrests</code> escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en <span class="math inline">\(K=4\)</span> grupos con <code>cutree()</code> y compare las particiones mediante tablas cruzadas (<code>table()</code>) y el <strong>índice de Rand ajustado</strong> (<code>mclust::adjustedRandIndex()</code>), recordando que los números de cluster son etiquetas arbitrarias. Calcule además la correlación cofenética de cada modelo.</li>
 <li><strong>Agrupamiento sobre Datos Mixtos:</strong> Construya un dataset de 100 observaciones simuladas que contenga dos variables continuas y dos variables categóricas. Calcule la matriz de disimilitud de Gower con <code>cluster::daisy</code>, aplique el algoritmo PAM (<span class="math inline">\(k\)</span>-medoids) para <span class="math inline">\(K=3\)</span> y visualice los perfiles de los medoides seleccionados.</li>
 </ol>
 </div>
@@ -800,8 +1047,14 @@ window.Quarto = {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-gower1971" class="csl-entry" role="listitem">
+Gower, John C. 1971. <span>“A General Coefficient of Similarity and Some of Its Properties.”</span> <em>Biometrics</em> 27 (4): 857–71. <a href="https://doi.org/10.2307/2528823">https://doi.org/10.2307/2528823</a>.
+</div>
 <div id="ref-johnson2014" class="csl-entry" role="listitem">
 Johnson, Richard A., and Dean W. Wichern. 2014. <em>Applied Multivariate Statistical Analysis</em>. 6th ed. Pearson Education Limited.
+</div>
+<div id="ref-kaufman1990" class="csl-entry" role="listitem">
+Kaufman, Leonard, and Peter J. Rousseeuw. 1990. <em>Finding Groups in Data: An Introduction to Cluster Analysis</em>. Wiley.
 </div>
 <div id="ref-provost2013" class="csl-entry" role="listitem">
 Provost, Foster, and Tom Fawcett. 2013. <em>Data Science for Business: What You Need to Know about Data Mining and Data-Analytic Thinking</em>. O’Reilly Media.
