@@ -524,6 +524,14 @@ window.Quarto = {
   </ul></li>
   <li><a href="#implementación-práctica-en-r" id="toc-implementación-práctica-en-r" class="nav-link" data-scroll-target="#implementación-práctica-en-r"><span class="header-section-number">10.5</span> Implementación Práctica en R</a></li>
   <li><a href="#cápsula-de-ejercicios-del-agrupamiento" id="toc-cápsula-de-ejercicios-del-agrupamiento" class="nav-link" data-scroll-target="#cápsula-de-ejercicios-del-agrupamiento"><span class="header-section-number">10.6</span> Cápsula de Ejercicios del Agrupamiento</a></li>
+  <li><a href="#sec-anexo-ss" id="toc-sec-anexo-ss" class="nav-link" data-scroll-target="#sec-anexo-ss"><span class="header-section-number">10.7</span> Anexo: Descomposición de la Suma de Cuadrados</a>
+  <ul class="collapse">
+  <li><a href="#definiciones" id="toc-definiciones" class="nav-link" data-scroll-target="#definiciones"><span class="header-section-number">10.7.1</span> Definiciones</a></li>
+  <li><a href="#la-identidad-fundamental" id="toc-la-identidad-fundamental" class="nav-link" data-scroll-target="#la-identidad-fundamental"><span class="header-section-number">10.7.2</span> La Identidad Fundamental</a></li>
+  <li><a href="#consecuencias-para-el-agrupamiento" id="toc-consecuencias-para-el-agrupamiento" class="nav-link" data-scroll-target="#consecuencias-para-el-agrupamiento"><span class="header-section-number">10.7.3</span> Consecuencias para el Agrupamiento</a></li>
+  <li><a href="#ejemplo-numérico" id="toc-ejemplo-numérico" class="nav-link" data-scroll-target="#ejemplo-numérico"><span class="header-section-number">10.7.4</span> Ejemplo Numérico</a></li>
+  <li><a href="#verificación-en-r" id="toc-verificación-en-r" class="nav-link" data-scroll-target="#verificación-en-r"><span class="header-section-number">10.7.5</span> Verificación en R</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -622,16 +630,17 @@ Warning
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="necesidad-de-estandarización-y-datos-mixtos"><span class="header-section-number">10.2.1</span> Necesidad de Estandarización y Datos Mixtos</h3>
 <p>Dado que la distancia euclidiana es sensible a las unidades de medida, los atributos con mayor magnitud dominan artificialmente los cálculos de proximidad <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. Es imprescindible estandarizar previamente las variables a <strong>Z-scores</strong> <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>:</p>
 <p><span class="math display">\[z_{im} = \frac{x_{im} - \bar{x}_m}{s_m}\]</span></p>
-<p>En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. En tales casos, las distancias euclidianas no son aplicables. El <strong>Coeficiente de Disimilitud de Gower</strong> (<span class="math inline">\(d_G\)</span>) resuelve este desafío calculando una disimilitud parcial en <span class="math inline">\([0,1]\)</span> según el tipo de cada variable y promediándolas <span class="citation" data-cites="gower1971 kaufman1990">(<a href="references.html#ref-gower1971" role="doc-biblioref">Gower 1971</a>; <a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>. La fórmula que implementa <code>cluster::daisy(metric = "gower")</code> es:</p>
+<p>En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales <span class="citation" data-cites="shmueli2018">(<a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>. En tales casos, las distancias euclidianas no son aplicables. El <strong>Coeficiente de Disimilitud de Gower</strong> (<span class="math inline">\(d_G\)</span>) resuelve este desafío calculando, para cada variable, una disimilitud parcial en <span class="math inline">\([0,1]\)</span> según su tipo, y promediándolas <span class="citation" data-cites="gower1971 kaufman1990">(<a href="references.html#ref-gower1971" role="doc-biblioref">Gower 1971</a>; <a href="references.html#ref-kaufman1990" role="doc-biblioref">Kaufman and Rousseeuw 1990</a>)</span>:</p>
 <p><span class="math display">\[d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}\, d_{ij}^{(m)}}{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}}\]</span></p>
-<p>donde <span class="math inline">\(w_m\)</span> es el peso de la variable <span class="math inline">\(m\)</span> (argumento <code>weights</code>, por defecto <span class="math inline">\(w_m = 1\)</span>) y:</p>
+<p>donde <span class="math inline">\(w_m \ge 0\)</span> es el peso asignado a la variable <span class="math inline">\(m\)</span> (habitualmente <span class="math inline">\(w_m = 1\)</span> para todas) y:</p>
 <ul>
-<li><strong>Indicador <span class="math inline">\(\delta_{ij}^{(m)}\)</span>:</strong> vale <span class="math inline">\(0\)</span> si <span class="math inline">\(x_{im}\)</span> o <span class="math inline">\(x_{jm}\)</span> es faltante (<code>NA</code>), o si la variable es <strong>binaria asimétrica</strong> (<code>type = list(asymm = ...)</code>) y ambas observaciones valen <span class="math inline">\(0\)</span>; en cualquier otro caso vale <span class="math inline">\(1\)</span>.</li>
-<li><strong>Cuantitativas (intervalo, tipo <code>I</code>):</strong> <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}\)</span>, con <span class="math inline">\(R_m = \max_h x_{hm} - \min_h x_{hm}\)</span> el rango observado (sin contar faltantes).</li>
-<li><strong>Nominales y binarias (tipos <code>N</code>, <code>S</code>, <code>A</code>):</strong> <span class="math inline">\(d_{ij}^{(m)} = 0\)</span> si <span class="math inline">\(x_{im} = x_{jm}\)</span> y <span class="math inline">\(d_{ij}^{(m)} = 1\)</span> en caso contrario.</li>
-<li><strong>Ordinales (factor ordenado, tipo <code>O</code>):</strong> se reemplazan las categorías por sus códigos enteros <span class="math inline">\(r_{im} \in \{1, 2, \dots\}\)</span> y se tratan como cuantitativas: <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}\)</span>.</li>
-<li><strong>Razón logarítmica (tipo <code>logratio</code>):</strong> se aplica <span class="math inline">\(\log(x)\)</span> y luego se trata como cuantitativa.</li>
+<li><strong>Indicador de comparabilidad <span class="math inline">\(\delta_{ij}^{(m)}\)</span>:</strong> vale <span class="math inline">\(0\)</span> si <span class="math inline">\(x_{im}\)</span> o <span class="math inline">\(x_{jm}\)</span> es un valor faltante, o si la variable es <strong>binaria asimétrica</strong> (la presencia es informativa pero la ausencia no) y ambas observaciones valen <span class="math inline">\(0\)</span>; en cualquier otro caso vale <span class="math inline">\(1\)</span>.</li>
+<li><strong>Variables cuantitativas:</strong> <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}\)</span>, con <span class="math inline">\(R_m = \max_h x_{hm} - \min_h x_{hm}\)</span> el rango observado de la variable (sin contar faltantes).</li>
+<li><strong>Variables nominales y binarias:</strong> <span class="math inline">\(d_{ij}^{(m)} = 0\)</span> si <span class="math inline">\(x_{im} = x_{jm}\)</span> y <span class="math inline">\(d_{ij}^{(m)} = 1\)</span> en caso contrario.</li>
+<li><strong>Variables ordinales:</strong> se reemplazan las categorías por sus rangos o códigos enteros <span class="math inline">\(r_{im} \in \{1, 2, \dots\}\)</span> y se tratan como cuantitativas: <span class="math inline">\(d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}\)</span>.</li>
+<li><strong>Variables de escala de razón muy asimétricas</strong> (ingresos, montos): pueden transformarse previamente con <span class="math inline">\(\log(x)\)</span> y luego tratarse como cuantitativas.</li>
 </ul>
+<p>Si todos los <span class="math inline">\(\delta = 1\)</span> y <span class="math inline">\(w_m = 1\)</span>, el coeficiente es simplemente el <strong>promedio de las <span class="math inline">\(p\)</span> disimilitudes parciales</strong>.</p>
 <section id="ejemplo-numérico-de-gower" class="level4" data-number="10.2.1.1">
 <h4 data-number="10.2.1.1" class="anchored" data-anchor-id="ejemplo-numérico-de-gower"><span class="header-section-number">10.2.1.1</span> Ejemplo numérico de Gower</h4>
 <p>Considere tres personas con una variable cuantitativa (Edad), una nominal (Sexo) y una ordinal (Nivel educativo: Bajo &lt; Medio &lt; Alto):</p>
@@ -707,20 +716,7 @@ Warning
 </tr>
 </tbody>
 </table>
-<p>Las observaciones más parecidas son la 1 y la 3. El mismo resultado con <code>daisy</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Edad  =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sexo  =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>)),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nivel =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Alto"</span>, <span class="st">"Medio"</span>),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Medio"</span>, <span class="st">"Alto"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">daisy</span>(ej, <span class="at">metric =</span> <span class="st">"gower"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           1         2</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 0.7777778</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 0.5000000 0.7222222</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metric :  mixed ;  Types = I, N, O</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Si la Edad de la observación 2 fuera <code>NA</code>, en los pares que la incluyen <span class="math inline">\(\delta_{\text{Edad}} = 0\)</span> y el denominador pasaría de 3 a 2.</p>
+<p>Las observaciones más parecidas son la 1 y la 3. Si la Edad de la observación 2 fuera faltante, en los pares que la incluyen <span class="math inline">\(\delta_{\text{Edad}} = 0\)</span> y el denominador pasaría de 3 a 2. La implementación en R se presenta en la sección práctica.</p>
 </section>
 </section>
 </section>
@@ -730,14 +726,14 @@ Warning
 <section id="el-algoritmo-k-means" class="level3" data-number="10.3.1">
 <h3 data-number="10.3.1" class="anchored" data-anchor-id="el-algoritmo-k-means"><span class="header-section-number">10.3.1</span> 1. El Algoritmo <span class="math inline">\(k\)</span>-means</h3>
 <p><span class="math inline">\(k\)</span>-means asigna cada punto al centroide más cercano, iterando hasta la convergencia para minimización de la <strong>Suma de Cuadrados Intra-cluster</strong> (WCSS / SSE) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</p>
-<p><span class="math display">\[\text{SSE} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \mathbf{\mu}_k\|^2\]</span></p>
-<p>donde <span class="math inline">\(\mathbf{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i\)</span> representa el <strong>centroide</strong> (media aritmética) del cluster <span class="math inline">\(C_k\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p><span class="math display">\[\text{SSE} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i\)</span> representa el <strong>centroide</strong> (media aritmética) del cluster <span class="math inline">\(C_k\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. La relación entre esta SSE (dentro de grupos), la variabilidad entre grupos y la variabilidad total se desarrolla en el <a href="#sec-anexo-ss">Anexo</a>.</p>
 <section id="el-algoritmo-de-lloyd-pasos-de-ejecución" class="level4" data-number="10.3.1.1">
 <h4 data-number="10.3.1.1" class="anchored" data-anchor-id="el-algoritmo-de-lloyd-pasos-de-ejecución"><span class="header-section-number">10.3.1.1</span> El Algoritmo de Lloyd (Pasos de Ejecución):</h4>
 <ol type="1">
-<li><strong>Inicialización:</strong> Seleccionar aleatoriamente <span class="math inline">\(K\)</span> puntos iniciales como centroides <span class="math inline">\(\mathbf{\mu}_1, \dots, \mathbf{\mu}_K\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><strong>Inicialización:</strong> Seleccionar aleatoriamente <span class="math inline">\(K\)</span> puntos iniciales como centroides <span class="math inline">\(\boldsymbol{\mu}_1, \dots, \boldsymbol{\mu}_K\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
 <li><strong>Asignación:</strong> Asignar cada observación <span class="math inline">\(\mathbf{x}_i\)</span> al centroide más cercano según la distancia euclidiana.</li>
-<li><strong>Actualización:</strong> Recalcular el centroide <span class="math inline">\(\mathbf{\mu}_k\)</span> de cada cluster como el promedio de todas las observaciones asignadas a él.</li>
+<li><strong>Actualización:</strong> Recalcular el centroide <span class="math inline">\(\boldsymbol{\mu}_k\)</span> de cada cluster como el promedio de todas las observaciones asignadas a él.</li>
 <li><strong>Convergencia:</strong> Repetir los pasos 2 y 3 hasta que los centroides no cambien o se alcance el número máximo de iteraciones.</li>
 </ol>
 <p><em>Limitaciones Clave:</em> <span class="math inline">\(k\)</span>-means asume grupos esféricos de tamaño y densidad similar, es altamente sensible a la inicialización aleatoria y sufre ante la presencia de valores atípicos (<em>outliers</em>) que desplazan fuertemente las medias <span class="citation" data-cites="tan2019 shmueli2018">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>; <a href="references.html#ref-shmueli2018" role="doc-biblioref">Shmueli et al. 2018</a>)</span>.</p>
@@ -754,7 +750,12 @@ Warning
 <li><strong>Coeficiente de Silueta (<em>Silhouette Coefficient</em>):</strong> Para una observación <span class="math inline">\(i\)</span>, la silueta <span class="math inline">\(s_i\)</span> mide qué tan similar es a los puntos de su propio cluster frente a los del cluster más cercano <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>:</li>
 </ol>
 <p><span class="math display">\[s_i = \frac{b_i - a_i}{\max(a_i, b_i)}\]</span></p>
-<p>donde <span class="math inline">\(a_i\)</span> es la distancia promedio de <span class="math inline">\(i\)</span> a los demás puntos de su mismo cluster, y <span class="math inline">\(b_i = \min_{l \neq k} \bar{d}(i, C_l)\)</span> es la menor de las distancias promedio de <span class="math inline">\(i\)</span> a los puntos de cada uno de los otros clusters (el cluster vecino más cercano) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \to 1.0\)</span>: La observación está correctamente agrupada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i \approx 0\)</span>: La observación está en la frontera entre dos clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>. * <span class="math inline">\(s_i &lt; 0\)</span>: La observación probablemente fue asignada al cluster equivocado <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<p>donde <span class="math inline">\(a_i\)</span> es la distancia promedio de <span class="math inline">\(i\)</span> a los demás puntos de su mismo cluster, y <span class="math inline">\(b_i = \min_{l \neq k} \bar{d}(i, C_l)\)</span> es la menor de las distancias promedio de <span class="math inline">\(i\)</span> a los puntos de cada uno de los otros clusters (el cluster vecino más cercano) <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
+<ul>
+<li><span class="math inline">\(s_i \to 1.0\)</span>: La observación está correctamente agrupada <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><span class="math inline">\(s_i \approx 0\)</span>: La observación está en la frontera entre dos clusters <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+<li><span class="math inline">\(s_i &lt; 0\)</span>: La observación probablemente fue asignada al cluster equivocado <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</li>
+</ul>
 <p>El <span class="math inline">\(K\)</span> óptimo maximiza el promedio global de la silueta <span class="math inline">\(\bar{S}\)</span> <span class="citation" data-cites="tan2019">(<a href="references.html#ref-tan2019" role="doc-biblioref">Tan et al. 2019</a>)</span>.</p>
 </section>
 </section>
@@ -777,9 +778,9 @@ Warning
 <li><strong>Enlace Simple (<em>Single Linkage</em>):</strong> Distancia mínima entre elementos (<span class="math inline">\(D(C_A, C_B) = \min_{\mathbf{x}_i \in C_A, \mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span>). Propenso al efecto de encadenamiento (<em>chaining</em>) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
 <li><strong>Enlace Completo (<em>Complete Linkage</em>):</strong> Distancia máxima entre elementos (<span class="math inline">\(D(C_A, C_B) = \max_{\mathbf{x}_i \in C_A, \mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span>). Produce clusters compactos y de diámetro similar <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
 <li><strong>Enlace Promedio (<em>Average Linkage / UPGMA</em>):</strong> Distancia promedio entre todos los pares (<span class="math inline">\(D(C_A, C_B) = \frac{1}{|C_A||C_B|} \sum_{\mathbf{x}_i \in C_A} \sum_{\mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span>) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>.</li>
-<li><strong>Método de Ward:</strong> Minimiza el incremento de la varianza total intra-cluster al fusionar dos grupos <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</li>
+<li><strong>Método de Ward:</strong> Minimiza el incremento de la suma de cuadrados intra-cluster (WSS) al fusionar dos grupos; es decir, usa el mismo criterio que <span class="math inline">\(k\)</span>-means (ver <a href="#sec-anexo-ss">Anexo</a>) <span class="citation" data-cites="johnson2014">(<a href="references.html#ref-johnson2014" role="doc-biblioref">Johnson and Wichern 2014</a>)</span>:</li>
 </ul>
-<p><span class="math display">\[\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\mathbf{\mu}_A - \mathbf{\mu}_B\|^2\]</span></p>
+<p><span class="math display">\[\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\boldsymbol{\mu}_A - \boldsymbol{\mu}_B\|^2\]</span></p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -859,15 +860,15 @@ Warning
 </tbody>
 </table>
 <p>Con enlace simple <span class="math inline">\(B\)</span> se “encadena” al grupo <span class="math inline">\(\{C,D\}\)</span> y, al cortar en <span class="math inline">\(K = 2\)</span>, se obtiene <span class="math inline">\(\{A\}\)</span> y <span class="math inline">\(\{B,C,D\}\)</span>; con enlace completo se obtienen dos grupos compactos, <span class="math inline">\(\{A,B\}\)</span> y <span class="math inline">\(\{C,D\}\)</span>. Se verifica en R:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">0</span>, <span class="at">B =</span> <span class="fl">1.6</span>, <span class="at">C =</span> <span class="dv">3</span>, <span class="at">D =</span> <span class="dv">4</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(x)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hc_s <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"single"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>hc_c <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"complete"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>hc_s<span class="sc">$</span>height   <span class="co"># 1.0 1.4 1.6</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>hc_c<span class="sc">$</span>height   <span class="co"># 1.0 1.6 4.0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_s, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=2, C=2, D=2</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_c, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=1, C=2, D=2</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)); <span class="fu">plot</span>(hc_s); <span class="fu">plot</span>(hc_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">0</span>, <span class="at">B =</span> <span class="fl">1.6</span>, <span class="at">C =</span> <span class="dv">3</span>, <span class="at">D =</span> <span class="dv">4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(x)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>hc_s <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"single"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>hc_c <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">"complete"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>hc_s<span class="sc">$</span>height   <span class="co"># 1.0 1.4 1.6</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>hc_c<span class="sc">$</span>height   <span class="co"># 1.0 1.6 4.0</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_s, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=2, C=2, D=2</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cutree</span>(hc_c, <span class="at">k =</span> <span class="dv">2</span>)   <span class="co"># A=1, B=1, C=2, D=2</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)); <span class="fu">plot</span>(hc_s); <span class="fu">plot</span>(hc_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="lectura-y-corte-del-dendrograma" class="level3" data-number="10.4.5">
 <h3 data-number="10.4.5" class="anchored" data-anchor-id="lectura-y-corte-del-dendrograma"><span class="header-section-number">10.4.5</span> Lectura y corte del dendrograma</h3>
@@ -896,75 +897,89 @@ Warning
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Verificación de tendencia al agrupamiento mediante el estadístico de Hopkins:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de ejemplo y estandarizar Z-score</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>datos_escalados <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnóstico de agrupabilidad (Estadístico de Hopkins)</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>res_hopkins <span class="ot">&lt;-</span> <span class="fu">get_clust_tendency</span>(datos_escalados, <span class="at">n =</span> <span class="fu">nrow</span>(datos_escalados) <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estadístico de Hopkins (H):"</span>, res_hopkins<span class="sc">$</span>hopkins_stat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset de ejemplo y estandarizar Z-score</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>datos_escalados <span class="ot">&lt;-</span> <span class="fu">scale</span>(USArrests)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnóstico de agrupabilidad (Estadístico de Hopkins)</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>res_hopkins <span class="ot">&lt;-</span> <span class="fu">get_clust_tendency</span>(datos_escalados, <span class="at">n =</span> <span class="fu">nrow</span>(datos_escalados) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estadístico de Hopkins (H):"</span>, res_hopkins<span class="sc">$</span>hopkins_stat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Determinación del <span class="math inline">\(K\)</span> óptimo por el método del codo y silueta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gráfico del Codo (WSS)</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Codo (WSS)"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Gráfico de la Silueta Promedio</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Coeficiente de Silueta"</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>p1; p2</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar k-means con K = 4 óptimo</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>km_res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(datos_escalados, <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización de clusters en 2D (proyección PCA)</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km_res, <span class="at">data =</span> datos_escalados,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>, <span class="at">palette =</span> <span class="st">"jco"</span>,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gráfico del Codo (WSS)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Codo (WSS)"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Gráfico de la Silueta Promedio</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(datos_escalados, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Método del Coeficiente de Silueta"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>p1; p2</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecutar k-means con K = 4 óptimo</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>km_res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(datos_escalados, <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización de clusters en 2D (proyección PCA)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km_res, <span class="at">data =</span> datos_escalados,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>, <span class="at">palette =</span> <span class="st">"jco"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p>Construcción de dendrograma con el método de Ward y corte a <span class="math inline">\(K = 4\)</span>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de distancias euclidianas</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(datos_escalados, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar modelo jerárquico aglomerativo (Ward.D2)</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>hc_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar dendrograma estilizado con 4 grupos</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">k_colors =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">color_labels_by_k =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">rect =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Dendrograma de Clustering Jerárquico (Método de Ward)"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar cada estado a uno de los 4 grupos</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>grupos_ward <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(grupos_ward)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar criterios de enlace con la correlación cofenética</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"ward.D2"</span>)) {</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> m)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(m, <span class="st">":"</span>, <span class="fu">round</span>(<span class="fu">cor</span>(<span class="fu">cophenetic</span>(hc), dist_mat), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># AGNES y DIANA del paquete cluster (con sus coeficientes)</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ag <span class="ot">&lt;-</span> <span class="fu">agnes</span>(datos_escalados, <span class="at">method =</span> <span class="st">"ward"</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> <span class="fu">diana</span>(datos_escalados)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. aglomerativo (AGNES):"</span>, <span class="fu">round</span>(ag<span class="sc">$</span>ac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. divisivo (DIANA):"</span>, <span class="fu">round</span>(di<span class="sc">$</span>dc, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">pltree</span>(di, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">main =</span> <span class="st">"Dendrograma DIANA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular matriz de distancias euclidianas</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(datos_escalados, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar modelo jerárquico aglomerativo (Ward.D2)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>hc_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar dendrograma estilizado con 4 grupos</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">k_colors =</span> <span class="fu">c</span>(<span class="st">"#2E9FDF"</span>, <span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">color_labels_by_k =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">rect =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Dendrograma de Clustering Jerárquico (Método de Ward)"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar cada estado a uno de los 4 grupos</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>grupos_ward <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc_ward, <span class="at">k =</span> <span class="dv">4</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(grupos_ward)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar criterios de enlace con la correlación cofenética</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"ward.D2"</span>)) {</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> m)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(m, <span class="st">":"</span>, <span class="fu">round</span>(<span class="fu">cor</span>(<span class="fu">cophenetic</span>(hc), dist_mat), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># AGNES y DIANA del paquete cluster (con sus coeficientes)</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>ag <span class="ot">&lt;-</span> <span class="fu">agnes</span>(datos_escalados, <span class="at">method =</span> <span class="st">"ward"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> <span class="fu">diana</span>(datos_escalados)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. aglomerativo (AGNES):"</span>, <span class="fu">round</span>(ag<span class="sc">$</span>ac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coef. divisivo (DIANA):"</span>, <span class="fu">round</span>(di<span class="sc">$</span>dc, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">pltree</span>(di, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">main =</span> <span class="st">"Dendrograma DIANA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<p>Tratamiento de variables cuantitativas y cualitativas con Coeficiente de Gower:</p>
+<p>En R, el coeficiente de Gower se calcula con <code>cluster::daisy(x, metric = "gower")</code>. La función detecta el tipo de cada columna: numérica → cuantitativa (tipo <code>I</code>), <code>factor</code> → nominal (<code>N</code>), factor ordenado (<code>ordered</code>) → ordinal (<code>O</code>). Con el argumento <code>type</code> se declaran binarias simétricas (<code>symm</code>), asimétricas (<code>asymm</code>) o con transformación logarítmica (<code>logratio</code>), y con <code>weights</code> los pesos <span class="math inline">\(w_m\)</span>.</p>
+<p>Verificación del ejemplo numérico:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ej <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Edad  =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sexo  =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>)),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nivel =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Alto"</span>, <span class="st">"Medio"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Medio"</span>, <span class="st">"Alto"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">daisy</span>(ej, <span class="at">metric =</span> <span class="st">"gower"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           1         2</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 0.7777778</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 0.5000000 0.7222222</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metric :  mixed ;  Types = I, N, O</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Aplicación con PAM sobre datos simulados:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear dataset simulado con datos mixtos</span></span>
@@ -1038,12 +1053,158 @@ Warning
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>Segmentación de Clientes y Selección de <span class="math inline">\(K\)</span>:</strong> Utilizando el dataset <code>USArrests</code> (disponible en R base), estandarice las variables de tasas de criminalidad. Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con <span class="math inline">\(k\)</span>-means.</li>
+<li><strong>Segmentación de Clientes y Selección de <span class="math inline">\(K\)</span>:</strong> Utilizando el dataset <code>USArrests</code> (disponible en R base), estandarice sus cuatro variables (tres tasas de criminalidad y el porcentaje de población urbana). Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con <span class="math inline">\(k\)</span>-means.</li>
 <li><strong>Comparación de Criterios de Enlace Jerárquico:</strong> Con los datos de <code>USArrests</code> escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en <span class="math inline">\(K=4\)</span> grupos con <code>cutree()</code> y compare las particiones mediante tablas cruzadas (<code>table()</code>) y el <strong>índice de Rand ajustado</strong> (<code>mclust::adjustedRandIndex()</code>), recordando que los números de cluster son etiquetas arbitrarias. Calcule además la correlación cofenética de cada modelo.</li>
 <li><strong>Agrupamiento sobre Datos Mixtos:</strong> Construya un dataset de 100 observaciones simuladas que contenga dos variables continuas y dos variables categóricas. Calcule la matriz de disimilitud de Gower con <code>cluster::daisy</code>, aplique el algoritmo PAM (<span class="math inline">\(k\)</span>-medoids) para <span class="math inline">\(K=3\)</span> y visualice los perfiles de los medoides seleccionados.</li>
 </ol>
 </div>
 </div>
+</section>
+<section id="sec-anexo-ss" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="sec-anexo-ss"><span class="header-section-number">10.7</span> Anexo: Descomposición de la Suma de Cuadrados</h2>
+<p>Este anexo desarrolla la identidad que sustenta los conceptos de <strong>cohesión</strong> y <strong>separación</strong> usados a lo largo del capítulo.</p>
+<section id="definiciones" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="definiciones"><span class="header-section-number">10.7.1</span> Definiciones</h3>
+<p>Sean <span class="math inline">\(n\)</span> observaciones <span class="math inline">\(\mathbf{x}_1, \dots, \mathbf{x}_n \in \mathbb{R}^p\)</span> particionadas en <span class="math inline">\(K\)</span> grupos <span class="math inline">\(C_1, \dots, C_K\)</span>, con <span class="math inline">\(n_k = |C_k|\)</span> observaciones en el grupo <span class="math inline">\(k\)</span>. Se definen la <strong>media global</strong> y el <strong>centroide</strong> de cada grupo:</p>
+<p><span class="math display">\[\bar{\mathbf{x}} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i, \qquad \boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i\]</span></p>
+<p>A partir de ellos se definen tres sumas de cuadrados:</p>
+<ul>
+<li><strong>Suma de cuadrados total (TSS):</strong> dispersión de todas las observaciones respecto a la media global; no depende de la partición. <span class="math display">\[\text{TSS} = \sum_{i=1}^n \|\mathbf{x}_i - \bar{\mathbf{x}}\|^2\]</span></li>
+<li><strong>Suma de cuadrados dentro de grupos (WSS o WCSS):</strong> dispersión de cada observación respecto al centroide de su grupo; mide la <strong>cohesión</strong> (es la SSE de <span class="math inline">\(k\)</span>-means). <span class="math display">\[\text{WSS} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2\]</span></li>
+<li><strong>Suma de cuadrados entre grupos (BSS o BCSS):</strong> dispersión de los centroides respecto a la media global, ponderada por el tamaño de cada grupo; mide la <strong>separación</strong>. <span class="math display">\[\text{BSS} = \sum_{k=1}^K n_k \|\boldsymbol{\mu}_k - \bar{\mathbf{x}}\|^2\]</span></li>
+</ul>
+<p>Como <span class="math inline">\(\|\mathbf{v}\|^2 = \sum_{m=1}^p v_m^2\)</span>, cada suma de cuadrados es la suma, variable por variable, de las sumas de cuadrados univariadas; la descomposición es la misma que la del ANOVA de un factor, aplicada a cada atributo.</p>
+</section>
+<section id="la-identidad-fundamental" class="level3" data-number="10.7.2">
+<h3 data-number="10.7.2" class="anchored" data-anchor-id="la-identidad-fundamental"><span class="header-section-number">10.7.2</span> La Identidad Fundamental</h3>
+<p><span class="math display">\[\text{TSS} = \text{WSS} + \text{BSS}\]</span></p>
+<p><strong>Demostración.</strong> Para una observación <span class="math inline">\(\mathbf{x}_i \in C_k\)</span> se suma y resta el centroide de su grupo:</p>
+<p><span class="math display">\[\mathbf{x}_i - \bar{\mathbf{x}} = (\mathbf{x}_i - \boldsymbol{\mu}_k) + (\boldsymbol{\mu}_k - \bar{\mathbf{x}})\]</span></p>
+<p>Usando <span class="math inline">\(\|\mathbf{a} + \mathbf{b}\|^2 = \|\mathbf{a}\|^2 + \|\mathbf{b}\|^2 + 2\,\mathbf{a}^T\mathbf{b}\)</span> y sumando sobre las observaciones del grupo <span class="math inline">\(k\)</span>:</p>
+<p><span class="math display">\[\sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \bar{\mathbf{x}}\|^2 = \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2 + n_k \|\boldsymbol{\mu}_k - \bar{\mathbf{x}}\|^2 + 2\,(\boldsymbol{\mu}_k - \bar{\mathbf{x}})^T \sum_{\mathbf{x}_i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k)\]</span></p>
+<p>El término cruzado se anula porque, por definición del centroide, las desviaciones respecto a la media de un grupo suman cero:</p>
+<p><span class="math display">\[\sum_{\mathbf{x}_i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k) = \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i - n_k \boldsymbol{\mu}_k = \mathbf{0}\]</span></p>
+<p>Sumando finalmente sobre los <span class="math inline">\(K\)</span> grupos se obtiene <span class="math inline">\(\text{TSS} = \text{WSS} + \text{BSS}\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</section>
+<section id="consecuencias-para-el-agrupamiento" class="level3" data-number="10.7.3">
+<h3 data-number="10.7.3" class="anchored" data-anchor-id="consecuencias-para-el-agrupamiento"><span class="header-section-number">10.7.3</span> Consecuencias para el Agrupamiento</h3>
+<ol type="1">
+<li><strong>Cohesión y separación son dos caras del mismo objetivo.</strong> Como TSS es fija para un conjunto de datos, toda reducción de la WSS se traduce en un aumento equivalente de la BSS: minimizar la WSS (lo que hace <span class="math inline">\(k\)</span>-means) es exactamente lo mismo que maximizar la BSS.</li>
+<li><strong>Proporción de varianza explicada por la partición:</strong> <span class="math display">\[R^2 = \frac{\text{BSS}}{\text{TSS}} = 1 - \frac{\text{WSS}}{\text{TSS}} \in [0, 1]\]</span> Es análoga al <span class="math inline">\(R^2\)</span> de la regresión o al <span class="math inline">\(\eta^2\)</span> del ANOVA: indica qué fracción de la variabilidad total queda explicada por la pertenencia a los grupos.</li>
+<li><strong>Por qué no basta con minimizar la WSS para elegir <span class="math inline">\(K\)</span>.</strong> Con particiones óptimas, la WSS disminuye al aumentar <span class="math inline">\(K\)</span> y llega a <span class="math inline">\(0\)</span> cuando <span class="math inline">\(K = n\)</span> (cada punto es su propio centroide), donde <span class="math inline">\(R^2 = 1\)</span> sin ninguna utilidad analítica. Por eso el método del codo busca el punto a partir del cual la ganancia en <span class="math inline">\(R^2\)</span> deja de ser relevante.</li>
+<li><strong>Relación con Ward.</strong> El agrupamiento jerárquico de Ward aplica el mismo criterio de forma aglomerativa: en cada paso fusiona los dos grupos cuya unión produce el menor aumento de la WSS (equivalentemente, la menor pérdida de BSS).</li>
+</ol>
+</section>
+<section id="ejemplo-numérico" class="level3" data-number="10.7.4">
+<h3 data-number="10.7.4" class="anchored" data-anchor-id="ejemplo-numérico"><span class="header-section-number">10.7.4</span> Ejemplo Numérico</h3>
+<p>Cinco observaciones en <span class="math inline">\(\mathbb{R}^2\)</span> divididas en <span class="math inline">\(K = 2\)</span> grupos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Obs.</th>
+<th style="text-align: center;"><span class="math inline">\(x_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x_2\)</span></th>
+<th style="text-align: center;">Grupo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(C_1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(C_1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(C_1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><span class="math inline">\(C_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><span class="math inline">\(C_2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Media global: <span class="math inline">\(\bar{\mathbf{x}} = (20/5,\ 20/5) = (4, 4)\)</span>. Centroides: <span class="math inline">\(\boldsymbol{\mu}_1 = (6/3,\ 6/3) = (2, 2)\)</span> y <span class="math inline">\(\boldsymbol{\mu}_2 = (14/2,\ 14/2) = (7, 7)\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 45%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Obs.</th>
+<th style="text-align: center;"><span class="math inline">\(\|\mathbf{x}_i - \bar{\mathbf{x}}\|^2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\((-3)^2 + (-3)^2 = 18\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-1)^2 + (-1)^2 = 2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\((-1)^2 + (-3)^2 = 10\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1^2 + (-1)^2 = 2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><span class="math inline">\((-2)^2 + 0^2 = 4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0^2 + 2^2 = 4\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(2^2 + 2^2 = 8\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-1)^2 + (-1)^2 = 2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"><span class="math inline">\(4^2 + 4^2 = 32\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1^2 + 1^2 = 2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Suma</strong></td>
+<td style="text-align: center;"><strong>TSS = 72</strong></td>
+<td style="text-align: center;"><strong>WSS = 12</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Entre grupos: <span class="math inline">\(\text{BSS} = 3 \cdot \|(2,2) - (4,4)\|^2 + 2 \cdot \|(7,7) - (4,4)\|^2 = 3 \cdot 8 + 2 \cdot 18 = 60\)</span>.</p>
+<p>Se verifica la identidad, <span class="math inline">\(72 = 12 + 60\)</span>, y la partición explica <span class="math inline">\(R^2 = 60/72 = 0.833\)</span> (83.3%) de la variabilidad total.</p>
+</section>
+<section id="verificación-en-r" class="level3" data-number="10.7.5">
+<h3 data-number="10.7.5" class="anchored" data-anchor-id="verificación-en-r"><span class="header-section-number">10.7.5</span> Verificación en R</h3>
+<p>La función <code>kmeans()</code> reporta directamente estas cantidades: <code>totss</code> (TSS), <code>withinss</code> (WSS de cada grupo), <code>tot.withinss</code> (WSS) y <code>betweenss</code> (BSS). El cociente “<code>between_SS / total_SS</code>” que imprime es el <span class="math inline">\(R^2\)</span> de la partición.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>,  <span class="dv">3</span>, <span class="dv">1</span>,  <span class="dv">2</span>, <span class="dv">4</span>,  <span class="dv">6</span>, <span class="dv">6</span>,  <span class="dv">8</span>, <span class="dv">8</span>),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Centros iniciales en las observaciones 1 y 4</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X, <span class="at">centers =</span> X[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), ])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>cluster        <span class="co"># 1 1 1 2 2</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>centers        <span class="co"># (2, 2) y (7, 7)</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>totss          <span class="co"># 72</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>tot.withinss   <span class="co"># 12</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>betweenss      <span class="co"># 60</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>km<span class="sc">$</span>betweenss <span class="sc">/</span> km<span class="sc">$</span>totss   <span class="co"># 0.8333</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -1069,6 +1230,7 @@ Tan, Pang-Ning, Michael Steinbach, Anuj Karpatne, and Vipin Kumar. 2019. <em>Int
 Torgo, Luís. 2017. <em>Data Mining with r: Learning with Case Studies</em>. 2nd ed. CRC Press.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->

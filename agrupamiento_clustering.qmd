@@ -71,17 +71,19 @@ Dado que la distancia euclidiana es sensible a las unidades de medida, los atrib
 
 $$z_{im} = \frac{x_{im} - \bar{x}_m}{s_m}$$
 
-En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales [@shmueli2018]. En tales casos, las distancias euclidianas no son aplicables. El **Coeficiente de Disimilitud de Gower** ($d_G$) resuelve este desafío calculando una disimilitud parcial en $[0,1]$ según el tipo de cada variable y promediándolas [@gower1971; @kaufman1990]. La fórmula que implementa `cluster::daisy(metric = "gower")` es:
+En problemas reales de Inteligencia de Negocios, los datasets combinan habitualmente atributos cuantitativos continuos con atributos categóricos nominales y ordinales [@shmueli2018]. En tales casos, las distancias euclidianas no son aplicables. El **Coeficiente de Disimilitud de Gower** ($d_G$) resuelve este desafío calculando, para cada variable, una disimilitud parcial en $[0,1]$ según su tipo, y promediándolas [@gower1971; @kaufman1990]:
 
 $$d_G(\mathbf{x}_i, \mathbf{x}_j) = \frac{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}\, d_{ij}^{(m)}}{\sum_{m=1}^p w_m\, \delta_{ij}^{(m)}}$$
 
-donde $w_m$ es el peso de la variable $m$ (argumento `weights`, por defecto $w_m = 1$) y:
+donde $w_m \ge 0$ es el peso asignado a la variable $m$ (habitualmente $w_m = 1$ para todas) y:
 
-* **Indicador $\delta_{ij}^{(m)}$:** vale $0$ si $x_{im}$ o $x_{jm}$ es faltante (`NA`), o si la variable es **binaria asimétrica** (`type = list(asymm = ...)`) y ambas observaciones valen $0$; en cualquier otro caso vale $1$.
-* **Cuantitativas (intervalo, tipo `I`):** $d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}$, con $R_m = \max_h x_{hm} - \min_h x_{hm}$ el rango observado (sin contar faltantes).
-* **Nominales y binarias (tipos `N`, `S`, `A`):** $d_{ij}^{(m)} = 0$ si $x_{im} = x_{jm}$ y $d_{ij}^{(m)} = 1$ en caso contrario.
-* **Ordinales (factor ordenado, tipo `O`):** se reemplazan las categorías por sus códigos enteros $r_{im} \in \{1, 2, \dots\}$ y se tratan como cuantitativas: $d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}$.
-* **Razón logarítmica (tipo `logratio`):** se aplica $\log(x)$ y luego se trata como cuantitativa.
+* **Indicador de comparabilidad $\delta_{ij}^{(m)}$:** vale $0$ si $x_{im}$ o $x_{jm}$ es un valor faltante, o si la variable es **binaria asimétrica** (la presencia es informativa pero la ausencia no) y ambas observaciones valen $0$; en cualquier otro caso vale $1$.
+* **Variables cuantitativas:** $d_{ij}^{(m)} = \dfrac{|x_{im} - x_{jm}|}{R_m}$, con $R_m = \max_h x_{hm} - \min_h x_{hm}$ el rango observado de la variable (sin contar faltantes).
+* **Variables nominales y binarias:** $d_{ij}^{(m)} = 0$ si $x_{im} = x_{jm}$ y $d_{ij}^{(m)} = 1$ en caso contrario.
+* **Variables ordinales:** se reemplazan las categorías por sus rangos o códigos enteros $r_{im} \in \{1, 2, \dots\}$ y se tratan como cuantitativas: $d_{ij}^{(m)} = \dfrac{|r_{im} - r_{jm}|}{\max_h r_{hm} - \min_h r_{hm}}$.
+* **Variables de escala de razón muy asimétricas** (ingresos, montos): pueden transformarse previamente con $\log(x)$ y luego tratarse como cuantitativas.
+
+Si todos los $\delta = 1$ y $w_m = 1$, el coeficiente es simplemente el **promedio de las $p$ disimilitudes parciales**.
 
 #### Ejemplo numérico de Gower
 
@@ -101,24 +103,7 @@ Rangos: $R_{\text{Edad}} = 50 - 20 = 30$ y $R_{\text{Nivel}} = 3 - 1 = 2$. No ha
 | (1, 3) | $\frac{\lvert 20-50 \rvert}{30} = 1$ | $0$ | $\frac{\lvert 1-2 \rvert}{2} = 0.5$ | $\frac{1 + 0 + 0.5}{3} = 0.500$ |
 | (2, 3) | $\frac{\lvert 30-50 \rvert}{30} = 0.667$ | $1$ | $\frac{\lvert 3-2 \rvert}{2} = 0.5$ | $\frac{0.667 + 1 + 0.5}{3} = 0.722$ |
 
-Las observaciones más parecidas son la 1 y la 3. El mismo resultado con `daisy`:
-
-```r
-library(cluster)
-ej <- data.frame(
-  Edad  = c(20, 30, 50),
-  Sexo  = factor(c("F", "M", "F")),
-  Nivel = factor(c("Bajo", "Alto", "Medio"),
-                 levels = c("Bajo", "Medio", "Alto"), ordered = TRUE)
-)
-daisy(ej, metric = "gower")
-#>           1         2
-#> 2 0.7777778
-#> 3 0.5000000 0.7222222
-#> Metric :  mixed ;  Types = I, N, O
-```
-
-Si la Edad de la observación 2 fuera `NA`, en los pares que la incluyen $\delta_{\text{Edad}} = 0$ y el denominador pasaría de 3 a 2.
+Las observaciones más parecidas son la 1 y la 3. Si la Edad de la observación 2 fuera faltante, en los pares que la incluyen $\delta_{\text{Edad}} = 0$ y el denominador pasaría de 3 a 2. La implementación en R se presenta en la sección práctica.
 
 ## Algoritmos Basados en Centros (*Partitioning Clustering*)
 
@@ -128,15 +113,15 @@ Los métodos de particionamiento dividen directamente las $n$ observaciones en $
 
 $k$-means asigna cada punto al centroide más cercano, iterando hasta la convergencia para minimización de la **Suma de Cuadrados Intra-cluster** (WCSS / SSE) [@tan2019]:
 
-$$\text{SSE} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \mathbf{\mu}_k\|^2$$
+$$\text{SSE} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$$
 
-donde $\mathbf{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i$ representa el **centroide** (media aritmética) del cluster $C_k$ [@tan2019].
+donde $\boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i$ representa el **centroide** (media aritmética) del cluster $C_k$ [@tan2019]. La relación entre esta SSE (dentro de grupos), la variabilidad entre grupos y la variabilidad total se desarrolla en el [Anexo](#sec-anexo-ss).
 
 #### El Algoritmo de Lloyd (Pasos de Ejecución):
 
-1. **Inicialización:** Seleccionar aleatoriamente $K$ puntos iniciales como centroides $\mathbf{\mu}_1, \dots, \mathbf{\mu}_K$ [@tan2019].
+1. **Inicialización:** Seleccionar aleatoriamente $K$ puntos iniciales como centroides $\boldsymbol{\mu}_1, \dots, \boldsymbol{\mu}_K$ [@tan2019].
 2. **Asignación:** Asignar cada observación $\mathbf{x}_i$ al centroide más cercano según la distancia euclidiana.
-3. **Actualización:** Recalcular el centroide $\mathbf{\mu}_k$ de cada cluster como el promedio de todas las observaciones asignadas a él.
+3. **Actualización:** Recalcular el centroide $\boldsymbol{\mu}_k$ de cada cluster como el promedio de todas las observaciones asignadas a él.
 4. **Convergencia:** Repetir los pasos 2 y 3 hasta que los centroides no cambien o se alcance el número máximo de iteraciones.
 
 *Limitaciones Clave:* $k$-means asume grupos esféricos de tamaño y densidad similar, es altamente sensible a la inicialización aleatoria y sufre ante la presencia de valores atípicos (*outliers*) que desplazan fuertemente las medias [@tan2019; @shmueli2018].
@@ -153,9 +138,10 @@ Para mitigar la sensibilidad a los valores atípicos de $k$-means, el algoritmo 
 $$s_i = \frac{b_i - a_i}{\max(a_i, b_i)}$$
 
 donde $a_i$ es la distancia promedio de $i$ a los demás puntos de su mismo cluster, y $b_i = \min_{l \neq k} \bar{d}(i, C_l)$ es la menor de las distancias promedio de $i$ a los puntos de cada uno de los otros clusters (el cluster vecino más cercano) [@tan2019].
-   * $s_i \to 1.0$: La observación está correctamente agrupada [@tan2019].
-   * $s_i \approx 0$: La observación está en la frontera entre dos clusters [@tan2019].
-   * $s_i < 0$: La observación probablemente fue asignada al cluster equivocado [@tan2019].
+
+* $s_i \to 1.0$: La observación está correctamente agrupada [@tan2019].
+* $s_i \approx 0$: La observación está en la frontera entre dos clusters [@tan2019].
+* $s_i < 0$: La observación probablemente fue asignada al cluster equivocado [@tan2019].
 
 El $K$ óptimo maximiza el promedio global de la silueta $\bar{S}$ [@tan2019].
 
@@ -177,9 +163,9 @@ La distancia entre dos clusters $C_A$ y $C_B$ depende del criterio de enlace sel
 * **Enlace Simple (*Single Linkage*):** Distancia mínima entre elementos ($D(C_A, C_B) = \min_{\mathbf{x}_i \in C_A, \mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)$). Propenso al efecto de encadenamiento (*chaining*) [@johnson2014].
 * **Enlace Completo (*Complete Linkage*):** Distancia máxima entre elementos ($D(C_A, C_B) = \max_{\mathbf{x}_i \in C_A, \mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)$). Produce clusters compactos y de diámetro similar [@johnson2014].
 * **Enlace Promedio (*Average Linkage / UPGMA*):** Distancia promedio entre todos los pares ($D(C_A, C_B) = \frac{1}{|C_A||C_B|} \sum_{\mathbf{x}_i \in C_A} \sum_{\mathbf{x}_j \in C_B} d(\mathbf{x}_i, \mathbf{x}_j)$) [@johnson2014].
-* **Método de Ward:** Minimiza el incremento de la varianza total intra-cluster al fusionar dos grupos [@johnson2014]:
+* **Método de Ward:** Minimiza el incremento de la suma de cuadrados intra-cluster (WSS) al fusionar dos grupos; es decir, usa el mismo criterio que $k$-means (ver [Anexo](#sec-anexo-ss)) [@johnson2014]:
 
-$$\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\mathbf{\mu}_A - \mathbf{\mu}_B\|^2$$
+$$\Delta \text{SSE}_{AB} = \frac{|C_A||C_B|}{|C_A| + |C_B|} \|\boldsymbol{\mu}_A - \boldsymbol{\mu}_B\|^2$$
 
 ::: {.callout-warning}
 ### Ward en R: `ward.D` vs `ward.D2`
@@ -311,7 +297,26 @@ pltree(di, cex = 0.6, main = "Dendrograma DIANA")
 ```
 
 ### Datos Mixtos (Gower + PAM)
-Tratamiento de variables cuantitativas y cualitativas con Coeficiente de Gower:
+En R, el coeficiente de Gower se calcula con `cluster::daisy(x, metric = "gower")`. La función detecta el tipo de cada columna: numérica → cuantitativa (tipo `I`), `factor` → nominal (`N`), factor ordenado (`ordered`) → ordinal (`O`). Con el argumento `type` se declaran binarias simétricas (`symm`), asimétricas (`asymm`) o con transformación logarítmica (`logratio`), y con `weights` los pesos $w_m$.
+
+Verificación del ejemplo numérico:
+
+```r
+library(cluster)
+ej <- data.frame(
+  Edad  = c(20, 30, 50),
+  Sexo  = factor(c("F", "M", "F")),
+  Nivel = factor(c("Bajo", "Alto", "Medio"),
+                 levels = c("Bajo", "Medio", "Alto"), ordered = TRUE)
+)
+daisy(ej, metric = "gower")
+#>           1         2
+#> 2 0.7777778
+#> 3 0.5000000 0.7222222
+#> Metric :  mixed ;  Types = I, N, O
+```
+
+Aplicación con PAM sobre datos simulados:
 
 ```r
 library(cluster)
@@ -363,7 +368,101 @@ datos_mixtos[modelo_pam$id.med, ]
 ::: {.callout-tip}
 ### Ejercicios de Aplicación Práctica
 
-1. **Segmentación de Clientes y Selección de $K$:** Utilizando el dataset `USArrests` (disponible en R base), estandarice las variables de tasas de criminalidad. Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con $k$-means.
+1. **Segmentación de Clientes y Selección de $K$:** Utilizando el dataset `USArrests` (disponible en R base), estandarice sus cuatro variables (tres tasas de criminalidad y el porcentaje de población urbana). Calcule el estadístico de Hopkins, determine el número óptimo de clusters comparando el método del codo y la silueta promedio, y caracterice los centroides finales obtenidos con $k$-means.
 2. **Comparación de Criterios de Enlace Jerárquico:** Con los datos de `USArrests` escalados, construya tres modelos jerárquicos aglomerativos aplicando enlace simple, enlace completo y el método de Ward. Dibuje los tres dendrogramas, corte cada árbol en $K=4$ grupos con `cutree()` y compare las particiones mediante tablas cruzadas (`table()`) y el **índice de Rand ajustado** (`mclust::adjustedRandIndex()`), recordando que los números de cluster son etiquetas arbitrarias. Calcule además la correlación cofenética de cada modelo.
 3. **Agrupamiento sobre Datos Mixtos:** Construya un dataset de 100 observaciones simuladas que contenga dos variables continuas y dos variables categóricas. Calcule la matriz de disimilitud de Gower con `cluster::daisy`, aplique el algoritmo PAM ($k$-medoids) para $K=3$ y visualice los perfiles de los medoides seleccionados.
 :::
+
+## Anexo: Descomposición de la Suma de Cuadrados {#sec-anexo-ss}
+
+Este anexo desarrolla la identidad que sustenta los conceptos de **cohesión** y **separación** usados a lo largo del capítulo.
+
+### Definiciones
+
+Sean $n$ observaciones $\mathbf{x}_1, \dots, \mathbf{x}_n \in \mathbb{R}^p$ particionadas en $K$ grupos $C_1, \dots, C_K$, con $n_k = |C_k|$ observaciones en el grupo $k$. Se definen la **media global** y el **centroide** de cada grupo:
+
+$$\bar{\mathbf{x}} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i, \qquad \boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i$$
+
+A partir de ellos se definen tres sumas de cuadrados:
+
+* **Suma de cuadrados total (TSS):** dispersión de todas las observaciones respecto a la media global; no depende de la partición.
+$$\text{TSS} = \sum_{i=1}^n \|\mathbf{x}_i - \bar{\mathbf{x}}\|^2$$
+* **Suma de cuadrados dentro de grupos (WSS o WCSS):** dispersión de cada observación respecto al centroide de su grupo; mide la **cohesión** (es la SSE de $k$-means).
+$$\text{WSS} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$$
+* **Suma de cuadrados entre grupos (BSS o BCSS):** dispersión de los centroides respecto a la media global, ponderada por el tamaño de cada grupo; mide la **separación**.
+$$\text{BSS} = \sum_{k=1}^K n_k \|\boldsymbol{\mu}_k - \bar{\mathbf{x}}\|^2$$
+
+Como $\|\mathbf{v}\|^2 = \sum_{m=1}^p v_m^2$, cada suma de cuadrados es la suma, variable por variable, de las sumas de cuadrados univariadas; la descomposición es la misma que la del ANOVA de un factor, aplicada a cada atributo.
+
+### La Identidad Fundamental
+
+$$\text{TSS} = \text{WSS} + \text{BSS}$$
+
+**Demostración.** Para una observación $\mathbf{x}_i \in C_k$ se suma y resta el centroide de su grupo:
+
+$$\mathbf{x}_i - \bar{\mathbf{x}} = (\mathbf{x}_i - \boldsymbol{\mu}_k) + (\boldsymbol{\mu}_k - \bar{\mathbf{x}})$$
+
+Usando $\|\mathbf{a} + \mathbf{b}\|^2 = \|\mathbf{a}\|^2 + \|\mathbf{b}\|^2 + 2\,\mathbf{a}^T\mathbf{b}$ y sumando sobre las observaciones del grupo $k$:
+
+$$\sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \bar{\mathbf{x}}\|^2 = \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2 + n_k \|\boldsymbol{\mu}_k - \bar{\mathbf{x}}\|^2 + 2\,(\boldsymbol{\mu}_k - \bar{\mathbf{x}})^T \sum_{\mathbf{x}_i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k)$$
+
+El término cruzado se anula porque, por definición del centroide, las desviaciones respecto a la media de un grupo suman cero:
+
+$$\sum_{\mathbf{x}_i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k) = \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i - n_k \boldsymbol{\mu}_k = \mathbf{0}$$
+
+Sumando finalmente sobre los $K$ grupos se obtiene $\text{TSS} = \text{WSS} + \text{BSS}$. $\blacksquare$
+
+### Consecuencias para el Agrupamiento
+
+1. **Cohesión y separación son dos caras del mismo objetivo.** Como TSS es fija para un conjunto de datos, toda reducción de la WSS se traduce en un aumento equivalente de la BSS: minimizar la WSS (lo que hace $k$-means) es exactamente lo mismo que maximizar la BSS.
+2. **Proporción de varianza explicada por la partición:**
+$$R^2 = \frac{\text{BSS}}{\text{TSS}} = 1 - \frac{\text{WSS}}{\text{TSS}} \in [0, 1]$$
+Es análoga al $R^2$ de la regresión o al $\eta^2$ del ANOVA: indica qué fracción de la variabilidad total queda explicada por la pertenencia a los grupos.
+3. **Por qué no basta con minimizar la WSS para elegir $K$.** Con particiones óptimas, la WSS disminuye al aumentar $K$ y llega a $0$ cuando $K = n$ (cada punto es su propio centroide), donde $R^2 = 1$ sin ninguna utilidad analítica. Por eso el método del codo busca el punto a partir del cual la ganancia en $R^2$ deja de ser relevante.
+4. **Relación con Ward.** El agrupamiento jerárquico de Ward aplica el mismo criterio de forma aglomerativa: en cada paso fusiona los dos grupos cuya unión produce el menor aumento de la WSS (equivalentemente, la menor pérdida de BSS).
+
+### Ejemplo Numérico
+
+Cinco observaciones en $\mathbb{R}^2$ divididas en $K = 2$ grupos:
+
+| Obs. | $x_1$ | $x_2$ | Grupo |
+|:----:|:-----:|:-----:|:-----:|
+| 1 | 1 | 1 | $C_1$ |
+| 2 | 3 | 1 | $C_1$ |
+| 3 | 2 | 4 | $C_1$ |
+| 4 | 6 | 6 | $C_2$ |
+| 5 | 8 | 8 | $C_2$ |
+
+Media global: $\bar{\mathbf{x}} = (20/5,\ 20/5) = (4, 4)$. Centroides: $\boldsymbol{\mu}_1 = (6/3,\ 6/3) = (2, 2)$ y $\boldsymbol{\mu}_2 = (14/2,\ 14/2) = (7, 7)$.
+
+| Obs. | $\|\mathbf{x}_i - \bar{\mathbf{x}}\|^2$ | $\|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$ |
+|:----:|:---------------------------------------:|:-----------------------------------------:|
+| 1 | $(-3)^2 + (-3)^2 = 18$ | $(-1)^2 + (-1)^2 = 2$ |
+| 2 | $(-1)^2 + (-3)^2 = 10$ | $1^2 + (-1)^2 = 2$ |
+| 3 | $(-2)^2 + 0^2 = 4$ | $0^2 + 2^2 = 4$ |
+| 4 | $2^2 + 2^2 = 8$ | $(-1)^2 + (-1)^2 = 2$ |
+| 5 | $4^2 + 4^2 = 32$ | $1^2 + 1^2 = 2$ |
+| **Suma** | **TSS = 72** | **WSS = 12** |
+
+Entre grupos: $\text{BSS} = 3 \cdot \|(2,2) - (4,4)\|^2 + 2 \cdot \|(7,7) - (4,4)\|^2 = 3 \cdot 8 + 2 \cdot 18 = 60$.
+
+Se verifica la identidad, $72 = 12 + 60$, y la partición explica $R^2 = 60/72 = 0.833$ (83.3%) de la variabilidad total.
+
+### Verificación en R
+
+La función `kmeans()` reporta directamente estas cantidades: `totss` (TSS), `withinss` (WSS de cada grupo), `tot.withinss` (WSS) y `betweenss` (BSS). El cociente "`between_SS / total_SS`" que imprime es el $R^2$ de la partición.
+
+```r
+X <- matrix(c(1, 1,  3, 1,  2, 4,  6, 6,  8, 8),
+            ncol = 2, byrow = TRUE)
+
+# Centros iniciales en las observaciones 1 y 4
+km <- kmeans(X, centers = X[c(1, 4), ])
+
+km$cluster        # 1 1 1 2 2
+km$centers        # (2, 2) y (7, 7)
+km$totss          # 72
+km$tot.withinss   # 12
+km$betweenss      # 60
+km$betweenss / km$totss   # 0.8333
+```
