@@ -1,0 +1,328 @@
+---
+title: "Ejemplo métodos jerárquicos (AGNES / DIANA) y datos mixtos (Gower)"
+subtitle: "Minería de Datos I"
+output: html_document
+date: "Noviembre 2026"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library(tidyverse)
+library(cluster)        # agnes, diana, daisy, pam, silhouette
+library(factoextra)     # get_clust_tendency, fviz_dend, fviz_nbclust, fviz_cluster, fviz_silhouette
+library(palmerpenguins) # penguins (datos mixtos)
+```
+
+# Librerías relevantes
+
+- stats::hclust (R base)
+- cluster (agnes, diana, daisy, pam)
+- factoextra
+
+| Método | Estrategia | Distancia | Función R |
+|--------|------------|-----------|-----------|
+| Enlace simple | aglomerativa | cualquiera | `hclust(method = "single")` |
+| Enlace completo | aglomerativa | cualquiera | `hclust(method = "complete")` |
+| Enlace promedio (UPGMA) | aglomerativa | cualquiera | `hclust(method = "average")` |
+| Ward | aglomerativa | euclidiana | `hclust(method = "ward.D2")` |
+| AGNES | aglomerativa | cualquiera | `cluster::agnes()` |
+| DIANA | divisiva | cualquiera | `cluster::diana()` |
+| Gower | — | datos mixtos | `cluster::daisy(metric = "gower")` |
+
+# Flujo de trabajo
+
+1. **Preparación**: selección de variables, NA, atípicos, estandarización (Z-score) o tipos de variable (datos mixtos).
+2. **Agrupabilidad**: estadístico de Hopkins (solo variables numéricas).
+3. **Distancia**: euclidiana / manhattan / Gower (datos mixtos).
+4. **Ajuste**: criterios de enlace (simple, completo, promedio, Ward), AGNES y DIANA. Ward solo con distancia euclidiana.
+5. **Evaluación de la jerarquía**: correlación cofenética, coeficiente aglomerativo (AC) / divisivo (DC).
+6. **Elección de K**: saltos en las alturas de fusión, silueta promedio.
+7. **Corte y validación**: `cutree()`, silueta por observación, comparación de particiones con `table()` (las etiquetas de los grupos son arbitrarias).
+8. **Perfilamiento y visualización**: grupos en escala original, dendrograma, proyección (PCA o MDS para Gower).
+
+**Notas complementarias** (para tener en cuenta, no son pasos adicionales):
+
+- **El flujo es iterativo**: si al perfilar los grupos se descubre que una variable domina la partición (como el sexo en el Caso 3), se vuelve a los pasos 1 o 3 para ajustar variables o pesos.
+- **Validación interna vs. externa**: la silueta y la cofenética usan solo los datos (interna); comparar con una variable conocida que no entró al agrupamiento, como la especie o el default, es validación externa y solo es posible cuando esa variable existe.
+- **Estabilidad**: unos buenos grupos deberían mantenerse si se repite el análisis con una submuestra de los datos; el jerárquico es sensible a esto porque una fusión temprana no se corrige.
+- **Variables redundantes**: dos variables muy correlacionadas pesan doble en la distancia; puede convenir eliminar una o resumirlas con PCA.
+- **Bases grandes**: la matriz de distancias crece con $n^2$; se agrupa una muestra y luego se asigna el resto de observaciones al grupo más cercano (idea de `clara()`).
+
+# Caso 1: ejemplo de los apuntes (A, B, C, D)
+
+Cuatro puntos sobre una recta: $A = 0$, $B = 1.6$, $C = 3$, $D = 4$.
+
+- ¿En qué orden se fusionan los puntos con enlace simple y con enlace completo?
+- ¿Qué grupos se obtienen al cortar en $K = 2$? ¿Por qué difieren?
+- ¿Qué enlace conserva mejor las distancias originales?
+
+```{r}
+# 3. Distancia
+x <- c(A = 0, B = 1.6, C = 3, D = 4)
+d <- dist(x)
+d
+
+# 4. Ajuste
+hc_s <- hclust(d, method = "single")
+hc_c <- hclust(d, method = "complete")
+hc_s$merge; hc_s$height   # alturas: 1.0 1.4 1.6
+hc_c$merge; hc_c$height   # alturas: 1.0 1.6 4.0
+
+# 5. Evaluación: correlación cofenética
+cor(cophenetic(hc_s), d)
+cor(cophenetic(hc_c), d)
+
+# 7. Corte en K = 2
+cutree(hc_s, k = 2)   # {A} y {B, C, D}: encadenamiento
+cutree(hc_c, k = 2)   # {A, B} y {C, D}: grupos compactos
+
+# 8. Visualización
+par(mfrow = c(1, 2))
+plot(hc_s, main = "Enlace simple", ylim = c(0, 4))
+plot(hc_c, main = "Enlace completo", ylim = c(0, 4))
+par(mfrow = c(1, 1))
+```
+
+# Caso 2: USArrests
+
+- Dataset: 50 estados de EE.UU., arrestos por 100.000 hab. por asalto, asesinato y violación (1973), y % de población urbana.
+
+Repetir la segmentación del ejemplo de k-center con métodos jerárquicos.
+
+- ¿Qué criterio de enlace conserva mejor las distancias (cofenética)?
+- ¿Cuántos grupos sugieren las alturas del dendrograma y la silueta?
+- ¿Por qué el enlace simple produce grupos tan desbalanceados?
+- ¿Coinciden Ward y k-means? ¿Por qué cabría esperarlo? (ver anexo de suma de cuadrados)
+
+```{r}
+# 1. Preparación
+data("USArrests")
+X <- scale(USArrests)
+
+# 2. Agrupabilidad
+set.seed(123)
+get_clust_tendency(X, n = nrow(X) - 1, graph = FALSE)$hopkins_stat
+
+# 3. Distancia
+D <- dist(X, method = "euclidean")
+
+# 4. Ajuste
+enlaces <- c("single", "complete", "average", "ward.D2")
+modelos <- map(set_names(enlaces), \(m) hclust(D, method = m))
+ag <- agnes(X, method = "ward")
+di <- diana(X)
+
+# 5. Evaluación de la jerarquía
+map_dbl(modelos, \(h) cor(cophenetic(h), D))   # correlación cofenética
+ag$ac   # coeficiente aglomerativo
+di$dc   # coeficiente divisivo
+
+# 6. Elección de K
+rev(modelos$ward.D2$height)[1:8]               # alturas de las últimas fusiones
+plot(rev(modelos$ward.D2$height)[1:10], type = "b",
+     xlab = "Número de grupos", ylab = "Altura de fusión")
+fviz_nbclust(X, hcut, method = "silhouette", hc_method = "ward.D2")
+fviz_nbclust(X, hcut, method = "silhouette", hc_method = "average")
+
+# 7. Corte y validación
+k <- 4
+cl_ward <- cutree(modelos$ward.D2, k = k)
+cl_prom <- cutree(modelos$average, k = k)
+cl_simp <- cutree(modelos$single,  k = k)
+table(cl_ward); table(cl_prom); table(cl_simp)
+fviz_silhouette(silhouette(cl_ward, D))
+fviz_silhouette(silhouette(cl_prom, D))
+
+set.seed(123)
+km <- kmeans(X, centers = k, nstart = 25)
+table(ward = cl_ward, kmeans = km$cluster)
+table(ward = cl_ward, promedio = cl_prom)
+table(ward = cl_ward, simple = cl_simp)
+
+# 8. Perfilamiento (escala original) y visualización
+USArrests |> mutate(cl = cl_ward) |>
+  group_by(cl) |> summarise(n = n(), across(everything(), mean))
+
+fviz_dend(modelos$ward.D2, k = k, cex = 0.6, rect = TRUE, main = "Ward (ward.D2)")
+fviz_dend(modelos$single,  k = k, cex = 0.6, main = "Enlace simple: encadenamiento")
+pltree(di, cex = 0.6, main = "DIANA")
+fviz_cluster(list(data = X, cluster = cl_ward), ellipse.type = "convex")
+```
+
+# Caso 3: Pingüinos de Palmer (datos mixtos con Gower)
+
+- Dataset: `palmerpenguins::penguins`. 344 pingüinos de tres especies (Adelie, Chinstrap, Gentoo) en tres islas del archipiélago de Palmer (Antártida), 2007–2009: medidas del pico, aleta y masa corporal (numéricas), isla y sexo (categóricas).
+
+Segmentar a los pingüinos combinando variables numéricas y categóricas, comparando un método basado en centros (PAM) con métodos jerárquicos. La especie **no** entra al agrupamiento: se usa al final para evaluar si los grupos recuperan la estructura biológica.
+
+- ¿Por qué no se puede usar k-means ni la distancia euclidiana con estas variables?
+- ¿Se puede calcular el estadístico de Hopkins sobre la matriz de Gower?
+- ¿Por qué no se usa Ward con Gower?
+- ¿Cuántos grupos sugiere la silueta para PAM y para el jerárquico? ¿Por qué sigue subiendo con $K$?
+- ¿Qué variable domina la distancia? ¿Qué ocurre al darle peso 0 con `weights` en `daisy()`?
+- ¿Qué método recupera mejor la especie? Caracterice los grupos.
+
+```{r}
+rm(list=ls())
+
+# 1. Preparación
+glimpse(penguins)
+pg <- penguins |> drop_na()               # 333 pingüinos con datos completos
+Xp <- pg |> select(bill_length_mm, bill_depth_mm, flipper_length_mm,
+                   body_mass_g, island, sex)
+summary(Xp)
+
+# 2. Agrupabilidad: Hopkins requiere datos numéricos; no aplica a Gower
+
+# 3. Distancia de Gower (numéricas -> I, factores -> N)
+Dg <- daisy(Xp, metric = "gower")
+summary(Dg)
+fviz_dist(Dg, show_labels = FALSE)
+
+# 4. Ajuste: k-center (PAM) y jerárquicos (promedio y completo; no Ward)
+hc_prom <- hclust(Dg, method = "average")
+hc_comp <- hclust(Dg, method = "complete")
+
+# 5. Evaluación de la jerarquía
+cor(cophenetic(hc_prom), Dg)
+cor(cophenetic(hc_comp), Dg)
+agnes(Dg, diss = TRUE, method = "average")$ac
+
+# 6. Elección de K con la silueta promedio
+ks <- 2:8
+tibble(
+  k        = ks,
+  pam      = map_dbl(ks, \(k) pam(Dg, k = k, diss = TRUE)$silinfo$avg.width),
+  promedio = map_dbl(ks, \(k) mean(silhouette(cutree(hc_prom, k), Dg)[, 3])),
+  completo = map_dbl(ks, \(k) mean(silhouette(cutree(hc_comp, k), Dg)[, 3])))
+
+# 7. Corte y validación
+k <- 3
+pm <- pam(Dg, k = k, diss = TRUE)
+cl_pam  <- pm$clustering
+cl_prom <- cutree(hc_prom, k = k)
+fviz_silhouette(pm)
+fviz_silhouette(silhouette(cl_prom, Dg))
+table(pam = cl_pam, promedio = cl_prom)
+
+# Contraste con la especie (no usada en el agrupamiento)
+table(especie = pg$species, pam = cl_pam)
+table(especie = pg$species, promedio = cl_prom)
+
+# ¿Qué variable domina? Dos grupos solo separan machos y hembras
+table(sexo = pg$sex, pam = cl_pam)
+
+# Variante: peso 0 al sexo (orden: 4 numéricas, isla, sexo)
+Dw <- daisy(Xp, metric = "gower", weights = c(1, 1, 1, 1, 1, 0))
+cl_pam_w  <- pam(Dw, k = k, diss = TRUE)$clustering
+cl_prom_w <- cutree(hclust(Dw, method = "average"), k = k)
+table(especie = pg$species, pam = cl_pam_w)
+table(especie = pg$species, promedio = cl_prom_w)
+
+# Referencia: k-means solo con las numéricas estandarizadas
+set.seed(123)
+km <- kmeans(scale(select(Xp, where(is.numeric))), centers = k, nstart = 25)
+table(especie = pg$species, kmeans = km$cluster)
+
+# 8. Perfilamiento y visualización (con la variante sin sexo)
+pg |> mutate(cl = cl_prom_w) |>
+  group_by(cl) |>
+  summarise(n = n(), across(bill_length_mm:body_mass_g, median),
+            isla = names(which.max(table(island))),
+            pct_macho = mean(sex == "male"))
+pm_w <- pam(Dw, k = k, diss = TRUE)
+pg[pm_w$id.med, ]                         # medoides = pingüinos reales
+
+fviz_dend(hclust(Dw, method = "average"), k = k, show_labels = FALSE,
+          rect = TRUE, main = "Gower (sin sexo) + enlace promedio")
+coords <- cmdscale(Dw, k = 2)             # MDS: análogo de PCA para Gower
+colnames(coords) <- c("MDS1", "MDS2")
+fviz_cluster(list(data = coords, cluster = cl_prom_w), geom = "point",
+             ellipse.type = "convex", main = "Jerárquico promedio en proyección MDS")
+```
+
+# Caso 4: Clientes de tarjeta de crédito con variables demográficas (Taiwán, 2005)
+
+Retoma el Caso 3 de `ejemplo_kcenter.Rmd`, añadiendo las variables categóricas (sexo, educación, estado civil) que antes quedaban fuera. Con Gower se pueden combinar con los indicadores de comportamiento de pago.
+
+- ¿Por qué aquí se trabaja con una muestra más pequeña que en k-means?
+- Compare PAM y el jerárquico promedio con Gower. ¿Cuál separa mejor la mora?
+- ¿Las variables demográficas dominan la distancia? ¿Cambia la tasa de default por grupo al reducir su peso?
+
+```{r}
+rm(list=ls())
+
+# 1. Preparación (requiere el archivo descargado en ejemplo_kcenter.Rmd)
+cc <- readxl::read_excel("_data/default of credit card clients.xls", skip = 1) |>
+  rename(PAY_1 = PAY_0, default = `default payment next month`)
+bd <- cc |> mutate(
+  limite     = log(LIMIT_BAL),
+  uso        = pmax(0, rowMeans(pick(BILL_AMT1:BILL_AMT6)) / LIMIT_BAL),
+  max_atraso = pmax(0, do.call(pmax, pick(PAY_1:PAY_6))),
+  n_atrasos  = rowSums(pick(PAY_1:PAY_6) > 0),
+  pago       = pmin(1, rowSums(pick(PAY_AMT1:PAY_AMT6)) /
+                       pmax(1, rowSums(pick(BILL_AMT1:BILL_AMT6)))),
+  edad       = AGE,
+  sexo       = factor(SEX, 1:2, c("hombre", "mujer")),
+  educacion  = factor(if_else(EDUCATION %in% 1:3, EDUCATION, 4),
+                      1:4, c("posgrado", "universidad", "secundaria", "otros"),
+                      ordered = TRUE),
+  ecivil     = factor(if_else(MARRIAGE %in% 1:2, MARRIAGE, 3),
+                      1:3, c("casado", "soltero", "otros")))
+set.seed(123)
+m  <- slice_sample(bd, n = 2000)          # la matriz de Gower crece con n^2
+Xm <- select(m, limite:ecivil)
+
+# 2. Agrupabilidad (solo numéricas)
+get_clust_tendency(scale(select(Xm, where(is.numeric))), n = 200,
+                   graph = FALSE)$hopkins_stat
+
+# 3. Distancia de Gower
+Dg <- daisy(Xm, metric = "gower")
+
+# 4. Ajuste
+hc <- hclust(Dg, method = "average")
+
+# 5. Evaluación de la jerarquía
+cor(cophenetic(hc), Dg)
+
+# 6. Elección de K
+ks <- 2:8
+tibble(k = ks,
+       pam      = map_dbl(ks, \(k) pam(Dg, k = k, diss = TRUE)$silinfo$avg.width),
+       promedio = map_dbl(ks, \(k) mean(silhouette(cutree(hc, k), Dg)[, 3])))
+
+# 7. Corte y validación
+k <- 4
+pm <- pam(Dg, k = k, diss = TRUE)
+cl_pam  <- pm$clustering
+cl_prom <- cutree(hc, k = k)
+table(pam = cl_pam, promedio = cl_prom)
+
+# Variante: menor peso a las demográficas (3 de las 9 variables)
+Dw  <- daisy(Xm, metric = "gower", weights = c(rep(1, 6), rep(0.5, 3)))
+pmw <- pam(Dw, k = k, diss = TRUE)
+
+# 8. Perfilamiento, contraste con la mora y visualización
+m |> mutate(cl = cl_pam) |>
+  group_by(cl) |>
+  summarise(n = n(), tasa_default = mean(default),
+            limite = median(LIMIT_BAL), across(uso:edad, median),
+            pct_mujer = mean(sexo == "mujer"),
+            educ = names(which.max(table(educacion))),
+            ecivil = names(which.max(table(ecivil))))
+m |> mutate(cl = cl_prom) |> group_by(cl) |>
+  summarise(n = n(), tasa_default = mean(default))
+m |> mutate(cl = pmw$clustering) |> group_by(cl) |>
+  summarise(n = n(), tasa_default = mean(default))
+m[pm$id.med, c("LIMIT_BAL", "uso", "max_atraso", "n_atrasos", "pago",
+               "edad", "sexo", "educacion", "ecivil", "default")]
+
+coords <- cmdscale(Dg, k = 2)
+colnames(coords) <- c("MDS1", "MDS2")
+fviz_cluster(list(data = coords, cluster = cl_pam), geom = "point",
+             ellipse.type = "convex", main = "PAM (Gower) en proyección MDS")
+```
