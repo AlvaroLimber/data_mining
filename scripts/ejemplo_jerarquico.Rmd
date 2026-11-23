@@ -43,13 +43,13 @@ library(palmerpenguins) # penguins (datos mixtos)
 7. **Corte y validación**: `cutree()`, silueta por observación, comparación de particiones con `table()` (las etiquetas de los grupos son arbitrarias).
 8. **Perfilamiento y visualización**: grupos en escala original, dendrograma, proyección (PCA o MDS para Gower).
 
-**Notas complementarias** (para tener en cuenta, no son pasos adicionales):
+**Notas complementarias**:
 
-- **El flujo es iterativo**: si al perfilar los grupos se descubre que una variable domina la partición (como el sexo en el Caso 3), se vuelve a los pasos 1 o 3 para ajustar variables o pesos.
+- **El flujo es iterativo**: si al perfilar los grupos se descubre que una variable domina la partición, se vuelve a los pasos 1 o 3 para ajustar variables o pesos.
 - **Validación interna vs. externa**: la silueta y la cofenética usan solo los datos (interna); comparar con una variable conocida que no entró al agrupamiento, como la especie o el default, es validación externa y solo es posible cuando esa variable existe.
 - **Estabilidad**: unos buenos grupos deberían mantenerse si se repite el análisis con una submuestra de los datos; el jerárquico es sensible a esto porque una fusión temprana no se corrige.
 - **Variables redundantes**: dos variables muy correlacionadas pesan doble en la distancia; puede convenir eliminar una o resumirlas con PCA.
-- **Bases grandes**: la matriz de distancias crece con $n^2$; se agrupa una muestra y luego se asigna el resto de observaciones al grupo más cercano (idea de `clara()`).
+- **Bases grandes**: la matriz de distancias crece con $n^2$.
 
 # Caso 1: ejemplo de los apuntes (A, B, C, D)
 
@@ -95,7 +95,7 @@ Repetir la segmentación del ejemplo de k-center con métodos jerárquicos.
 - ¿Qué criterio de enlace conserva mejor las distancias (cofenética)?
 - ¿Cuántos grupos sugieren las alturas del dendrograma y la silueta?
 - ¿Por qué el enlace simple produce grupos tan desbalanceados?
-- ¿Coinciden Ward y k-means? ¿Por qué cabría esperarlo? (ver anexo de suma de cuadrados)
+- ¿Coinciden Ward y k-means? ¿Por qué cabría esperarlo? 
 
 ```{r}
 # 1. Preparación
@@ -116,7 +116,8 @@ ag <- agnes(X, method = "ward")
 di <- diana(X)
 
 # 5. Evaluación de la jerarquía
-map_dbl(modelos, \(h) cor(cophenetic(h), D))   # correlación cofenética
+map_dbl(modelos, \(h) cor(cophenetic(h), D))
+map_dbl(modelos, coef)   # coeficiente aglomerativo
 ag$ac   # coeficiente aglomerativo
 di$dc   # coeficiente divisivo
 
@@ -126,15 +127,20 @@ plot(rev(modelos$ward.D2$height)[1:10], type = "b",
      xlab = "Número de grupos", ylab = "Altura de fusión")
 fviz_nbclust(X, hcut, method = "silhouette", hc_method = "ward.D2")
 fviz_nbclust(X, hcut, method = "silhouette", hc_method = "average")
+fviz_nbclust(X, hcut, method = "silhouette", hc_method = "single")
+fviz_nbclust(X, hcut, method = "silhouette", hc_method = "complete")
 
 # 7. Corte y validación
 k <- 4
 cl_ward <- cutree(modelos$ward.D2, k = k)
 cl_prom <- cutree(modelos$average, k = k)
 cl_simp <- cutree(modelos$single,  k = k)
+cl_comp <- cutree(modelos$complete,  k = k)
 table(cl_ward); table(cl_prom); table(cl_simp)
 fviz_silhouette(silhouette(cl_ward, D))
 fviz_silhouette(silhouette(cl_prom, D))
+fviz_silhouette(silhouette(cl_simp, D))
+fviz_silhouette(silhouette(cl_comp, D))
 
 set.seed(123)
 km <- kmeans(X, centers = k, nstart = 25)
